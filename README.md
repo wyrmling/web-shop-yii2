@@ -1,101 +1,47 @@
-Yii 2 Basic Project Template
+test yii2
 ============================
+Функционал магазина:
+- адаптивная верстка магазина согласно дизайна
+- на главной странице выводится:
+  * краткое описание магазина с переходом на страницу "О магазине" (с возможностью правки в админке)
+  * далее идет пара блоков товаров - Хиты продаж, Акционные товары (по 6 товаров)
+  * затем идет ссылка на одноименные разделы товаров (они будут идти отдельно)
+  * ниже идут последние 4 новости
+  * после последние 4 статьи (cо ссылками на разделы новости и статьи соотвественно).
+- ЧПУ урлы вида
+  /адрес-сайта/страница/
+  /адрес-сайта/категория/
+  /адрес-сайта/категория/товар/
+  /адрес-сайта/категория/подкатегория/товар/
+- категория имеет свою картинку, описание, можно добавлять, редактировать и удалять категорию, менять урл
+- категории: в списке содержит картинку и название внизу
+- категория открытая: содержит текст, описание категории, внизу подкатегории идут или товары
+- фильтры для товаров (по цене - убывание, возрастание)
+- товар в списке (количество выводимых изменяется в админке) содержит картинку, внизу название товара, внизу цена, еще ниже кнопка "Купить"
+- товар при открытом виде содержит название, артикул, слева картинка, справа цена, указание количетва, кнопку купить, ниже описание и отзывы, ниже сопуствующие товары, которые можно указать в админке в редактировании каждого товара с поиском товаров по названию по всей базе товара
+- корзина для товаров, куда попадают товары, которые добавляют в корзину пользователи, после идет оформление заказа, указывается способ оплаты, доставки, указываются данные покупателя
+- о заказах сообщается на указанную почту
+- Наличие страниц с контентом: добавлять, редактировать (в том числе и урл), удалять. Содержит: заголовок, контент страницы.
+- Список новостей: превью, описание краткое, кнопка "Далее" (ссылка идет на новости). Внизу страницы пейджер (навигация по страницам раздела новостей), так же в разделе "статьи". Содержит: заголовок, контент новости, внизу комментирование
+- антиспам система для коментариев на сайте
+- поиск по товарам (название, описание, артикул)
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+Бэкенд:
+- при создании страницы новости, категории, товара, урлы автоматически генерируются относительно названия
+- для любой страницы есть возможность добавить метатеги (title, description, keywords)
+- генерация тайтлов (Название страницы | Название сайта) - общий и частный (для конкретных типов/урлов страниц) шаблон задается в админке
+- возможность вывести основные категории (список) в левую колонку, сайдбар
+- в админке управление заказами на товары, получение всех нужные данных, ставится статус "Новое", "В обработке", "Закрытые"
+- товары - добавлять, редактировать, удалять
+- товар в админке: название и описание задается, урл генерируется на англ. языке и его можно изменять, цена берется из 1C, просто отображается базовая, надбавка, итоговая, есть выбор группы товаров для наценки, к которой относится товар, выбор категории товаров к которой относится товар, можно выбрать несколько категорий
+- товары можно разбить по категориям, подкатегориям, подподкатегориям, до 5 уровня вложенности, возможно и больше
+- по резерву идет синхранизация вручную или переодически, либо при заказе товара
+- раздел новостей: добавлять, редактировать (в том числе и урл), удалять
+- раздел статей: добавлять, редактировать (в том числе и урл), удалять
+- модерирование и премодерирование комментариев (удаление, правка)
+- использование яндекс-стандарта для экспорта прайс-листа
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+====================================
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-basic/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-basic/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-basic)
-
-DIRECTORY STRUCTURE
--------------------
-
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
-
-
-
-REQUIREMENTS
-------------
-
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
-
-
-INSTALLATION
-------------
-
-### Install from an Archive File
-
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install via Composer
-
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this project template using the following command:
-
-~~~
-php composer.phar global require "fxp/composer-asset-plugin:~1.0.0"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
-~~~
-
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-CONFIGURATION
--------------
-
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
-
-Also check and edit the other files in the `config/` directory to customize your application.
+- интеграция с 1С (7 версия), синхраницазая резерва, количества, синхранизация цены. Цена с 1с берется входная, в магазине должен быть функционал увеличения цены группы товаров на определенный процент. Будет свойство у каждого товара, которое определяет отношение товара к той или иной группе для добавления процента определенная к базовой стоимости. Поумолчанию товару назначается свойство общей группы, где идет базовая наценка
+- синхранизация с 1С по ценам запускается вручную или переодически, раз в 6 часов например
