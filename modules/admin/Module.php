@@ -5,6 +5,8 @@ namespace app\modules\admin;
 class Module extends \yii\base\Module
 {
     public $controllerNamespace = 'app\modules\admin\controllers';
+    public $defaultRoute = 'news';
+    public $layout = 'main';
 
     public function init()
     {
