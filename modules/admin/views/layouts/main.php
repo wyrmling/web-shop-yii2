@@ -30,34 +30,36 @@ AppAsset::register($this);
         'brandLabel' => '&larr; back to main',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+//            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar navbar-default navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+//        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'nav navbar-nav'],
         'items' => [
-            ['label' => 'News', 'url' => ['/site/index']],
-            ['label' => 'Articles', 'url' => ['/site/about']],
-            ['label' => 'Products', 'url' => ['/site/contact']],
-            ['label' => 'Todo', 'url' => ['/site/todo']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
+            ['label' => 'News', 'url' => ['/admin/news/index']],
+            ['label' => 'Articles', 'url' => ['/admin/articles/index']],
+            ['label' => 'Products', 'url' => ['/admin/products/index']],
+            ['label' => 'Todo', 'url' => ['/admin/todo/index']],
+//            Yii::$app->user->isGuest ?
+//                ['label' => 'Login', 'url' => ['/site/login']] :
+//                [
+//                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+//                    'url' => ['/site/logout'],
+//                    'linkOptions' => ['data-method' => 'post']
+//                ],
         ],
     ]);
     NavBar::end();
     ?>
 
-<!--    <div class="container">
+    <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>
-    </div>-->
+    </div>
 </div>
 
 <footer class="footer">

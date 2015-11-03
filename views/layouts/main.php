@@ -33,6 +33,22 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    if (Yii::$app->user->isGuest) {
+        $auth_block = ['label' => 'Login', 'url' => ['/site/login']];
+    } else {
+//        $auth_block = [
+//            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+//            'url' => ['/site/logout'],
+//            'linkOptions' => ['data-method' => 'post']
+//        ];
+        $auth_block = ['label' => Yii::$app->user->identity->username, 'items' => [
+                ['label' => 'Admin panel', 'url' => ['/admin/']],
+                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+            ]
+        ];
+    }
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -40,13 +56,7 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'Todo', 'url' => ['/site/todo']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
+            $auth_block
         ],
     ]);
     NavBar::end();
