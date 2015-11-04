@@ -52,10 +52,10 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Todo', 'url' => ['/site/todo']],
+            ['label' => 'Новости', 'url' => ['/site/index']],
+            ['label' => 'Статьи', 'url' => ['/site/articles']],
+            ['label' => 'Contact', 'url' => ['/site/about']],
+            ['label' => 'Контакты', 'url' => ['/site/contact']],
             $auth_block
         ],
     ]);

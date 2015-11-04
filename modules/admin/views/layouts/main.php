@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -38,6 +39,7 @@ AppAsset::register($this);
 //        'options' => ['class' => 'navbar-nav navbar-right'],
         'options' => ['class' => 'nav navbar-nav'],
         'items' => [
+            ['label' => '&larr; back to main', 'url' => [Yii::$app->homeUrl]],
             ['label' => 'News', 'url' => ['/admin/news/index']],
             ['label' => 'Articles', 'url' => ['/admin/articles/index']],
             ['label' => 'Products', 'url' => ['/admin/products/index']],
@@ -60,6 +62,18 @@ AppAsset::register($this);
         ]) ?>
         <?= $content ?>
     </div>
+</div>
+<div class="wrap">
+    <!--<div class="container">-->
+<?php
+    Modal::begin([
+        'header' => '<h2>Hello world</h2>',
+        'toggleButton' => ['label' => 'click me'],
+    ]);
+    echo 'Say hello...';
+    Modal::end();
+?>
+    <!--</div>-->
 </div>
 
 <footer class="footer">
