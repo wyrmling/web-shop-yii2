@@ -2,8 +2,9 @@
 
 namespace app\modules\admin\controllers;
 
-//use Yii;
+use Yii;
 use yii\web\Controller;
+use app\models\News;
 
 class NewsController extends Controller
 {
@@ -14,8 +15,53 @@ class NewsController extends Controller
         return $this->render('index');
     }
 
-    public function actionSay()
+    public function actionAdd()
     {
-        return $this->render('index');
+        $news = new News;
+
+        if ($news->load(Yii::$app->request->post()) && $news->validate()) {
+            $news->save();
+        }
+
+        return $this->render('update', ['model' => $news]);
+
+            // данные в $model удачно проверены
+
+            // делаем что-то полезное с $model ...
+
+//            return $this->render('entry-confirm', ['model' => $news]);
+//        } else {
+            // либо страница отображается первый раз, либо есть ошибка в данных
+//            return $this->render('update', ['model' => $news]);
+//        }
     }
+
+    public function actionUpdate($id)
+    {
+        if (!empty($id)) {
+//            $news = (new News)
+//                    ->where(['=', 'news_id', $id])
+//                    ->one();
+            $news = News::find()
+                ->where(['news_id' => $id])
+                ->one();
+
+            if ($news->load(Yii::$app->request->post()) && $news->validate()) {
+                $news->save();
+            }
+
+            return $this->render('update', ['model' => $news]);
+        }
+
+            // данные в $model удачно проверены
+
+            // делаем что-то полезное с $model ...
+
+//            return $this->render('entry-confirm', ['model' => $news]);
+//        } else {
+            // либо страница отображается первый раз, либо есть ошибка в данных
+//            return $this->render('update', ['model' => $news]);
+//        }
+    }
+
 }

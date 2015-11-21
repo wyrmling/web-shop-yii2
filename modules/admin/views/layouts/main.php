@@ -40,10 +40,11 @@ AppAsset::register($this);
         'options' => ['class' => 'nav navbar-nav'],
         'items' => [
             ['label' => '&larr; back to main', 'url' => [Yii::$app->homeUrl]],
+            ['label' => 'Base', 'url' => ['/admin/base/index']],
             ['label' => 'News', 'url' => ['/admin/news/index']],
             ['label' => 'Articles', 'url' => ['/admin/articles/index']],
             ['label' => 'Products', 'url' => ['/admin/products/index']],
-            ['label' => 'Todo', 'url' => ['/admin/todo/index']],
+            ['label' => 'Users', 'url' => ['/admin/users/index']],
 //            Yii::$app->user->isGuest ?
 //                ['label' => 'Login', 'url' => ['/site/login']] :
 //                [
@@ -57,21 +58,29 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <?=
+            Breadcrumbs::widget([
+                'homeLink' => [
+                    'label' => Yii::t('yii', 'Admin'),
+                    'url' => Yii::$app->homeUrl,
+                ],
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ])
+        ?>
         <?= $content ?>
+
+
     </div>
 </div>
 <div class="wrap">
     <!--<div class="container">-->
 <?php
-    Modal::begin([
-        'header' => '<h2>Hello world</h2>',
-        'toggleButton' => ['label' => 'click me'],
-    ]);
-    echo 'Say hello...';
-    Modal::end();
+//    Modal::begin([
+//        'header' => '<h2>Hello world</h2>',
+//        'toggleButton' => ['label' => 'click me'],
+//    ]);
+//    echo 'Say hello...';
+//    Modal::end();
 ?>
     <!--</div>-->
 </div>

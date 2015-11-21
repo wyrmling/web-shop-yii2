@@ -1,5 +1,48 @@
+<?php
+use yii\bootstrap\ButtonGroup;
+use yii\widgets\ListView;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+?>
 <div class="admin-default-index">
     <h1><?= $this->context->action->uniqueId ?></h1>
+    <?php
+    echo ButtonGroup::widget([
+        'buttons' => [
+            ['label' => 'A'],
+            ['label' => 'B'],
+            ['label' => 'C', 'visible' => false],
+        ]
+    ]);
+    ?>
+
+    <?php
+// * $query = new Query;
+// * $provider = new ActiveDataProvider([
+// *     'query' => $query->from('post'),
+// *     'pagination' => [
+// *         'pageSize' => 20,
+// *     ],
+// * ]);
+    $dataProvider = new ActiveDataProvider([
+        'query' => (new Query)->from('migration')->where(['<>', 'version', 'm000000_000000_base']),
+        'pagination' => [
+            'pageSize' => 10,
+        ],
+    ]);
+
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            'version',
+            'apply_time',
+            ['class' => 'yii\grid\ActionColumn']
+//            'password',
+        ]
+    ]);
+    ?>
+
     <p>
         This is the view content for action "<?= $this->context->action->id ?>".
         The action belongs to the controller "<?= get_class($this->context) ?>"
@@ -7,7 +50,15 @@
     </p>
     <p>
         You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
+        <?php // foreach ($migrations['new'] as $k => $v) {
+//            echo $k . $v;
+//        }
+        ?>
+        <code><?php // foreach ($migrations['list'] as $k => $v) {
+//            echo $k . $v;
+//        }
+        ?>
+        </code>
     </p>
 
 <div class="row">
