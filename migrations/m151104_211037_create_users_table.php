@@ -17,11 +17,12 @@ class m151104_211037_create_users_table extends Migration
 //        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
 
         $this->createTable('{{users}}', [
-            'user_id' => Schema::TYPE_PK,
-            'username' => Schema::TYPE_STRING . ' NOT NULL',
-            'password' => Schema::TYPE_STRING . ' NOT NULL',
-            'auth_key' => Schema::TYPE_STRING . ' DEFAULT NULL',
-            'access_token' => Schema::TYPE_STRING . ' DEFAULT NULL',
+            'user_id' => $this->primaryKey(),
+            'username' => $this->string()->notNull(),
+            'password' => $this->string()->notNull(),
+            'auth_key' => $this->string()->defaultValue(NULL),
+            'access_token' => $this->string()->defaultValue(NULL),
+            'created_date' => $this->dateTime()->notNull(),
         ]);
 //        , $tableOptions
     }
