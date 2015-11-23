@@ -26,7 +26,7 @@ use yii\db\Query;
 // *     ],
 // * ]);
     $dataProvider = new ActiveDataProvider([
-        'query' => (new Query)->from('migration')->where(['<>', 'version', 'm000000_000000_base']),
+        'query' => (new Query)->from('migration')->where(['<>', 'version', 'm000000_000000_base'])->orderBy('apply_time'),
         'pagination' => [
             'pageSize' => 10,
         ],
@@ -36,7 +36,7 @@ use yii\db\Query;
         'dataProvider' => $dataProvider,
         'columns' => [
             'version',
-            'apply_time',
+            'apply_time:datetime',
             ['class' => 'yii\grid\ActionColumn']
 //            'password',
         ]

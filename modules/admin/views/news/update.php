@@ -5,7 +5,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Редактирование новости';
+if ($type === 'create') {
+    $this->params['breadcrumbs'][] = 'Создание новости';
+} else {
+    $this->params['breadcrumbs'][] = 'Редактирование новости';
+}
 
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
