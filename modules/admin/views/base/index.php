@@ -18,6 +18,14 @@ use yii\db\Query;
     ?>
 
     <?php
+
+    var_dump($new);
+    foreach ($new as $key => $val) {
+        echo $val.'<br>';
+    }
+    ?>
+
+    <?php
 // * $query = new Query;
 // * $provider = new ActiveDataProvider([
 // *     'query' => $query->from('post'),

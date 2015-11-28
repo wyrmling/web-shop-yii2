@@ -19,10 +19,10 @@ class BaseController extends Controller
     {
 //        $migrations = new MigrateController('test_id', 'admin');
         $list = $this->getMigrationHistory(0);
-//        $new = $this->getNewMigrations();
+        $new = $this->getNewMigrations();
 //        echo 123;
 //        $list = \Yii::$app->runAction('migrate/history');
-        return $this->render('index', ['migrations' => $list]);
+        return $this->render('index', ['migrations' => $list, 'new' => $new]);
     }
 
     protected function getMigrationHistory($limit)
@@ -47,27 +47,29 @@ class BaseController extends Controller
      * Returns the migrations that are not applied.
      * @return array list of new migrations
      */
-//    protected function getNewMigrations()
-//    {
-//        $applied = [];
-//        foreach ($this->getMigrationHistory(null) as $version => $time) {
-//            $applied[substr($version, 1, 13)] = true;
-//        }
-//
-//        $migrations = [];
-//        $handle = opendir($this->migrationPath);
-//        while (($file = readdir($handle)) !== false) {
-//            if ($file === '.' || $file === '..') {
-//                continue;
-//            }
-//            $path = $this->migrationPath . DIRECTORY_SEPARATOR . $file;
-//            if (preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && !isset($applied[$matches[2]]) && is_file($path)) {
-//                $migrations[] = $matches[1];
-//            }
-//        }
-//        closedir($handle);
-//        sort($migrations);
-//
-//        return $migrations;
-//    }
+    protected function getNewMigrations()
+    {
+        $applied = [];
+        foreach ($this->getMigrationHistory(null) as $version => $time) {
+            $applied[substr($version, 1, 13)] = true;
+        }
+
+        $migrations = [];
+        $migrationPath = Yii::getAlias($this->migrationPath);
+
+        $handle = opendir($migrationPath);
+        while (($file = readdir($handle)) !== false) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+            $path = $migrationPath . DIRECTORY_SEPARATOR . $file;
+            if (preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && !isset($applied[$matches[2]]) && is_file($path)) {
+                $migrations[] = $matches[1];
+            }
+        }
+        closedir($handle);
+        sort($migrations);
+
+        return $migrations;
+    }
 }
