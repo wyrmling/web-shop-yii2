@@ -7,17 +7,16 @@ class m151127_155030_create_article_table extends Migration
 {
     public function up() {
         $this->createTable('{{article}}', [
-        'article_id' => $this->primaryKey(),
-        'user_id' => $this->integer()->notNull(),
-        'title' => $this->string()->notNull(),
-        'preview_text' => $this->string()->notNull(),
-        'full_text' => $this->text()->notNull(),
-        'created_time' => $this->timestamp('NULL'),
-        'changed_time' => $this->timestamp(NULL),
-        'article_status' => "ENUM('visible','hidden') NOT NULL DEFAULT 'hidden'",
-        'commemts_status' => "ENUM('yes', 'no') NOT NULL DEFAULT 'yes'",           
-            ]);
-//        ->defaultValue(['expression'=>'CURRENT_TIMESTAMP']),
+            'article_id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'title' => $this->string()->notNull(),
+            'description' => $this->string()->notNull(),
+            'content' => $this->text()->notNull(),
+            'created_time' => $this->timestamp()->notNull() . ' DEFAULT NOW()',
+            'changed_time' => $this->timestamp() . ' ON UPDATE NOW()',
+            'article_status' => "ENUM('visible','hidden') NOT NULL DEFAULT 'hidden'",
+            'comments_status' => "ENUM('yes','no') NOT NULL DEFAULT 'yes'",
+        ]);
     }
 
     public function down()

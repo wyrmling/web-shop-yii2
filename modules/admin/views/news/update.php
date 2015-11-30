@@ -21,10 +21,15 @@ if ($type === 'create') {
         <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'content')->textarea() ?>
-
+        <?= $form->warning($model->user->username) ?>
+        <?= $model->user->username; ?>
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
         </div>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+
     <?php ActiveForm::end(); ?>
 
 </div><!-- admin-edit -->

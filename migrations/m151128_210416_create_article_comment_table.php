@@ -10,8 +10,8 @@ class m151128_210416_create_article_comment_table extends Migration {
             'comment_id' => $this->primaryKey(),
             'article_id' => $this->integer()->notNull(),
             'user_id' => $this->integer()->notNull(),
-            'commetn_text' => $this->string()->notNull(),
-            'created_time' => $this->timestamp('NULL'),
+            'text' => $this->text()->notNull(),
+            'created_time' => $this->timestamp()->notNull() . ' DEFAULT NOW()',
         ]);
     }
 

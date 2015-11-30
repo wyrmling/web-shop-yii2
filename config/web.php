@@ -25,11 +25,20 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\DbUser',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'd.M.Y',
+            'datetimeFormat' => 'd.M.Y H:i:s',
+            'timeFormat' => 'H:i:s',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

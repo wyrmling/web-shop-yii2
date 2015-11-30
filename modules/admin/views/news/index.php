@@ -31,6 +31,7 @@ use yii\bootstrap\Html;
                 'news_id',
                 'title',
                 'description',
+                'user.username',
                 'time_created:datetime',
                 ['class' => 'yii\grid\ActionColumn']
             ]

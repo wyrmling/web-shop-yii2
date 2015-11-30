@@ -64,12 +64,28 @@ class BaseController extends Controller
             }
             $path = $migrationPath . DIRECTORY_SEPARATOR . $file;
             if (preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && !isset($applied[$matches[2]]) && is_file($path)) {
+                $this->hasUp($matches[1]);
                 $migrations[] = $matches[1];
             }
+
         }
         closedir($handle);
         sort($migrations);
 
         return $migrations;
     }
+
+    protected function hasUp($class) {
+        $migrationPath = Yii::getAlias($this->migrationPath);
+//        $path = $migrationPath . DIRECTORY_SEPARATOR . $class;
+        xdebug_break();
+
+        $file = $migrationPath . DIRECTORY_SEPARATOR . $class . '.php';
+        require_once($file);
+
+        $test = new $class();
+        $t = method_exists($test, 'up');
+        xdebug_break();
+    }
+
 }

@@ -9,6 +9,7 @@ class m151121_201645_create_news_table extends Migration
     {
         $this->createTable('{{news}}', [
             'news_id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
             'description' => $this->string()->defaultValue(NULL),
             'content' => $this->text()->defaultValue(NULL),
