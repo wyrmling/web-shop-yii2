@@ -6,6 +6,9 @@ use yii\db\ActiveRecord;
 
 class Article extends ActiveRecord {
 
+    const VISIBLE = 'visible';
+    const HIDDEN = 'hidden';
+    
     public static function tableName()
     {
         return 'article';
