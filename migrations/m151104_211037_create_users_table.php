@@ -18,13 +18,19 @@ class m151104_211037_create_users_table extends Migration
 
         $this->createTable('{{users}}', [
             'user_id' => $this->primaryKey(),
-            'username' => $this->string()->notNull(),
+            'username' => $this->string()->notNull()->unique(),
             'password' => $this->string()->notNull(),
-            'auth_key' => $this->string()->defaultValue(NULL),
-            'access_token' => $this->string()->defaultValue(NULL),
-            'created_date' => $this->dateTime()->notNull(),
+            'is_active' => "ENUM('y','n') NOT NULL DEFAULT 'y'",
+            'auth_key' => $this->string(),
+            'access_token' => $this->string(),
+            'created_date' => $this->dateTime()->notNull() . ' DEFAULT NOW()',
         ]);
 //        , $tableOptions
+
+        $this->insert('{{users}}', [
+            'username' => 'admin',
+            'password' => 'admin',
+        ]);
     }
 
 

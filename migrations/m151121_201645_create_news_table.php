@@ -11,10 +11,10 @@ class m151121_201645_create_news_table extends Migration
             'news_id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
-            'description' => $this->string()->defaultValue(NULL),
-            'content' => $this->text()->defaultValue(NULL),
-            'time_created' => $this->dateTime()->defaultValue(NULL),
-            'time_updated' => $this->dateTime()->defaultValue(NULL),
+            'description' => $this->string(),
+            'content' => $this->text(),
+            'time_created' => $this->dateTime(),
+            'time_updated' => $this->dateTime(),
         ]);
     }
 
@@ -32,7 +32,7 @@ class m151121_201645_create_news_table extends Migration
         }
     }
 
-    /*
+
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()
     {
@@ -41,5 +41,5 @@ class m151121_201645_create_news_table extends Migration
     public function safeDown()
     {
     }
-    */
+
 }

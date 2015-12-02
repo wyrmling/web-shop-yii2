@@ -2,9 +2,13 @@
 
 use yii\db\Schema;
 use yii\db\Migration;
+use \app\models\Article;
 
 class m151127_155030_create_article_table extends Migration
 {
+
+    use \app\models\helpDb;
+
     public function up() {
         $this->createTable('{{article}}', [
             'article_id' => $this->primaryKey(),
@@ -14,8 +18,8 @@ class m151127_155030_create_article_table extends Migration
             'content' => $this->text()->notNull(),
             'created_time' => $this->timestamp()->notNull() . ' DEFAULT NOW()',
             'changed_time' => $this->timestamp() . ' ON UPDATE NOW()',
-            'article_status' => "ENUM('visible','hidden') NOT NULL DEFAULT 'hidden'",
-            'comments_status' => "ENUM('yes','no') NOT NULL DEFAULT 'yes'",
+            'article_status' => "ENUM(".self::quote(Article::VISIBLE).",".self::quote(Article::HIDDEN).") NOT NULL DEFAULT ".self::quote(Article::HIDDEN),
+            'comments_status' => "ENUM('y','n') NOT NULL DEFAULT 'y'",
         ]);
     }
 
