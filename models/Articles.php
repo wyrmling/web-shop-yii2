@@ -4,11 +4,11 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class Article extends ActiveRecord {
+class Articles extends ActiveRecord {
 
     const VISIBLE = 'visible';
     const HIDDEN = 'hidden';
-    
+
     public static function tableName()
     {
         return 'article';
