@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Articles;
 
-class ArticlesController extends Controller
+class ArticleController extends Controller
 {
     public function actionIndex()
     {
@@ -17,7 +17,7 @@ class ArticlesController extends Controller
 
     public function actionAdd()
     {
-        $articles = new Articles;
+        $articles = new Article;
 
         if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
             $res = $articles->save();
