@@ -43,10 +43,9 @@ AppAsset::register($this);
 //            'linkOptions' => ['data-method' => 'post']
 //        ];
         $auth_block = ['label' => Yii::$app->user->identity->username, 'items' => [
-                ['label' => 'Admin panel', 'url' => ['/admin/']],
-                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
-            ]
-        ];
+            ['label' => 'Admin panel', 'url' => ['/admin/']],
+            ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+        ]];
     }
 
     echo Nav::widget([

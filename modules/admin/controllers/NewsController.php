@@ -21,7 +21,7 @@ class NewsController extends Controller
 
         if ($news->load(Yii::$app->request->post()) && $news->validate()) {
             $res = $news->save();
-            return $this->render('update', ['model' => $news, 'type' => 'edit']);
+            return $this->render('update', ['model' => $news, 'type' => 'edit', 'result' => $res]);
         } else {
             return $this->render('update', ['model' => $news, 'type' => 'create']);
         }
@@ -49,7 +49,7 @@ class NewsController extends Controller
 
             if ($news->load(Yii::$app->request->post()) && $news->validate()) {
                 $res = $news->save();
-                return $this->render('update', ['model' => $news, 'type' => 'create']);
+                return $this->render('update', ['model' => $news, 'type' => 'create', 'result' => $res]);
             } else {
                 return $this->render('update', ['model' => $news, 'type' => 'edit']);
             }

@@ -18,7 +18,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCssFile('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'); ?>
+    <?php $this->registerCssFile('//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'); ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -41,12 +41,14 @@ AppAsset::register($this);
         'options' => ['class' => 'nav navbar-nav'],
         'encodeLabels' => false,
         'items' => [
-            ['label' => '<span class="glyphicon glyphicon-home"></span> Home', 'url' => [Yii::$app->homeUrl]],
-            ['label' => 'Base', 'url' => ['/admin/base/index']],
+//            ['label' => '<span class="glyphicon glyphicon-home"></span> Home', 'url' => [Yii::$app->homeUrl]],
             ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
             ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles/index']],
             ['label' => 'Products', 'url' => ['/admin/products/index']],
             ['label' => '<i class="fa fa-user"></i> Users', 'url' => ['/admin/users/index']],
+            ['label' => '<i class="fa fa-cogs"></i> Tools', 'items' => [
+                ['label' => '<i class="fa fa-database"></i> DB', 'url' => ['/admin/base/index']],
+            ]]
 //            Yii::$app->user->isGuest ?
 //                ['label' => 'Login', 'url' => ['/site/login']] :
 //                [

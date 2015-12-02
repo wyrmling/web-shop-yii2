@@ -3,6 +3,7 @@ use dosamigos\ckeditor\CKEditorInline;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Alert;
 
 $this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
 if ($type === 'create') {
@@ -17,12 +18,27 @@ if ($type === 'create') {
 ?>
 <div class="admin-edit">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php
+    if (!empty($res)) {
+        echo Alert::widget([
+            'options' => [
+                'class' => ($res) ? 'alert-success' : 'alert-danger'
+            ],
+            'body' => ($res) ? 'Сохранение успешно.' : 'Ошибка.'
+        ]);
+    }
+    ?>
+
+    <?php $form = ActiveForm::begin(['options'=> ['class' => 'form-horizontal']]); ?>
         <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'content')->textarea() ?>
-        <?= $form->warning($model->user->username) ?>
-        <?= $model->user->username; ?>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+                <p class="form-control-static"><?= (!empty($model->user)) ? $model->user->username : Yii::$app->user->identity->username; ?></p>
+            </div>
+        </div>
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
         </div>

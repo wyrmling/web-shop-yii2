@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use app\models\User;
 
 class News extends ActiveRecord
 {
