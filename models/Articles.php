@@ -11,7 +11,7 @@ class Articles extends ActiveRecord {
 
     public static function tableName()
     {
-        return 'article';
+        return 'articles';
     }
 
     public function rules()

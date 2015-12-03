@@ -1,7 +1,7 @@
 <?php
 use dosamigos\ckeditor\CKEditorInline;
 use yii\data\ActiveDataProvider;
-use app\models\Article;
+use app\models\Articles;
 use yii\grid\GridView;
 use yii\bootstrap\Button;
 use yii\bootstrap\Html;
@@ -19,7 +19,7 @@ use yii\bootstrap\Html;
         <?php
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Article::find(),
+            'query' => Articles::find(),
             'pagination' => [
                 'pageSize' => 10,
             ],

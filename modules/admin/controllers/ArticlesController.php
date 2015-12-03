@@ -17,7 +17,7 @@ class ArticlesController extends Controller
 
     public function actionAdd()
     {
-        $articles = new Article;
+        $articles = new Articles;
 
         if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
             $res = $articles->save();
