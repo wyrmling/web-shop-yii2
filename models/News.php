@@ -3,7 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-use app\models\User;
+use app\models\Users;
 
 class News extends ActiveRecord
 {
@@ -41,7 +41,7 @@ class News extends ActiveRecord
 //    }
 
     public function getUser() {
-        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
     }
 
 }

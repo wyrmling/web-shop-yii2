@@ -13,7 +13,7 @@ use yii\bootstrap\Html;
         The action belongs to the controller "<?= get_class($this->context) ?>"
         in the "<?= $this->context->module->id ?>" module.<br>
 
-        <?= Html::a('Создать', '/admin/article/add', ['class'=>'btn btn-primary'])
+        <?= Html::a('Создать', '/admin/articles/add', ['class'=>'btn btn-primary'])
 
         ?>
         <?php

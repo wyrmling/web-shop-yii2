@@ -3,10 +3,10 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m151128_210416_create_article_comment_table extends Migration {
+class m151128_210416_create_article_comments_table extends Migration {
 
     public function up() {
-        $this->createTable('{{article_comment}}', [
+        $this->createTable('{{article_comments}}', [
             'comment_id' => $this->primaryKey(),
             'article_id' => $this->integer()->notNull(),
             'user_id' => $this->integer()->notNull(),
@@ -16,8 +16,8 @@ class m151128_210416_create_article_comment_table extends Migration {
     }
 
     public function down() {
-        if ($this->db->schema->getTableSchema('{{article_comment}}', true) !== null) {
-            $this->dropTable('{{article_comment}}');
+        if ($this->db->schema->getTableSchema('{{article_comments}}', true) !== null) {
+            $this->dropTable('{{article_comments}}');
         }
     }
 
