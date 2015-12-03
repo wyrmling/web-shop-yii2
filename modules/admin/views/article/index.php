@@ -1,7 +1,7 @@
 <?php
 use dosamigos\ckeditor\CKEditorInline;
 use yii\data\ActiveDataProvider;
-use app\models\Articles;
+use app\models\Article;
 use yii\grid\GridView;
 use yii\bootstrap\Button;
 use yii\bootstrap\Html;
@@ -13,13 +13,13 @@ use yii\bootstrap\Html;
         The action belongs to the controller "<?= get_class($this->context) ?>"
         in the "<?= $this->context->module->id ?>" module.<br>
 
-        <?= Html::a('Создать', '/admin/articles/add', ['class'=>'btn btn-primary'])
+        <?= Html::a('Создать', '/admin/article/add', ['class'=>'btn btn-primary'])
 
         ?>
         <?php
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Articles::find(),
+            'query' => Article::find(),
             'pagination' => [
                 'pageSize' => 10,
             ],

@@ -37,7 +37,7 @@ use yii\bootstrap\Html;
             ]
         ]);
         ?>
-        <?php echo Html::a('update', array('site/save', 'id'=>$post->id)); ?>
+        <?php //echo Html::a('update', array('site/save', 'id'=>$post->id)); ?>
 
 <?php CKEditorInline::begin(['preset' => 'basic']);?>
         Этот текст типа можно редактировать
