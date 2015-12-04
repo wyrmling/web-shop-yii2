@@ -2,7 +2,8 @@
 use yii\widgets\ListView;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
-use app\models\User;
+use app\models\Users;
+use yii\helpers\Html;
 
 //$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Users';
@@ -14,7 +15,7 @@ $this->params['breadcrumbs'][] = 'Users';
         <?php
 
         $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
+            'query' => Users::find(),
             'pagination' => [
                 'pageSize' => 10,
             ],
