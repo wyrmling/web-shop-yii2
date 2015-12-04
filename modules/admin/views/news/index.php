@@ -3,7 +3,6 @@ use dosamigos\ckeditor\CKEditorInline;
 use yii\data\ActiveDataProvider;
 use app\models\News;
 use yii\grid\GridView;
-use yii\bootstrap\Button;
 use yii\bootstrap\Html;
 ?>
 <div class="admin-default-index">
