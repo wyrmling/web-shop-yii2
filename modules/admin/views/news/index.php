@@ -46,16 +46,16 @@ use yii\bootstrap\Html;
                         $value = $model->{$column->attribute};
                         switch ($value) {
                             case News::VISIBLE:
-                                $class = 'success';
+                                $class = 'visible';
                                 break;
                             case News::HIDDEN:
-                                $class = 'warning';
+                                $class = 'hidden';
                                 break;
 //                            case User::STATUS_BLOCKED:
                             default:
                                 $class = 'default';
                         };
-                        $html = Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label label-' . $class]);
+                        $html = Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label status-' . $class]);
                         return $value === null ? $column->grid->emptyCell : $html;
                     }
                 ],

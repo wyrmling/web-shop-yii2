@@ -26,6 +26,9 @@ $this->params['breadcrumbs'][] = 'Редактирование новости ('
     ?>
 
     <?php $form = ActiveForm::begin(['options'=> ['class' => 'form-horizontal']]); ?>
+        <div class="form-group">
+            <?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label status-' . $model->news_status]); ?>
+        </div>
         <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'content')->textarea() ?>
