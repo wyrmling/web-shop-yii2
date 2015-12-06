@@ -36,7 +36,29 @@ use yii\bootstrap\Html;
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{view} {edit} {delete}',
                     'buttons' => ['edit' => function ($url, $model, $key) { return Html::a('Edit', $url);}],
-]
+                ],
+                [
+                    'filter' => News::getStatuses(),
+                    'attribute' => 'news_status',
+                    'format' => 'raw',
+                    'value' => function ($model, $key, $index, $column) {
+                        /** @var \yii\grid\DataColumn $column */
+                        $value = $model->{$column->attribute};
+                        switch ($value) {
+                            case News::VISIBLE:
+                                $class = 'success';
+                                break;
+                            case News::HIDDEN:
+                                $class = 'warning';
+                                break;
+//                            case User::STATUS_BLOCKED:
+                            default:
+                                $class = 'default';
+                        };
+                        $html = Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label label-' . $class]);
+                        return $value === null ? $column->grid->emptyCell : $html;
+                    }
+                ],
             ]
         ]);
         ?>

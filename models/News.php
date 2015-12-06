@@ -8,6 +8,9 @@ use app\models\Users;
 class News extends ActiveRecord
 {
 
+    const VISIBLE = 'visible';
+    const HIDDEN = 'hidden';
+
     public static function tableName() {
         return 'news';
     }
@@ -43,5 +46,21 @@ class News extends ActiveRecord
     public function getUser() {
         return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
     }
+
+    public static function status_list() {
+        return [
+            self::HIDDEN => 'Скрытая',
+            self::VISIBLE => 'Видимая',
+        ];
+    }
+    public static function getStatuses() {
+        return [self::HIDDEN,self::VISIBLE];
+    }
+
+    public function getStatusName() {
+        return $this->news_status;
+    }
+
+
 
 }
