@@ -9,8 +9,7 @@ use app\models\Articles;
 class ArticlesController extends Controller {
 
     public function actionIndex() {
-//        return $this->render('index');
-//        $message = var_export(\Yii::$app->request->get());
+    //  список статей
         return $this->render('index');
     }
 
@@ -23,53 +22,39 @@ class ArticlesController extends Controller {
         } else {
             return $this->render('update', ['model' => $articles, 'type' => 'create']);
         }
-
-        // данные в $model удачно проверены
-        // делаем что-то полезное с $model ...
-//            return $this->render('entry-confirm', ['model' => $articles]);
-//        } else {
-        // либо страница отображается первый раз, либо есть ошибка в данных
-//            return $this->render('update', ['model' => $articles]);
-//        }
+    //  если статья уже есть -> страница редактирования,
+    //  иначе -> страница добавления новости
     }
 
     public function actionUpdate($id) {
         if (!empty($id)) {
-//            $articles = (new Articles)
-//                    ->where(['=', 'article_id', $id])
-//                    ->one();
             $articles = Articles::find()
                     ->where(['article_id' => $id])
                     ->one();
-
-            if ($articles->load(Yii::$articles->request->post()) && $articles->validate()) {
+        // по id находим статью
+            if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
                 $res = $articles->save();
                 return $this->render('update', ['model' => $articles, 'type' => 'create']);
             } else {
                 return $this->render('update', ['model' => $articles, 'type' => 'edit']);
             }
         }
-
-        // данные в $model удачно проверены
-        // делаем что-то полезное с $model ...
-//            return $this->render('entry-confirm', ['model' => $articles]);
-//        } else {
-        // либо страница отображается первый раз, либо есть ошибка в данных
-//            return $this->render('update', ['model' => $articles]);
-//        }
+    //  если статья уже есть -> страница редактирования,
+    //  иначе -> страница добавления новости
     }
 
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $articles = new Articles;
         if (!empty($id)) {
-            // по id находим стаью
+        // по id находим статью
             $articles = Articles::find()
                     ->where(['article_id' => $id])
                     ->one();
         }
         // удаляем статью с найденным id   
         $res = $articles->delete();
+        // перезагружаем список статей
+        return $this->render('index');
     }
 
 }

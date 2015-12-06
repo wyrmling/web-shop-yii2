@@ -6,11 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\bootstrap\Alert;
 
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
-if ($type === 'create') {
     $this->params['breadcrumbs'][] = 'Создание статьи';
-} else {
-    $this->params['breadcrumbs'][] = 'Редактирование статьи';
-}
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Articles */
@@ -40,7 +36,7 @@ if ($type === 'create') {
             </div>
         </div>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton('Create' , ['class' =>'btn btn-success']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>
@@ -58,3 +54,4 @@ if ($type === 'create') {
         <code><?= __FILE__ ?></code>
     </p>
 </div>
+
