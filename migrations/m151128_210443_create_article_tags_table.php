@@ -6,7 +6,7 @@ use yii\db\Migration;
 class m151128_210443_create_article_tags_table extends Migration {
 
     public function up() {
-        $this->createTable('{{article_tagss}}', [
+        $this->createTable('{{article_tags}}', [
             'article_id' => $this->integer()->notNull(),
             'tag_id' => $this->integer()->notNull(),
         ]);

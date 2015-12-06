@@ -2,9 +2,13 @@
 
 use yii\db\Schema;
 use yii\db\Migration;
+use app\models\News;
 
 class m151121_201645_create_news_table extends Migration
 {
+
+    use \app\models\helpDb;
+
     public function up()
     {
         $this->createTable('{{news}}', [
@@ -15,15 +19,9 @@ class m151121_201645_create_news_table extends Migration
             'content' => $this->text(),
             'time_created' => $this->dateTime(),
             'time_updated' => $this->dateTime(),
+            'news_status' => "ENUM(".self::quote(News::VISIBLE).",".self::quote(News::HIDDEN).") NOT NULL DEFAULT ".self::quote(News::HIDDEN),
         ]);
     }
-
-//	`news_id` INT(11) NOT NULL AUTO_INCREMENT,
-//	`title` VARCHAR(255) NOT NULL,
-//	`description` VARCHAR(255) NULL DEFAULT NULL,
-//	`content` TEXT NULL,
-//	`time_created` DATETIME NULL DEFAULT NULL,
-//	`time_updated` DATETIME NULL DEFAULT NULL,
 
     public function down()
     {
@@ -34,12 +32,12 @@ class m151121_201645_create_news_table extends Migration
 
 
     // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
+//    public function safeUp()
+//    {
+//    }
+//
+//    public function safeDown()
+//    {
+//    }
 
 }
