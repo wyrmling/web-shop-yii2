@@ -7,12 +7,12 @@ use yii\bootstrap\Html;
 ?>
 <div class="admin-default-index">
     <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>123
+    <p>
         This is the view content for action "<?= $this->context->action->id ?>".
         The action belongs to the controller "<?= get_class($this->context) ?>"
         in the "<?= $this->context->module->id ?>" module.<br>
 
-        <?= Html::a('Создать', '/admin/news/add', ['class'=>'btn btn-primary'])
+        <?= Html::a('Создать', '/admin/news/create', ['class'=>'btn btn-primary'])
 
         ?>
         <?php
@@ -32,7 +32,11 @@ use yii\bootstrap\Html;
                 'description',
                 'user.username',
                 'time_created:datetime',
-                ['class' => 'yii\grid\ActionColumn']
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view} {edit} {delete}',
+                    'buttons' => ['edit' => function ($url, $model, $key) { return Html::a('Edit', $url);}],
+]
             ]
         ]);
         ?>

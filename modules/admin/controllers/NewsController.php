@@ -8,62 +8,40 @@ use app\models\News;
 
 class NewsController extends Controller
 {
-    public function actionIndex()
-    {
-//        return $this->render('index');
-//        $message = var_export(\Yii::$app->request->get());
+    public function actionIndex() {
         return $this->render('index');
     }
 
-    public function actionAdd()
-    {
+    public function actionCreate() {
         $news = new News;
 
         if ($news->load(Yii::$app->request->post()) && $news->validate()) {
             $res = $news->save();
-            return $this->render('update', ['model' => $news, 'type' => 'edit', 'result' => $res]);
+            return $this->redirect('/admin/news/edit/' . $news->news_id);
         } else {
-            return $this->render('update', ['model' => $news, 'type' => 'create']);
+            return $this->render('create', ['model' => $news, 'type' => 'create']);
         }
-
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
-
-//            return $this->render('entry-confirm', ['model' => $news]);
-//        } else {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-//            return $this->render('update', ['model' => $news]);
-//        }
     }
 
-    public function actionUpdate($id)
+    public function actionEdit($id)
     {
         if (!empty($id)) {
-//            $news = (new News)
-//                    ->where(['=', 'news_id', $id])
-//                    ->one();
             $news = News::find()
                 ->where(['news_id' => $id])
                 ->one();
 
             if ($news->load(Yii::$app->request->post()) && $news->validate()) {
-                $res = $news->save();
-                return $this->render('update', ['model' => $news, 'type' => 'create', 'result' => $res]);
+                $results = $news->save();
+                return $this->render('edit', ['model' => $news, 'type' => 'create', 'result' => $results]);
             } else {
-                return $this->render('update', ['model' => $news, 'type' => 'edit']);
+                return $this->render('edit', ['model' => $news, 'type' => 'edit']);
             }
         }
+    }
 
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
-
-//            return $this->render('entry-confirm', ['model' => $news]);
-//        } else {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-//            return $this->render('update', ['model' => $news]);
-//        }
+    public function actionDelete($id) {
+        if (News::deleteAll(['news_id' => $id]))
+            return $this->redirect('/admin/news');
     }
 
 }

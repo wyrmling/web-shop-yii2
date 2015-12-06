@@ -14,7 +14,7 @@ $config = [
             'rules' => [
 //                'module/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
 //                '<module:admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-//                'admin/<controller:\w+>/<action:\w+>' => '/admin/<controller>/<action>',
+                'admin/<controller:\w+>/<action:\w+>/<id:\d+>' => '/admin/<controller>/<action>',
             ],
         ],
         'request' => [

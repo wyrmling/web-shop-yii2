@@ -16,7 +16,7 @@ class News extends ActiveRecord
         return [
             // name, email, subject and body are required
             [['title'], 'required'],
-            [['description', 'content'], 'string'],
+            [['title', 'description', 'content'], 'string'],
             ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
             // email has to be a valid email address
 //            ['email', 'email'],
