@@ -5,8 +5,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Alert;
 
+$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
-    $this->params['breadcrumbs'][] = 'Создание статьи';
+$this->params['breadcrumbs'][] = 'Создание статьи';
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Articles */
@@ -15,17 +16,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
 <div class="admin-edit">
 
     <?php
-    if (!empty($res)) {
+    if (!empty($result)) {
         echo Alert::widget([
             'options' => [
-                'class' => ($res) ? 'alert-success' : 'alert-danger'
+                'class' => ($result) ? 'alert-success' : 'alert-danger'
             ],
-            'body' => ($res) ? 'Сохранение успешно.' : 'Ошибка.'
+            'body' => ($result) ? 'Сохранение успешно.' : 'Ошибка.'
         ]);
+        echo (!$result) ? : Html::submitButton('Перейти к редактированию', ['class' => 'btn btn-primary']);
     }
     ?>
 
     <?php $form = ActiveForm::begin(['options'=> ['class' => 'form-horizontal']]); ?>
+        <?= $model->article_id ?>
         <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'content')->textarea() ?>
@@ -35,8 +38,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
                 <p class="form-control-static"><?= (!empty($model->user)) ? $model->user->username : Yii::$app->user->identity->username; ?></p>
             </div>
         </div>
+
         <div class="form-group">
-            <?= Html::submitButton('Create' , ['class' =>'btn btn-success']) ?>
+            <?= !$model->isNewRecord ? : Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>
@@ -48,10 +52,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
         'preset' => 'basic'
     ]) ?>
 
+
     </p>
     <p>
         You may customize this page by editing the following file:<br>
         <code><?= __FILE__ ?></code>
     </p>
 </div>
-

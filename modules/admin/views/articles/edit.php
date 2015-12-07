@@ -5,8 +5,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Alert;
 
+$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
-    $this->params['breadcrumbs'][] = 'Редактирование статьи';
+$this->params['breadcrumbs'][] = 'Редактирование статьи ('.$model->article_id.')';
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Articles */
@@ -15,17 +16,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
 <div class="admin-edit">
 
     <?php
-    if (!empty($res)) {
+    if (!empty($results)) {
         echo Alert::widget([
             'options' => [
-                'class' => ($res) ? 'alert-success' : 'alert-danger'
+                'class' => ($results) ? 'alert-success' : 'alert-danger'
             ],
-            'body' => ($res) ? 'Сохранение успешно.' : 'Ошибка.'
+            'body' => ($results) ? 'Сохранение успешно.' : 'Ошибка.'
         ]);
     }
     ?>
 
     <?php $form = ActiveForm::begin(['options'=> ['class' => 'form-horizontal']]); ?>
+        <div class="form-group">
+            <?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label status-' . $model->article_status]); ?>
+        </div>
         <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'content')->textarea() ?>
@@ -35,22 +39,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
                 <p class="form-control-static"><?= (!empty($model->user)) ? $model->user->username : Yii::$app->user->identity->username; ?></p>
             </div>
         </div>
+
         <div class="form-group">
-            <?= Html::submitButton('Edit', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Обновить', ['class' => 'btn btn-primary']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>
 
-</div><!-- admin-edit -->
+</div>
 
 <?= $form->field($model, 'content')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'basic'
     ]) ?>
-
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
