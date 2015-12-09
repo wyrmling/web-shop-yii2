@@ -12,6 +12,15 @@ class Users extends ActiveRecord implements IdentityInterface
         return 'users';
     }
 
+    public function attributeLabels() {
+        return [
+            'user_id' => 'ID автора',
+            'username' => 'Имя пользователя',
+//            'content' => 'Текст новости',
+//            'news_status' => 'Статус новости',
+        ];
+    }
+
     /**
      * Finds an identity by the given ID.
      *

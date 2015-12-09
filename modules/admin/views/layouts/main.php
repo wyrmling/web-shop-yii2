@@ -76,18 +76,6 @@ AppAsset::register($this);
 
     </div>
 </div>
-<div class="wrap">
-    <!--<div class="container">-->
-<?php
-//    Modal::begin([
-//        'header' => '<h2>Hello world</h2>',
-//        'toggleButton' => ['label' => 'click me'],
-//    ]);
-//    echo 'Say hello...';
-//    Modal::end();
-?>
-    <!--</div>-->
-</div>
 
 <footer class="footer">
     <div class="container">
