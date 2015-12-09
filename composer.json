@@ -18,7 +18,17 @@
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "2amigos/yii2-ckeditor-widget": "~1.0"
+        "2amigos/yii2-ckeditor-widget": "~1.0",
+
+        "kartik-v/yii2-krajee-base": "@dev",
+        "kartik-v/yii2-builder": "@dev",
+        "kartik-v/yii2-helpers": "@dev",
+        "kartik-v/yii2-widgets": "@dev",
+        "kartik-v/yii2-editable": "@dev",
+        "kartik-v/yii2-mpdf": "@dev",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-widget-activeform": "@dev",
+        "kartik-v/yii2-checkbox-x": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
