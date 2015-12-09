@@ -13,13 +13,15 @@ class NewsController extends Controller
     }
 
     public function actionCreate() {
-        $news = new News;
+//        $news = new News;
+        $news = (new News)->loadDefaultValues();
 
         if ($news->load(Yii::$app->request->post()) && $news->validate()) {
-            $res = $news->save();
-            return $this->redirect('/admin/news/edit/' . $news->news_id);
+            if ($news->save()) {
+                return $this->redirect('/admin/news/edit/' . $news->news_id);
+            }
         } else {
-            return $this->render('create', ['model' => $news, 'type' => 'create']);
+            return $this->render('create', ['model' => $news]);
         }
     }
 
@@ -29,6 +31,8 @@ class NewsController extends Controller
             $news = News::find()
                 ->where(['news_id' => $id])
                 ->one();
+
+//            if ($news) $user = User::findOne($news->user_id);
 
             if ($news->load(Yii::$app->request->post()) && $news->validate()) {
                 $results = $news->save();

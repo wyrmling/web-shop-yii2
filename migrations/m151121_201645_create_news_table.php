@@ -2,7 +2,6 @@
 
 use yii\db\Schema;
 use yii\db\Migration;
-use app\models\News;
 
 class m151121_201645_create_news_table extends Migration
 {
@@ -17,9 +16,9 @@ class m151121_201645_create_news_table extends Migration
             'title' => $this->string()->notNull(),
             'description' => $this->string(),
             'content' => $this->text(),
-            'time_created' => $this->dateTime(),
-            'time_updated' => $this->dateTime(),
-            'news_status' => "ENUM(".self::quote(News::VISIBLE).",".self::quote(News::HIDDEN).") NOT NULL DEFAULT ".self::quote(News::HIDDEN),
+            'time_created' => $this->timestamp(),
+            'time_updated' => $this->timestamp(),
+            'news_status' => $this->integer()->notNull()->defaultValue(\app\models\News::HIDDEN),
         ]);
     }
 
