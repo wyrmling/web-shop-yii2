@@ -18,8 +18,10 @@ class m151210_210139_create_products_table extends Migration
             'status' => $this->integer()->notNull()->defaultValue(0),
             'price' => $this->float(12,2)->notNull(),
             'special_price' => $this->float(12,2)->notNull(),
+            'created_by'=> $this->integer()->notNull(),
             'created' => $this->timestamp(),
-            'changed' => $this->timestamp(),
+            'updated_by'=> $this->integer()->notNull(),
+            'updated' => $this->timestamp(),
         ]);
     }
 
