@@ -8,6 +8,9 @@ use yii\web\IdentityInterface;
 class Users extends ActiveRecord implements IdentityInterface
 {
 
+    const DISABLED = 0;
+    const ACTIVE = 1;
+
     public static function tableName() {
         return 'users';
     }
@@ -16,6 +19,7 @@ class Users extends ActiveRecord implements IdentityInterface
         return [
             'user_id' => 'ID автора',
             'username' => 'Имя пользователя',
+            'group' => 'Имя пользователя',
 //            'content' => 'Текст новости',
 //            'news_status' => 'Статус новости',
         ];

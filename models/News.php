@@ -75,6 +75,7 @@ class News extends ActiveRecord
             self::VISIBLE => ['Видимая', 'visible'],
         ];
     }
+
     public static function getStatuses() {
         return [self::HIDDEN,self::VISIBLE];
     }
@@ -85,7 +86,6 @@ class News extends ActiveRecord
         } else {
             return self::status_list()[$status][0];
         }
-//        return [self::HIDDEN,self::VISIBLE];
     }
 
 //    public function getStatusName() {
