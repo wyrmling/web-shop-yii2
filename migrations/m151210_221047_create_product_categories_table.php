@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m151210_221047_create_products_cattegories_table extends Migration
+class m151210_221047_create_product_categories_table extends Migration
 {
 
     public function up()

@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m151210_214059_create_product_attributes_val_table extends Migration
+class m151210_214059_create_product_attributes_list_table extends Migration
 {
 
     public function up()
