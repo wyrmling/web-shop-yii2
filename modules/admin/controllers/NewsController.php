@@ -48,4 +48,15 @@ class NewsController extends Controller
             return $this->redirect('/admin/news');
     }
 
+    public function actionMultipleDelete() {
+//        var_dump(\Yii::$app->request->post());
+//        var_dump(\Yii::$app->request->get());
+//        if (News::deleteAll(['news_id' => Yii::$app->request->post('ids')])) {
+        if (1) {
+            echo json_encode('ok');
+        } else {
+            echo json_encode('nok');
+        }
+    }
+
 }
