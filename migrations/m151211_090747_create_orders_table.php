@@ -13,7 +13,7 @@ class m151211_090747_create_orders_table extends Migration
             'user_id' => $this->integer()->notNull(),
             'status' => $this->integer()->notNull(),
             'total_sum' => $this->float(12, 2)->notNull(),
-            'ordered_time' => $this->timestamp(),
+            'time_ordered' => $this->timestamp(),
         ]);
     }
 

@@ -3,12 +3,12 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m151210_213722_create_atributes_table extends Migration
+class m151210_213722_create_pr_atributes_table extends Migration
 {
 
     public function up()
     {
-        $this->createTable('{{attributes}}', [
+        $this->createTable('{{product_attributes}}', [
             'attribute_id' => $this->primaryKey(),
             'attribute_name' => $this->string()->notNull(),
             'unite' => $this->string()->notNull(),
@@ -17,8 +17,8 @@ class m151210_213722_create_atributes_table extends Migration
 
     public function down()
     {
-        if ($this->db->schema->getTableSchema('{{attributes}}', true) !== null) {
-            $this->dropTable('{{attributes}}');
+        if ($this->db->schema->getTableSchema('{{product_attributes}}', true) !== null) {
+            $this->dropTable('{{product_attributes}}');
         }
     }
 

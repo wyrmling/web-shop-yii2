@@ -20,10 +20,10 @@ class m151104_211037_create_users_table extends Migration
             'user_id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
             'password' => $this->string()->notNull(),
-            'is_active' => "ENUM('y','n') NOT NULL DEFAULT 'y'",
+            'is_active' => $this->integer()->notNull()->defaultValue(\app\models\Users::ACTIVE),
             'auth_key' => $this->string(),
             'access_token' => $this->string(),
-            'created_date' => $this->dateTime()->notNull() . ' DEFAULT NOW()',
+            'created_date' => $this->timestamp(),
         ]);
 //        , $tableOptions
 

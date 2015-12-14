@@ -8,17 +8,17 @@ class m151210_214415_create_categories_table extends Migration
 
     public function up()
     {
-        $this->createTable('{{categories}}', [
+        $this->createTable('{{product_categories_list}}', [
             'category_id' => $this->primaryKey(),
             'parent_category_id' => $this->integer()->notNull(),
-            'category_name' => $this->string()->notNull(),
+            'name' => $this->string()->notNull(),
         ]);
     }
 
     public function down()
     {
-        if ($this->db->schema->getTableSchema('{{categories}}', true) !== null) {
-            $this->dropTable('{{categories}}');
+        if ($this->db->schema->getTableSchema('{{product_categories_list}}', true) !== null) {
+            $this->dropTable('{{product_categories_list}}');
         }
     }
 

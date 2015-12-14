@@ -11,7 +11,8 @@ class m151128_210416_create_article_comments_table extends Migration {
             'article_id' => $this->integer()->notNull(),
             'user_id' => $this->integer()->notNull(),
             'text' => $this->text()->notNull(),
-            'created_time' => $this->timestamp()->notNull() . ' DEFAULT NOW()',
+            'time_created' => $this->timestamp(),
+            'time_updated' => $this->timestamp(),
         ]);
     }
 

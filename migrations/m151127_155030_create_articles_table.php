@@ -6,7 +6,6 @@ use \app\models\Articles;
 
 class m151127_155030_create_articles_table extends Migration
 {
-
     use \app\models\helpDb;
 
     public function up() {
@@ -16,8 +15,8 @@ class m151127_155030_create_articles_table extends Migration
             'title' => $this->string()->notNull(),
             'description' => $this->string()->notNull(),
             'content' => $this->text()->notNull(),
-            'created_time' => $this->timestamp(),
-            'changed_time' => $this->timestamp(),
+            'time_created' => $this->timestamp(),
+            'time_updated' => $this->timestamp(),
             'article_status' => $this->integer()->notNull()->defaultValue(\app\models\Articles::HIDDEN),
             'comments_status' => $this->integer()->notNull()->defaultValue(\app\models\Articles::NO),
         ]);

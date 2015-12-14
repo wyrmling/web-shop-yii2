@@ -8,19 +8,18 @@ class m151210_222107_create_products_images_table extends Migration
 
     public function up()
     {
-        $this->createTable('{{products_images}}', [
+        $this->createTable('{{product_images}}', [
             'image_id' => $this->primaryKey(),
             'product_id' => $this->integer()->notNull(),
-            'image_url' => $this->string()->notNull(),
-            'image_title' => $this->string()->notNull(),
-            'caption' => $this->string(),
+            'url' => $this->string()->notNull(),
+            'title' => $this->string()->notNull(),
         ]);
     }
 
     public function down()
     {
-        if ($this->db->schema->getTableSchema('{{products_images}}', true) !== null) {
-            $this->dropTable('{{products_images}}');
+        if ($this->db->schema->getTableSchema('{{product_images}}', true) !== null) {
+            $this->dropTable('{{product_images}}');
         }
     }
 
