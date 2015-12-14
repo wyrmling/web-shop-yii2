@@ -8,10 +8,10 @@ use app\models\Users;
 class Articles extends ActiveRecord
 {
 
-    const VISIBLE = 'visible';
-    const HIDDEN = 'hidden';
-    const YES = 'y';
-    const NO = 'n';
+    const VISIBLE = 1;
+    const HIDDEN = 0;
+    const YES = 1;
+    const NO = 0;
 
     public static function tableName()
     {

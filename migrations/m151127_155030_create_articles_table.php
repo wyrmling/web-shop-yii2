@@ -18,8 +18,8 @@ class m151127_155030_create_articles_table extends Migration
             'content' => $this->text()->notNull(),
             'created_time' => $this->timestamp(),
             'changed_time' => $this->timestamp(),
-            'article_status' => "ENUM(".self::quote(Articles::VISIBLE).",".self::quote(Articles::HIDDEN).") NOT NULL DEFAULT ".self::quote(Articles::HIDDEN),
-            'comments_status' => "ENUM(".self::quote(Articles::YES).",".self::quote(Articles::NO).") NOT NULL DEFAULT ".self::quote(Articles::YES),
+            'article_status' => $this->integer()->notNull()->defaultValue(\app\models\Articles::HIDDEN),
+            'comments_status' => $this->integer()->notNull()->defaultValue(\app\models\Articles::NO),
         ]);
     }
 

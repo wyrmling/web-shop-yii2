@@ -5,7 +5,10 @@
         "This file is @generated automatically"
     ],
     "hash": "43d075b1fa98fa016de1eb7d260382c8",
+<<<<<<< Updated upstream
     "content-hash": "02f67fd7368729f24ddee80ca14f71eb",
+=======
+>>>>>>> Stashed changes
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
