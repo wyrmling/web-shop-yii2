@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\components;
 
-//use app\models\Titles;
+use app\models\Titles;
 
 class Controller extends \yii\web\Controller
 {
