@@ -6,8 +6,6 @@ use yii\db\Migration;
 class m151121_201645_create_news_table extends Migration
 {
 
-    use \app\models\helpDb;
-
     public function up()
     {
         $this->createTable('{{news}}', [
@@ -17,7 +15,9 @@ class m151121_201645_create_news_table extends Migration
             'description' => $this->string(),
             'content' => $this->text(),
             'time_created' => $this->timestamp(),
+            'created_by'=> $this->integer()->notNull(),
             'time_updated' => $this->timestamp(),
+            'updated_by'=> $this->integer(),
             'news_status' => $this->integer()->notNull()->defaultValue(\app\models\News::HIDDEN),
         ]);
     }
