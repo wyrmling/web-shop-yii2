@@ -6,6 +6,9 @@ use yii\db\Migration;
 class m151210_221047_create_product_categories_table extends Migration
 {
 
+    // Связующая таблица "Продукт-Категория"
+    // ID товара - integer notNull
+    // ID категории - integer notNull
     public function up()
     {
         $this->createTable('{{product_categories}}', [

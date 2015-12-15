@@ -6,6 +6,18 @@ use yii\db\Migration;
 class m151210_210139_create_products_table extends Migration
 {
 
+    // Таблица "товары"
+    // ID товара - первичный ключ integer
+    // ID бренда - integer notNull
+    // SKU (ассортиментная позиция товара) - varchar 255
+    // Артикул - varchar 255
+    // Название товара - varchar 255 notNull
+    // Описание товара - varchar 255
+    // Статус товара - integer
+    // Цена и специальная цена товара - float(12,2)
+    // ID того, кто добавил товар - integer notNull
+    // ID того, кто внес последние изменения - integer
+    // время статьи и время последнего изменения - timestamp
     public function up()
     {
         $this->createTable('{{products}}', [
@@ -16,11 +28,11 @@ class m151210_210139_create_products_table extends Migration
             'title' => $this->string()->notNull(),
             'description' => $this->string(),
             'status' => $this->integer()->notNull(),
-            'price' => $this->float(12,2),
-            'special_price' => $this->float(12,2),
-            'created_by'=> $this->integer()->notNull(),
+            'price' => $this->float(12, 2),
+            'special_price' => $this->float(12, 2),
+            'created_by' => $this->integer()->notNull(),
             'time_created' => $this->timestamp(),
-            'updated_by'=> $this->integer(),
+            'updated_by' => $this->integer(),
             'time_updated' => $this->timestamp(),
         ]);
     }

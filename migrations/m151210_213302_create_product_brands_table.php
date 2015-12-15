@@ -6,12 +6,16 @@ use yii\db\Migration;
 class m151210_213302_create_product_brands_table extends Migration
 {
 
+    // Таблица "Бренды товаров"
+    // ID бренда товара - первичный ключ integer
+    // Название бренда - varchar 255 notNull
+    // URL логотипа - varchar 255
     public function up()
     {
         $this->createTable('{{product_brands}}', [
             'brand_id' => $this->primaryKey(),
             'brand_name' => $this->string()->notNull(),
-            'logo_url' => $this->string()->notNull(),
+            'logo_url' => $this->string(),
         ]);
     }
 
@@ -21,5 +25,5 @@ class m151210_213302_create_product_brands_table extends Migration
             $this->dropTable('{{product_brands}}');
         }
     }
-    
+
 }

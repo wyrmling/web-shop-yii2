@@ -6,6 +6,12 @@ use yii\db\Migration;
 class m151211_090747_create_orders_table extends Migration
 {
 
+    // Таблица "Заказы"
+    // ID заказа - первичный ключ integer
+    // ID пользователя - integer notNull
+    // Статус заказа - integer notNull
+    // Общая сумма заказа - float(12,2) notNull
+    // Время регистрации заказа - timestamp
     public function up()
     {
         $this->createTable('{{orders}}', [

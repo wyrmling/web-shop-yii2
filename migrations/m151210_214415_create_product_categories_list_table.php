@@ -6,6 +6,10 @@ use yii\db\Migration;
 class m151210_214415_create_product_categories_list_table extends Migration
 {
 
+    // Таблица "Список категорий товаров"
+    // ID категории - первичный ключ integer
+    // ID родительской категории - integer notNull (если категория наивысшего уровня, тогда ID = 0)
+    // Название категории - varchar 255 notNull
     public function up()
     {
         $this->createTable('{{product_categories_list}}', [

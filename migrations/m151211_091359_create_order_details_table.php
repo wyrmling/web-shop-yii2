@@ -8,9 +8,14 @@ class m151211_091359_create_order_details_table extends Migration
 
     public function up()
     {
-        // Детали заказов
+        // Таблица "Детали заказа"
+        // ID товара - integer notNull
+        // ID заказа - integer notNull
+        // Количество - integer notNull
+        // Статус елемента заказа (не путать со статусом всего заказа!) - integer notNull
+        // Цена товара (на момент заказа) - float(12,2)
         $this->createTable('{{order_details}}', [
-            'product_id' => $this->primaryKey(),
+            'product_id' => $this->integer()->notNull(),
             'order_id' => $this->integer()->notNull(),
             'quantity' => $this->integer()->notNull(),
             'status' => $this->integer()->notNull(),
