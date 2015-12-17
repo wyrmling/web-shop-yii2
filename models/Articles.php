@@ -11,6 +11,8 @@ class Articles extends ActiveRecord
 
     const VISIBLE = 1;
     const HIDDEN = 0;
+    const YES = 1;
+    const NO = 0;
 
     public static function tableName()
     {

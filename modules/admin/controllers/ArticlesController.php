@@ -13,7 +13,8 @@ class ArticlesController extends Controller
     }
 
     public function actionCreate() {
-        $articles = new Articles;
+        //$articles = new Articles;
+        $articles = (new Articles)->loadDefaultValues();
 
         if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
             $res = $articles->save();

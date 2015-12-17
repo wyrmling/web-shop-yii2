@@ -1,4 +1,5 @@
 <?php
+
 use dosamigos\ckeditor\CKEditorInline;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
@@ -10,11 +11,7 @@ use kartik\switchinput\SwitchInput;
 
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Редактирование статьи ('.$model->article_id.')';
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Articles */
-/* @var $form ActiveForm */
+$this->params['breadcrumbs'][] = 'Редактирование статьи (' . $model->article_id . ')';
 ?>
 <div class="admin-edit">
 
@@ -31,9 +28,9 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи ('.$
 
     <?php
     $form = ActiveForm::begin([
-        'id' => 'login-form-horizontal',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+                'id' => 'login-form-horizontal',
+                'type' => ActiveForm::TYPE_HORIZONTAL,
+                'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
     ]);
     ?>
 
@@ -44,22 +41,12 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи ('.$
         </div>
     </div>
 
-    <?= $form->field($model, 'article_status')->widget(SwitchInput::classname(), [
-        'items' => [
-            ['label' => 'Medium', 'value' => 'hidden'],
-            ['label' => 'Low', 'value' => 'visible'],
-        ],
-        'pluginOptions' => [
-            'size' => 'mini',
-            'onColor' => 'success',
-            'offColor' => 'danger',
-        ]
-    ]); ?>
     <?= $form->field($model, 'article_status')->checkbox() ?>
+    <?= $form->field($model, 'comments_status')->checkbox() ?>
     <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'content')->textarea() ?>
-    <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6],'preset' => 'basic']) ?>
+    <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'basic']) ?>
     <?= $form->field($model->user, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->user, 'username')->staticInput(); ?>
 
