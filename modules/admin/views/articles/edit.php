@@ -2,8 +2,11 @@
 use dosamigos\ckeditor\CKEditorInline;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+//use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\bootstrap\Alert;
+use kartik\checkbox\CheckboxX;
+use kartik\switchinput\SwitchInput;
 
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
@@ -26,29 +29,46 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи ('.$
     }
     ?>
 
-    <?php $form = ActiveForm::begin(['options'=> ['class' => 'form-horizontal']]); ?>
-        <div class="form-group">
-            <?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label status-' . $model->article_status]); ?>
-        </div>
-        <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
-        <?= $form->field($model, 'description')->textInput() ?>
-        <?= $form->field($model, 'content')->textarea() ?>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Username</label>
-            <div class="col-sm-10">
-                <p class="form-control-static"><?= (!empty($model->user)) ? $model->user->username : Yii::$app->user->identity->username; ?></p>
-            </div>
-        </div>
+    <?php
+    $form = ActiveForm::begin([
+        'id' => 'login-form-horizontal',
+        'type' => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+    ]);
+    ?>
 
-        <div class="form-group">
-            <?= Html::submitButton('Обновить', ['class' => 'btn btn-primary']) ?>
+    <div class="form-group field-news-description">
+        <label class="control-label col-sm-3" for="article-description">Статус статьи</label>
+        <div class="col-sm-9">
+            <?= Html::tag('span', Html::encode($model->article_status), ['class' => 'label status-' . $model->article_status]); ?>
         </div>
+    </div>
+
+    <?= $form->field($model, 'article_status')->widget(SwitchInput::classname(), [
+        'items' => [
+            ['label' => 'Medium', 'value' => 'hidden'],
+            ['label' => 'Low', 'value' => 'visible'],
+        ],
+        'pluginOptions' => [
+            'size' => 'mini',
+            'onColor' => 'success',
+            'offColor' => 'danger',
+        ]
+    ]); ?>
+    <?= $form->field($model, 'article_status')->checkbox() ?>
+    <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
+    <?= $form->field($model, 'description')->textInput() ?>
+    <?= $form->field($model, 'content')->textarea() ?>
+    <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6],'preset' => 'basic']) ?>
+    <?= $form->field($model->user, 'username')->textInput(['readonly' => 'true']) ?>
+    <?= $form->field($model->user, 'username')->staticInput(); ?>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+        </div>
+    </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<?= $form->field($model, 'content')->widget(CKEditor::className(), [
-        'options' => ['rows' => 6],
-        'preset' => 'basic'
-    ]) ?>

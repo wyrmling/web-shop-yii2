@@ -83,7 +83,7 @@ $this->registerJs("
                         ])
                 ],
 //                '{export}',
-//                '{toggleData}',
+//               '{toggleData}',
             ],
             'panel' => [
                 'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Новости</h3>',

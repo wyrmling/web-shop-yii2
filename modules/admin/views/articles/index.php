@@ -3,112 +3,98 @@
 use dosamigos\ckeditor\CKEditorInline;
 use yii\data\ActiveDataProvider;
 use app\models\Articles;
-use yii\grid\GridView;
+// use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\bootstrap\Html;
 
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
-?>
-<div class="admin-default-index">
-    <!-- <h1><?= $this->context->action->uniqueId ?></h1> -->
-    <p>
-        <!-- This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.<br> -->
 
-        <?= Html::a('Создать', '/admin/articles/create', ['class' => 'btn btn-primary'])
-        ?>
-        <?php
-        $query = Articles::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+$query = Articles::find();
+$dataProvider = new ActiveDataProvider([
+    'query' => $query,
+    'pagination' => [
+        'pageSize' => 10,
+    ],
         ]);
-        // join with relation `user` that is a relation to the table `users`
-// and set the table alias to be `автор`
-        $query->joinWith(['user' => function($query) {
-                $query->from(['user' => 'users']);
-            }]);
+// join with relation `user` that is a relation to the table `users`
+// and set the table alias to be `Имя автора`
+$query->joinWith(['user' => function($query) {
+        $query->from(['user' => 'users']);
+    }]);
 // enable sorting for the related column
-                $dataProvider->sort->attributes['user.username'] = [
-                    'asc' => ['user.username' => SORT_ASC],
-                    'desc' => ['user.username' => SORT_DESC],
-                ];
-                
-                echo GridView::widget([
-                    'dataProvider' => $dataProvider,
-                    'columns' => [
-                        'article_id',
-                        'title',
-                        'description',
-                        'user.username',
-                        'created_time:timestamp',
-                        'changed_time:timestamp',
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{view} {edit} {delete}',
-                            'buttons' => ['edit' => function ($url, $model, $key) {
-                                    return Html::a('Edit', $url);
-                                }],
+        $dataProvider->sort->attributes['user.username'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
+
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'toolbar' => [
+                [
+                    'content' =>
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['class' => 'btn btn-success']) . ' ' .
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], [
+                        'data-pjax' => 10,
+                        'class' => 'btn btn-default',
+                        'title' => 'Reset Grid'
+                    ])
+                ],
+                '{toggleData}',
+                '{export}',
+            ],
+            'panel' => [
+                'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Статьи</h3>',
+                'type' => 'success',
+                'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать статью', ['create'], ['class' => 'btn btn-success']),
+                'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset', ['index'], ['class' => 'btn btn-info']) . ' ' .
+                Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']),
+                'footer' => false
+            ],
+            'columns' => [
+                [
+                    'class' => 'yii\grid\CheckboxColumn',
+                ],
+                'article_id',
+                'title',
+                'description',
+                'user.username',
+                'time_created:datetime',
+                'time_updated:datetime',
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view} {edit} {delete}',
+                    'buttons' => ['edit' => function ($url, $model, $key) {
+                            return Html::a('Edit', $url);
+                        }],
+                ],
+                [
+                    'filter' => Articles::getStatuses(),
+                    'attribute' => 'article_status',
+                    'format' => 'raw',
+                    'value' => function ($model, $key, $index, $column) {
+                        return Html::tag('span', Html::encode($model->getStatus($model->article_status)), ['class' => 'label status-' . $model->getStatus($model->article_status, true)]);
+                    }
                         ],
                         [
                             'filter' => Articles::getStatuses(),
-                            'attribute' => 'article_status',
+                            'attribute' => 'comments_status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                /** @var \yii\grid\DataColumn $column */
-                                $value = $model->{$column->attribute};
-                                switch ($value) {
-                                    case Articles::VISIBLE:
-                                        $class = 'visible';
-                                        break;
-                                    case Articles::HIDDEN:
-                                        $class = 'hidden';
-                                        break;
-//                            case User::STATUS_BLOCKED:
-                                    default:
-                                        $class = 'default';
-                                };
-                                $html = Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'label status-' . $class]);
-                                return $value === null ? $column->grid->emptyCell : $html;
+                                return Html::tag('span', Html::encode($model->getStatus($model->comments_status)), ['class' => 'label status-' . $model->getStatus($model->comments_status, true)]);
                             }
                                 ],
-                                [
-                                    'filter' => Articles::getCommetsStatuses(),
-                                    'attribute' => 'comments_status',
-                                    'format' => 'raw',
-                                    'value' => function ($model, $key, $index, $column) {
-                                        /** @var \yii\grid\DataColumn $column */
-                                        $value = $model->{$column->attribute};
-                                        switch ($value) {
-                                            case Articles::YES:
-                                                $class = 'visible';
-                                                break;
-                                            case Articles::NO:
-                                                $class = 'hidden';
-                                                break;
-//                            case User::STATUS_BLOCKED:
-                                            default:
-                                                $class = 'default';
-                                        };
-                                        $html = Html::tag('span', Html::encode($model->getCommentsStatusName()), ['class' => 'label status-' . $class]);
-                                        return $value === null ? $column->grid->emptyCell : $html;
-                                    }
-                                        ],
-                                    ]
-                                ]);
-                                ?>
-                                <?php //echo Html::a('update', array('site/save', 'id'=>$post->id)); ?>
-
-                                <?php CKEditorInline::begin(['preset' => 'basic']); ?>
-                                Этот текст типа можно редактировать
-                        <?php CKEditorInline::end(); ?>
-                                321
-                            </p>
-                            <p>
-                                You may customize this page by editing the following file:<br>
-                                <code><?= __FILE__ ?></code>
-    </p>
+                            ],
+                            'resizableColumns' => false,
+                            'containerOptions' => ['id' => 'news-pjax-container', 'style' => 'overflow: auto'],
+                            'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+                            'filterRowOptions' => ['class' => 'kartik-sheet-style'],
+                            'pjax' => true,
+                        ]);
+                        ?>
+                        </p>
+                        <p>
+                            You may customize this page by editing the following file:<br>
+                            <code><?= __FILE__ ?></code>
+</p>
 </div>

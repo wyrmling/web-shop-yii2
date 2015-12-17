@@ -4,14 +4,13 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use app\models\Users;
+use yii\behaviors\TimestampBehavior;
 
 class Articles extends ActiveRecord
-{
+    {
 
     const VISIBLE = 1;
     const HIDDEN = 0;
-    const YES = 1;
-    const NO = 0;
 
     public static function tableName()
     {
@@ -22,7 +21,8 @@ class Articles extends ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['description', 'content'], 'string'],
+            [['title', 'description', 'content'], 'string'],
+            [['article_status', 'comments_status'], 'boolean'],
             ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
         ];
     }
@@ -36,10 +36,10 @@ class Articles extends ActiveRecord
             'description' => 'Описание',
             'user.username' => 'Имя автора',
             'content' => 'Текст cтатьи',
-            'created_time' => 'Cоздана',
-            'changed_time' => 'Изменена',
-            'article_status' => 'Статус статьи',
-            'comments_status' => 'Статус комментариев',
+            'time_created' => 'Cоздана',
+            'time_updated' => 'Изменена',
+            'article_status' => 'Статья доступна',
+            'comments_status' => 'Комментарии разрешены',
         ];
     }
 
@@ -48,34 +48,43 @@ class Articles extends ActiveRecord
         return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'time_created',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'time_updated',
+                ],
+//                'value' => new \yii\db\Expression('NOW()')
+                'value' => function() {
+            return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
+        }
+            ]
+        ];
+    }
+
+    public static function status_list()
+    {
+        return [
+            self::HIDDEN => ['Нет', 'hidden'],
+            self::VISIBLE => ['Да', 'visible'],
+        ];
+    }
+
     public static function getStatuses()
     {
-        return [self::HIDDEN, self::VISIBLE];
+        return [self::HIDDEN,self::VISIBLE];
     }
 
-    public function getStatusName()
+    public static function getStatus($status, $tag = false)
     {
-        switch ($this->article_status) {
-            case self::HIDDEN:
-                return 'Скрыта';
-            case self::VISIBLE:
-                return 'Опубликована';
+        if ($tag) {
+            return self::status_list()[$status][1];
+        } else {
+            return self::status_list()[$status][0];
         }
     }
 
-    public static function getCommetsStatuses()
-    {
-        return [self::NO, self::YES];
     }
-
-    public function getCommentsStatusName()
-    {
-        switch ($this->comments_status) {
-            case self::YES:
-                return 'Разрешены';
-            case self::NO:
-                return 'Запрещены';
-        }
-    }
-
-}
