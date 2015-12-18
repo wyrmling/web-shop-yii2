@@ -25,12 +25,12 @@ $this->params['breadcrumbs'][] = 'Создание статьи';
             'content' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => 'dosamigos\ckeditor\CKEditor', 'options' => ['options' => ['rows' => 6],'preset' => 'basic']],
             'article_status' => [
                 'type' => Form::INPUT_RADIO_LIST,
-                'items' => [Articles::VISIBLE => Articles::getStatus(Articles::VISIBLE), Articles::HIDDEN => Articles::getStatus(Articles::HIDDEN)],
+                'items' => [Articles::VISIBLE => Articles::getArticleStatus(Articles::VISIBLE), Articles::HIDDEN => Articles::getArticleStatus(Articles::HIDDEN)],
                 'options' => ['inline' => true],
             ],
             'comments_status' => [
                 'type' => Form::INPUT_RADIO_LIST,
-                'items' => [Articles::VISIBLE => Articles::getStatus(Articles::VISIBLE), Articles::HIDDEN => Articles::getStatus(Articles::HIDDEN)],
+                'items' => [Articles::YES => Articles::getCommentsStatus(Articles::YES), Articles::NO => Articles::getCommentsStatus(Articles::NO)],
                 'options' => ['inline' => true],
             ],
         ],

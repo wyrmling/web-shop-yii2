@@ -40,8 +40,8 @@ class Articles extends ActiveRecord
             'content' => 'Текст cтатьи',
             'time_created' => 'Cоздана',
             'time_updated' => 'Изменена',
-            'article_status' => 'Статья доступна',
-            'comments_status' => 'Комментарии разрешены',
+            'article_status' => 'Статья',
+            'comments_status' => 'Комментарии',
         ];
     }
 
@@ -67,25 +67,47 @@ class Articles extends ActiveRecord
         ];
     }
 
-    public static function status_list()
+    public static function articleStatusList()
     {
         return [
-            self::HIDDEN => ['Нет', 'hidden'],
-            self::VISIBLE => ['Да', 'visible'],
+            self::HIDDEN => ['Скрыта', 'hidden'],
+            self::VISIBLE => ['Опубликована', 'visible'],
         ];
     }
 
-    public static function getStatuses()
+    public static function getArticleStatuses()
     {
-        return [self::HIDDEN,self::VISIBLE];
+        return [self::HIDDEN, self::VISIBLE];
     }
 
-    public static function getStatus($status, $tag = false)
+    public static function getArticleStatus($status, $tag = false)
     {
         if ($tag) {
-            return self::status_list()[$status][1];
+            return self::articleStatusList()[$status][1];
         } else {
-            return self::status_list()[$status][0];
+            return self::articleStatusList()[$status][0];
+        }
+    }
+
+    public static function commentsStatusList()
+    {
+        return [
+            self::NO => ['Запрещены', 'disabled'],
+            self::YES => ['Разрешены', 'allowed'],
+        ];
+    }
+
+    public static function getCommentsStatuses()
+    {
+        return [self::NO, self::YES];
+    }
+
+    public static function getCommentsStatus($status, $tag = false)
+    {
+        if ($tag) {
+            return self::commentsStatusList()[$status][1];
+        } else {
+            return self::commentsStatusList()[$status][0];
         }
     }
 

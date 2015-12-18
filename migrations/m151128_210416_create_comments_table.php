@@ -8,13 +8,11 @@ class m151128_210416_create_comments_table extends Migration
 
     // Таблица "Комментари к статье"
     // ID комментария - первичный ключ integer
-    // тип комментария - integer
-    // ID статьи, к которой добавлен комментарий - integer notNull
+    // Тип комментария (к чему относится: новости или статье) - integer notNull
+    // ID объекта (статьи или новости), к которой добавлен комментарий - integer notNull
     // ID автора комментария - integer notNull
-    // Содержимое статьи (контент) - text notNull - integer notNull
     // Текст комментария - text notNull
     // время статьи и время последнего изменения - timestamp
-    // статус статьи ("опубликована" или "скрыта") - integer notNull
     public function up()
     {
         $this->createTable('{{comments}}', [

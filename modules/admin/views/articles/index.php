@@ -47,7 +47,7 @@ $query->joinWith(['user' => function($query) {
                 'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Статьи</h3>',
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать статью', ['create'], ['class' => 'btn btn-success']),
-                'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset', ['index'], ['class' => 'btn btn-info']) . ' ' .
+                'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
                 Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']),
                 'footer' => false
             ],
@@ -69,19 +69,19 @@ $query->joinWith(['user' => function($query) {
                         }],
                 ],
                 [
-                    'filter' => Articles::getStatuses(),
+                    'filter' => Articles::getArticleStatuses(),
                     'attribute' => 'article_status',
                     'format' => 'raw',
                     'value' => function ($model, $key, $index, $column) {
-                        return Html::tag('span', Html::encode($model->getStatus($model->article_status)), ['class' => 'label status-' . $model->getStatus($model->article_status, true)]);
+                        return Html::tag('span', Html::encode($model->getArticleStatus($model->article_status)), ['class' => 'label status-' . $model->getArticleStatus($model->article_status, true)]);
                     }
                         ],
                         [
-                            'filter' => Articles::getStatuses(),
+                            'filter' => Articles::getArticleStatuses(),
                             'attribute' => 'comments_status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                return Html::tag('span', Html::encode($model->getStatus($model->comments_status)), ['class' => 'label status-' . $model->getStatus($model->comments_status, true)]);
+                                return Html::tag('span', Html::encode($model->getCommentsStatus($model->comments_status)), ['class' => 'label status-' . $model->getCommentsStatus($model->comments_status, true)]);
                             }
                                 ],
                             ],
@@ -93,8 +93,4 @@ $query->joinWith(['user' => function($query) {
                         ]);
                         ?>
                         </p>
-                        <p>
-                            You may customize this page by editing the following file:<br>
-                            <code><?= __FILE__ ?></code>
-</p>
 </div>

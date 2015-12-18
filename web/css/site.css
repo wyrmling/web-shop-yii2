@@ -97,3 +97,11 @@ a.desc:after {
 .status-visible {
     background-color: #5cb85c;
 }
+
+.status-disabled {
+    background-color: #f05c5a;
+}
+
+.status-allowed {
+    background-color: #5cb85c;
+}

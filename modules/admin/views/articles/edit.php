@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     ?>
 
     <div class="form-group field-news-description">
-        <label class="control-label col-sm-3" for="article-description">Статус статьи</label>
+        <label class="control-label col-sm-3" for="article-description">Разрешить публикацию</label>
         <div class="col-sm-9">
             <?= Html::tag('span', Html::encode($model->article_status), ['class' => 'label status-' . $model->article_status]); ?>
         </div>
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
 
