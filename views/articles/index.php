@@ -1,17 +1,31 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\LinkPager;
+use yii\widgets\ListView;
+use yii\data\ActiveDataProvider;
+use app\models\Articles;
+use yii\helpers\Url;
+
+$this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['/articles']];
 ?>
 <h1>Статьи</h1>
-<ul>
-            <?php foreach ($articles as $article): ?>
-        <li><b>
-            <?= Html::encode("{$article->article_id} ({$article->title})") ?>:
-            </b>
-        <?= $article->description ?>
-        </li>
-<?php endforeach; ?>
-</ul>
 
-<?= LinkPager::widget(['pagination' => $pagination]) ?>
+
+<?php
+echo Url::toRoute(['index', 'id' => 'contact']); // тот же контроллер, другой экшн
+
+$dataProvider = new ActiveDataProvider([
+    'query' => Articles::find(),
+    'pagination' => [
+        'pageSize' => 3,
+    ],
+    'sort' => [
+        'defaultOrder' => [
+            'time_created' => SORT_DESC,
+            'title' => SORT_ASC,
+        ]
+    ],
+        ]);
+echo ListView::widget([
+    'dataProvider' => $dataProvider,
+    'itemView' => '_articles_list',
+]);
