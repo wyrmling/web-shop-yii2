@@ -8,7 +8,7 @@ $this->params['breadcrumbs'][] = 'ID статьи = ' . $id;
 
 $dataProvider = new ActiveDataProvider([
     'query' => Articles::find()->where(['article_id' => $id]),
-        ]);
+]);
 
 echo ListView::widget([
     'dataProvider' => $dataProvider,

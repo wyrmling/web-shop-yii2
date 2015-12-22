@@ -12,9 +12,9 @@ $config = [
             'showScriptName' => false,
 //            'enableStrictParsing' => false,
             'rules' => [
-//                'module/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-//                '<module:admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                'admin/<controller:\w+>/<action:\w+>/<id:\d+>' => '/admin/<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<module>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+//                'admin/<controller:\w+>/<action:\w+>/<id:\d+>' => '/admin/<controller>/<action>',
             ],
         ],
         'request' => [
@@ -30,6 +30,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['admin']
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

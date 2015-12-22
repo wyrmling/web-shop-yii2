@@ -52,7 +52,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Новости', 'url' => ['/site/index']],
-            ['label' => 'Статьи', 'url' => ['/articles']],
+            ['label' => 'Статьи', 'url' => ['/articles/index']],
             ['label' => 'Каталог товаров', 'url' => ['/Produts']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],

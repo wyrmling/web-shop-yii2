@@ -21,7 +21,7 @@ $dataProvider = new ActiveDataProvider([
             'title' => SORT_ASC,
         ]
     ],
-        ]);
+]);
 
 echo ListView::widget([
     'dataProvider' => $dataProvider,
