@@ -3,16 +3,13 @@
 use yii\widgets\ListView;
 use yii\data\ActiveDataProvider;
 use app\models\Articles;
-use yii\helpers\Url;
+//se yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['/articles']];
 ?>
 <h1>Статьи</h1>
 
-
 <?php
-echo Url::toRoute(['index', 'id' => 'contact']); // тот же контроллер, другой экшн
-
 $dataProvider = new ActiveDataProvider([
     'query' => Articles::find(),
     'pagination' => [
@@ -25,6 +22,7 @@ $dataProvider = new ActiveDataProvider([
         ]
     ],
         ]);
+
 echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => '_articles_list',

@@ -13,5 +13,9 @@ class ArticlesController extends \yii\web\Controller
     {
         return $this->render('index');
     }
-
+    
+    public function actionRead($id=0)
+    {
+        return $this->render('read', ['id' => $id]);
+    }
 }
