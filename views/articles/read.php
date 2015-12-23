@@ -1,16 +1,22 @@
 <?php
-use yii\data\ActiveDataProvider;
-use app\models\Articles;
-use yii\widgets\ListView;
+
+use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['/articles']];
-$this->params['breadcrumbs'][] = 'ID статьи = ' . $id;
+$this->params['breadcrumbs'][] = Html::encode($model->title);
 
-$dataProvider = new ActiveDataProvider([
-    'query' => Articles::find()->where(['article_id' => $id]),
-]);
+?>
+<div class="post">
+    <h2><?= Html::encode($model->title) ?></h2>
+    <br>
+    <?= HtmlPurifier::process($model->description) ?>
+    <br><br>
+    <?= Html::encode($model->time_created) ?>
+    <br>
+    <?= Html::encode($model->user->username) ?>
+    <br><br>
+    <?= HtmlPurifier::process($model->content) ?>
+    <br><br>
 
-echo ListView::widget([
-    'dataProvider' => $dataProvider,
-    'itemView' => '_article_read',
-]);
+</div>

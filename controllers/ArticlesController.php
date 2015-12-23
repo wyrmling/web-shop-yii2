@@ -4,7 +4,7 @@ namespace app\controllers;
 
 //use yii\web\Controller;
 //use yii\data\Pagination;
-//use app\models\Articles;
+use app\models\Articles;
 use app\components\Controller;
 
 class ArticlesController extends Controller
@@ -17,6 +17,7 @@ class ArticlesController extends Controller
 
     public function actionRead($id = 0)
     {
-        return $this->render('read', ['id' => $id]);
+        $article = Articles::findOne($id);
+        return $this->render('read', ['id' => $id, 'model' => $article]);
     }
 }
