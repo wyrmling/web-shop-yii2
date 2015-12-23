@@ -92,28 +92,4 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-
-    // remove
-    public function actionSay($message = 'Ku-ku')
-    {
-        return $this->render('say', ['message' => $message]);
-    }
-
-    // remove
-    public function actionEntry()
-    {
-        $model = new EntryForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
-
-            return $this->render('entry-confirm', ['model' => $model]);
-        } else {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-            return $this->render('entry', ['model' => $model]);
-        }
-    }
-
 }
