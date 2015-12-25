@@ -8,7 +8,7 @@ use app\models\Articles;
 use app\components\Controller;
 
 class ArticlesController extends Controller
-{
+    {
 
     public function actionIndex()
     {
@@ -20,4 +20,5 @@ class ArticlesController extends Controller
         $article = Articles::findOne($id);
         return $this->render('read', ['id' => $id, 'model' => $article]);
     }
-}
+
+    }

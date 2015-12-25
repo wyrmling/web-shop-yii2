@@ -16,6 +16,9 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
 <div class="admin-edit">
 
     <?php
+    
+    //var_dump($model->createdBy->username);
+    
     if (!empty($results)) {
         echo Alert::widget([
             'options' => [
@@ -47,8 +50,8 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'content')->textarea() ?>
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'basic']) ?>
-    <?= $form->field($model->user, 'username')->textInput(['readonly' => 'true']) ?>
-    <?= $form->field($model->user, 'username')->staticInput(); ?>
+    <?= $form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
+    <?= $form->field($model->createdBy, 'username')->staticInput(); ?>
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">

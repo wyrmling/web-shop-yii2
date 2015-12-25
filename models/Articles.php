@@ -26,6 +26,7 @@ class Articles extends ActiveRecord
             [['title', 'description', 'content'], 'string'],
             [['article_status', 'comments_status'], 'boolean'],
             ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
+            ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
         ];
     }
 
@@ -38,7 +39,9 @@ class Articles extends ActiveRecord
             'description' => 'Описание',
             'user.username' => 'Имя автора',
             'content' => 'Текст cтатьи',
+            'createdBy.username' => 'Автор',
             'time_created' => 'Cоздана',
+            'updatedBy.username' => 'Редактировал',
             'time_updated' => 'Изменена',
             'article_status' => 'Статья',
             'comments_status' => 'Комментарии',
@@ -48,6 +51,16 @@ class Articles extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
+    }
+
+    public function getCreatedBy()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'created_by']);
+    }
+
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'updated_by']);
     }
 
     public function behaviors()

@@ -11,6 +11,6 @@ use yii\helpers\Html;
     <br>
     <?= Html::encode($model->time_created) ?>
     <br>
-    <?= Html::encode($model->user->username) ?>
+    <?= Html::encode($model->createdBy->username) ?>
 </div>
 

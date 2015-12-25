@@ -28,6 +28,22 @@ $query->joinWith(['user' => function($query) {
             'desc' => ['user.username' => SORT_DESC],
         ];
 
+        $query->joinWith(['createdBy' => function($query) {
+        $query->from(['createdBy' => 'users']);
+    }]);
+        $dataProvider->sort->attributes['createdBy.username'] = [
+            'asc' => ['createdBy.username' => SORT_ASC],
+            'desc' => ['createdBy.username' => SORT_DESC],
+        ];
+        
+         $query->joinWith(['updatedBy' => function($query) {
+        $query->from(['updatedBy' => 'users']);
+    }]);
+        $dataProvider->sort->attributes['updatedBy.username'] = [
+            'asc' => ['updatedBy.username' => SORT_ASC],
+            'desc' => ['updatedBy.username' => SORT_DESC],
+        ];
+        
         echo GridView::widget([
             'dataProvider' => $dataProvider,
             'toolbar' => [
@@ -59,7 +75,9 @@ $query->joinWith(['user' => function($query) {
                 'title',
                 'description',
                 'user.username',
+                'createdBy.username',
                 'time_created:datetime',
+                'updatedBy.username',
                 'time_updated:datetime',
                 [
                     'class' => 'yii\grid\ActionColumn',

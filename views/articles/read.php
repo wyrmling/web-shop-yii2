@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = Html::encode($model->title);
     <br><br>
     <?= Html::encode($model->time_created) ?>
     <br>
-    <?= Html::encode($model->user->username) ?>
+    <?= Html::encode($model->createdBy->username) ?>
     <br><br>
     <?= HtmlPurifier::process($model->content) ?>
     <br><br>
