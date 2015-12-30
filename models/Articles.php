@@ -74,8 +74,8 @@ class Articles extends ActiveRecord
                 ],
 //                'value' => new \yii\db\Expression('NOW()')
                 'value' => function() {
-            return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
-        }
+                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
+                }
             ]
         ];
     }
