@@ -10,3 +10,15 @@ print_r($categories);
     the file <code><?= __FILE__; ?></code>.
 </p>
 
+<?php
+
+foreach ($categories as $v) {
+    print_r ($v);
+    
+    $array[$v['category_id']] = $v['parent_category_id'];
+    echo '<br>';
+    
+}
+
+echo '<br>';
+print_r($array);

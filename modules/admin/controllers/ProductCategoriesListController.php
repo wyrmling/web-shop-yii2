@@ -11,6 +11,7 @@ class ProductCategoriesListController extends \yii\web\Controller
     {
         $categories = ProductCategoriesList::find()
                 ->asArray()
+                ->orderBy('parent_category_id')
                 ->all();
         return $this->render('index', ['categories' => $categories]);
     }
