@@ -7,6 +7,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['/article
 $this->params['breadcrumbs'][] = Html::encode($model->title);
 
 ?>
+
 <div class="post">
     <h2><?= Html::encode($model->title) ?></h2>
     <br>
