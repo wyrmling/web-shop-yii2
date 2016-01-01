@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers;
 use app\models\ProductCategoriesList;
 
 class ProductCategoriesListController extends \yii\web\Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -13,7 +13,15 @@ class ProductCategoriesListController extends \yii\web\Controller
                 ->asArray()
                 ->orderBy('parent_category_id')
                 ->all();
-        return $this->render('index', ['categories' => $categories]);
+        $tree = ProductCategoriesList::form_tree($categories);
+
+        if (is_array($tree)) {
+            return $this->render('index',
+                    ['categories' => $categories,
+                        'tree' => $tree]);
+        } else {
+            return false;
+        }
     }
 
-    }
+}

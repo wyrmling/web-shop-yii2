@@ -13,6 +13,7 @@ use Yii;
  */
 class ProductCategoriesList extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -44,4 +45,17 @@ class ProductCategoriesList extends \yii\db\ActiveRecord
             'name' => 'Name',
         ];
     }
+
+    public static function form_tree($mess)
+    {
+        if (!is_array($mess)) {
+            return false;
+        }
+        $tree = array();
+        foreach ($mess as $value) {
+            $tree[$value['parent_category_id']][] = $value;
+        }
+        return $tree;
+    }
+
 }
