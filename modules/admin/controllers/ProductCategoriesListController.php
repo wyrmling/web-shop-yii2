@@ -3,8 +3,10 @@
 namespace app\modules\admin\controllers;
 
 use app\models\ProductCategoriesList;
+//use yii\web\Controller;
+use app\components\Controller;
 
-class ProductCategoriesListController extends \yii\web\Controller
+class ProductCategoriesListController extends Controller
 {
 
     public function actionIndex()
