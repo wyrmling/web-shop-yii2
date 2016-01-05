@@ -16,6 +16,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => $this->primaryKey(),
             'parent_category_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
+            'discount' => $this->integer(),
         ]);
 
         $this->insert('{{product_categories_list}}', [

@@ -44,7 +44,7 @@ AppAsset::register($this);
 //            ['label' => '<span class="glyphicon glyphicon-home"></span> Home', 'url' => [Yii::$app->homeUrl]],
             ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
             ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles/index']],
-            ['label' => 'Categories', 'url' => ['/admin/product-categories-list/index']],
+            ['label' => 'Categories', 'url' => ['/admin/categories/index']],
             ['label' => 'Products', 'url' => ['/admin/products/index']],
             ['label' => '<i class="fa fa-user"></i> Users', 'url' => ['/admin/users/index']],
             ['label' => '<i class="fa fa-cogs"></i> Tools', 'items' => [

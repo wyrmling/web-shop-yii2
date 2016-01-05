@@ -11,7 +11,7 @@ use Yii;
  * @property integer $parent_category_id
  * @property string $name
  */
-class ProductCategoriesList extends \yii\db\ActiveRecord
+class Categories extends \yii\db\ActiveRecord
 {
 
     /**
@@ -29,7 +29,7 @@ class ProductCategoriesList extends \yii\db\ActiveRecord
     {
         return [
             [['parent_category_id', 'name'], 'required'],
-            [['parent_category_id'], 'integer'],
+            [['parent_category_id', 'discount'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
