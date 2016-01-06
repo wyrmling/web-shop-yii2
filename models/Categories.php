@@ -10,6 +10,7 @@ use Yii;
  * @property integer $category_id
  * @property integer $parent_category_id
  * @property string $name
+ * @property intreger $discount
  */
 class Categories extends \yii\db\ActiveRecord
 {
@@ -41,8 +42,8 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             'category_id' => 'Category ID',
-            'parent_category_id' => 'Parent Category ID',
-            'name' => 'Name',
+            'parent_category_id' => '',
+            'name' => '',
         ];
     }
 
