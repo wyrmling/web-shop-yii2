@@ -35,7 +35,12 @@ class CategoriesController extends Controller
     public function actionDelete($id)
     {
         $category = Categories::findOne($id);
-        return $this->render('delete', ['id' => $id, 'model' => $category]);
+        $categories = Categories::find()
+                ->asArray()
+                ->orderBy('parent_category_id')
+                ->all();
+        $tree = Categories::form_tree($categories);
+        return $this->render('delete', ['id' => $id, 'model' => $category, 'categories' => $categories, 'tree' => $tree]);
     }
 
     public function actionEdit($id)

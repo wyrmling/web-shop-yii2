@@ -22,77 +22,100 @@ class m151210_214415_create_product_categories_list_table extends Migration
         $this->insert('{{product_categories_list}}', [
             'category_id' => 1,
             'parent_category_id' => 0,
-            'name' => '1_Комплектующие',
+            'name' => 'Малогабаритная мебель',
         ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 5,
-            'parent_category_id' => 1,
-            'name' => '1_1_Процессоры',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 6,
-            'parent_category_id' => 5,
-            'name' => '1_1_1_AMD',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 14,
-            'parent_category_id' => 5,
-            'name' => '1_1_2_Intel',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 7,
-            'parent_category_id' => 1,
-            'name' => '1_2_Видеокарты',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 13,
-            'parent_category_id' => 7,
-            'name' => '1_2_1_AMD',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 8,
-            'parent_category_id' => 7,
-            'name' => '1_2_2_Nvidia',
-        ]);
-
         $this->insert('{{product_categories_list}}', [
             'category_id' => 2,
             'parent_category_id' => 0,
-            'name' => '2_Бытовая техника',
+            'name' => 'Для дома Для семьи',
         ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 9,
-            'parent_category_id' => 2,
-            'name' => '2_1_Пылесосы',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 10,
-            'parent_category_id' => 2,
-            'name' => '2_2_Чайники',
-        ]);
-
         $this->insert('{{product_categories_list}}', [
             'category_id' => 3,
             'parent_category_id' => 0,
-            'name' => '3_Телефоны',
+            'name' => 'Недетские игрушки',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 4,
+            'parent_category_id' => 0,
+            'name' => 'Разное',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 8,
+            'parent_category_id' => 1,
+            'name' => 'Мыльницы',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 12,
+            'parent_category_id' => 1,
+            'name' => 'Вафельницы',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 13,
+            'parent_category_id' => 1,
+            'name' => 'Пепельницы',
+        ]);
+
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 5,
+            'parent_category_id' => 2,
+            'name' => 'Электродыроколы и пневмостеплеры',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 6,
+            'parent_category_id' => 2,
+            'name' => 'Сербско-монгольские словари',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 7,
+            'parent_category_id' => 2,
+            'name' => 'Клизмы',
+        ]);
+
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 9,
+            'parent_category_id' => 3,
+            'name' => 'Надувные шарфики',
+        ]);
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 10,
+            'parent_category_id' => 3,
+            'name' => 'Дверные виброзвонки',
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 11,
             'parent_category_id' => 3,
-            'name' => '3_1_Смартфоны',
-        ]);
-        $this->insert('{{product_categories_list}}', [
-            'category_id' => 12,
-            'parent_category_id' => 11,
-            'name' => '3_1_1_Android',
+            'name' => 'Пароиммитаторы',
         ]);
 
         $this->insert('{{product_categories_list}}', [
-            'category_id' => 4,
-            'parent_category_id' => 0,
-            'name' => '4_Ёлочные игрушки',
+            'category_id' => 14,
+            'parent_category_id' => 4,
+            'name' => 'Всякое',
         ]);
 
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 15,
+            'parent_category_id' => 14,
+            'name' => 'Кое-что еще',
+        ]);
+        
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 16,
+            'parent_category_id' => 15,
+            'name' => 'Не понятно что',
+        ]);
+        
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 17,
+            'parent_category_id' => 4,
+            'name' => 'Иное',
+        ]);
+        
+        $this->insert('{{product_categories_list}}', [
+            'category_id' => 18,
+            'parent_category_id' => 4,
+            'name' => 'Какое-то не такое',
+        ]);
     }
 
     public function down()
