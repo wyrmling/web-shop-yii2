@@ -56,8 +56,7 @@ class CategoriesController extends Controller
             Categories::$array[] = $id;
             $array = Categories::buildArray($tree, $id);
             Categories::deleteAll(['category_id' => $array]);
-            // перенаправить на index
-            return $this->render('deleted', ['tree' => $tree, 'array' => $array]);
+            return $this->redirect('/admin/categories');
         }
     }
 
