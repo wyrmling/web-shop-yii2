@@ -15,6 +15,8 @@ use Yii;
 class Categories extends \yii\db\ActiveRecord
 {
 
+    public static $array = array();
+
     /**
      * @inheritdoc
      */
@@ -47,7 +49,7 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function form_tree($mess)
+    public static function formTree($mess)
     {
         if (!is_array($mess)) {
             return false;
@@ -57,6 +59,17 @@ class Categories extends \yii\db\ActiveRecord
             $tree[$value['parent_category_id']][] = $value;
         }
         return $tree;
+    }
+
+    public static function buildArray($cats, $parent_id)
+    {
+        if (isset($cats[$parent_id])) {
+            foreach ($cats[$parent_id] as $cat) {
+                self::$array[] = $cat['category_id'];
+                self::buildArray($cats, $cat['category_id']);
+            }
+        }
+        return self::$array;
     }
 
 }

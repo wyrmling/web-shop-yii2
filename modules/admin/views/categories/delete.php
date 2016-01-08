@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Удаление категории ' . $model->category_id . ' - "' . $model->name;
+$this->params['breadcrumbs'][] = 'Удаление категории ' . $model->category_id . ' - "' . $model->name . '"';
 
 if (isset($tree[$model->category_id])) {
     $addition = 'и все ее подкатегории';
@@ -34,6 +34,6 @@ function buildTree($cats, $parent_id)
     Вы действительно хотите удалить категорию <?= $model->category_id ?> - "<?= $model->name?>" <?= $addition ?> ?
 </div>
 
-<?= Html::a('Да', ['/admin/categories/delete/', 'id' => $model->category_id], ['class'=>'btn btn-success']);?>
+<?= Html::a('Да', ['/admin/categories/deleted/', 'id' => $model->category_id], ['class'=>'btn btn-success']);?>
 
 <?= Html::a('Нет', ['/admin/categories/index'], ['class'=>'btn btn-warning']);?>

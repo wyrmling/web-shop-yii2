@@ -8,7 +8,7 @@ use app\models\Categories;
 use app\components\Controller;
 
 class CategoriesController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -16,7 +16,7 @@ class CategoriesController extends Controller
                 ->asArray()
                 ->orderBy('parent_category_id')
                 ->all();
-        $tree = Categories::form_tree($categories);
+        $tree = Categories::formTree($categories);
         return $this->render('index', ['categories' => $categories, 'tree' => $tree]);
     }
 
@@ -34,13 +34,31 @@ class CategoriesController extends Controller
 
     public function actionDelete($id)
     {
-        $category = Categories::findOne($id);
-        $categories = Categories::find()
-                ->asArray()
-                ->orderBy('parent_category_id')
-                ->all();
-        $tree = Categories::form_tree($categories);
-        return $this->render('delete', ['id' => $id, 'model' => $category, 'categories' => $categories, 'tree' => $tree]);
+        if (!empty($id)) {
+            $category = Categories::findOne($id);
+            $categories = Categories::find()
+                    ->asArray()
+                    ->orderBy('parent_category_id')
+                    ->all();
+            $tree = Categories::formTree($categories);
+            return $this->render('delete', ['model' => $category, 'categories' => $categories, 'tree' => $tree]);
+        }
+    }
+
+    public function actionDeleted($id)
+    {
+        if (!empty($id)) {
+            $categories = Categories::find()
+                    ->asArray()
+                    ->orderBy('parent_category_id')
+                    ->all();
+            $tree = Categories::formTree($categories);
+            Categories::$array[] = $id;
+            $array = Categories::buildArray($tree, $id);
+            Categories::deleteAll(['category_id' => $array]);
+            // перенаправить на index
+            return $this->render('deleted', ['tree' => $tree, 'array' => $array]);
+        }
     }
 
     public function actionEdit($id)
@@ -56,4 +74,4 @@ class CategoriesController extends Controller
         }
     }
 
-    }
+}
