@@ -19,9 +19,8 @@ class CategoriesController extends Controller
     public function actionAdd($id)
     {
         $category = (new Categories)->loadDefaultValues();
-        $category->parent_category_id = $id;
         if ($category->load(Yii::$app->request->post()) && $category->validate()) {
-            $res = $category->save();
+            $category->save();
             return $this->redirect('/admin/categories/edit/' . $category->category_id);
         } else {
             $parent_category = Categories::findOne($id);
@@ -36,7 +35,7 @@ class CategoriesController extends Controller
             Categories::deleteAll(['category_id' => $del]);
             return $this->redirect('/admin/categories');
         } else {
-            $tree = Categories::getTree($id);
+            $tree = Categories::getTree();
             $category = Categories::findOne($id);
             return $this->render('delete', ['model' => $category, 'tree' => $tree]);
         }

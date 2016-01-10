@@ -30,8 +30,8 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'parent_category_id', 'name'], 'required'],
-            [['category_id', 'parent_category_id', 'discount'], 'integer'],
+            [['parent_category_id', 'name'], 'required'],
+            [['parent_category_id', 'discount'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
