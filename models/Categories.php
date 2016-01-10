@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "product_categories_list".
@@ -14,8 +15,6 @@ use Yii;
  */
 class Categories extends \yii\db\ActiveRecord
 {
-
-    public static $array = array();
 
     /**
      * @inheritdoc
@@ -31,8 +30,8 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_category_id', 'name'], 'required'],
-            [['parent_category_id', 'discount'], 'integer'],
+            [['category_id', 'parent_category_id', 'name'], 'required'],
+            [['category_id', 'parent_category_id', 'discount'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -49,27 +48,29 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function formTree($mess)
+    public static function getTree()
     {
-        if (!is_array($mess)) {
-            return false;
-        }
-        $tree = array();
-        foreach ($mess as $value) {
-            $tree[$value['parent_category_id']][] = $value;
-        }
-        return $tree;
+        $categories = Categories::find()
+            ->asArray()
+            ->orderBy('name')
+            ->all();
+        return ArrayHelper::map($categories, 'category_id', 'name', 'parent_category_id');
     }
 
-    public static function buildArray($cats, $parent_id)
+    public static function getDeleteList($start = 0)
     {
-        if (isset($cats[$parent_id])) {
-            foreach ($cats[$parent_id] as $cat) {
-                self::$array[] = $cat['category_id'];
-                self::buildArray($cats, $cat['category_id']);
+        static $tree, $deleteList;
+        if (empty($tree)) {
+            $tree = Categories::getTree();
+            $deleteList = [(int)$start];
+        }
+        if (isset($tree[$start])) {
+            foreach ($tree[$start] as $cat_id => $name) {
+                $deleteList[] = $cat_id;
+                self::getDeleteList($cat_id);
             }
         }
-        return self::$array;
+        return $deleteList;
     }
 
 }

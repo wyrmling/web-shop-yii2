@@ -12,17 +12,14 @@ class CategoriesController extends Controller
 
     public function actionIndex()
     {
-        $categories = Categories::find()
-                ->asArray()
-                ->orderBy('parent_category_id')
-                ->all();
-        $tree = Categories::formTree($categories);
-        return $this->render('index', ['categories' => $categories, 'tree' => $tree]);
+        $tree = Categories::getTree();
+        return $this->render('index', ['tree' => $tree]);
     }
 
     public function actionAdd($id)
     {
         $category = (new Categories)->loadDefaultValues();
+        $category->parent_category_id = $id;
         if ($category->load(Yii::$app->request->post()) && $category->validate()) {
             $res = $category->save();
             return $this->redirect('/admin/categories/edit/' . $category->category_id);
@@ -32,44 +29,27 @@ class CategoriesController extends Controller
         }
     }
 
-    public function actionDelete($id)
+    public function actionDelete($id, $confirm = false)
     {
-        if (!empty($id)) {
-            $category = Categories::findOne($id);
-            $categories = Categories::find()
-                    ->asArray()
-                    ->orderBy('parent_category_id')
-                    ->all();
-            $tree = Categories::formTree($categories);
-            return $this->render('delete', ['model' => $category, 'categories' => $categories, 'tree' => $tree]);
-        }
-    }
-
-    public function actionDeleted($id)
-    {
-        if (!empty($id)) {
-            $categories = Categories::find()
-                    ->asArray()
-                    ->orderBy('parent_category_id')
-                    ->all();
-            $tree = Categories::formTree($categories);
-            Categories::$array[] = $id;
-            $array = Categories::buildArray($tree, $id);
-            Categories::deleteAll(['category_id' => $array]);
+        if ($confirm) {
+            $del = Categories::getDeleteList($id);
+            Categories::deleteAll(['category_id' => $del]);
             return $this->redirect('/admin/categories');
+        } else {
+            $tree = Categories::getTree($id);
+            $category = Categories::findOne($id);
+            return $this->render('delete', ['model' => $category, 'tree' => $tree]);
         }
     }
 
     public function actionEdit($id)
     {
-        if (!empty($id)) {
-            $category = Categories::findOne($id);
-            if ($category->load(Yii::$app->request->post()) && $category->validate()) {
-                $results = $category->save();
-                return $this->render('edit', ['model' => $category, 'type' => 'create', 'result' => $results]);
-            } else {
-                return $this->render('edit', ['model' => $category, 'type' => 'edit']);
-            }
+        $category = Categories::findOne($id);
+        if ($category->load(Yii::$app->request->post()) && $category->validate()) {
+            $results = $category->save();
+            return $this->render('edit', ['model' => $category, 'type' => 'create', 'result' => $results]);
+        } else {
+            return $this->render('edit', ['model' => $category, 'type' => 'edit']);
         }
     }
 

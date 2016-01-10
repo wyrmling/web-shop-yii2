@@ -6,18 +6,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
 
 echo Html::a('Добавить категорию', ['/admin/categories/add/', 'id' => 0], ['class'=>'btn btn-success']);
-echo buildTree($tree, 0);
 
-function buildTree($cats, $parent_id)
+echo buildTree(0, $tree);
+
+function buildTree($start, $cats)
 {
-    if (isset($cats[$parent_id])) {
+    if (isset($cats[$start])) {
         $tree = '<ul>';
-        foreach ($cats[$parent_id] as $cat) {
-            $tree .= '<br><li>' . $cat['category_id'] . ' - ' . $cat['name']
-                    .' '. Html::a('переименовать', ['categories/edit', 'id' => $cat['category_id']], ['class'=>'btn btn-info'])
-                    .' '. Html::a('удалить', ['categories/delete', 'id' => $cat['category_id']], ['class'=>'btn btn-warning'])
-                    .' '. Html::a('добавить подкатегорию', ['categories/add', 'id' => $cat['category_id']], ['class'=>'btn btn-success']);
-            $tree .= buildTree($cats, $cat['category_id']);
+        foreach ($cats[$start] as $cat_id => $name) {
+            $tree .= '<li>' . $cat_id . ' - ' . $name
+                . Html::a('[переименовать]', ['categories/edit', 'id' => $cat_id])
+                . Html::a('[удалить]', ['categories/delete', 'id' => $cat_id])
+                . Html::a('[добавить подкатегорию]', ['categories/add', 'id' => $cat_id]);
+            $tree .= buildTree($cat_id, $cats);
             $tree .= '</li>';
         }
         $tree .= '</ul>';
