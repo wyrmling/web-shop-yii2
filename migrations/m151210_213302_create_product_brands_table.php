@@ -19,6 +19,37 @@ class m151210_213302_create_product_brands_table extends Migration
             'logo_url' => $this->string(),
             'discount' => $this->integer(),
         ]);
+        
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 1,
+            'brand_name' => 'Сунь-Хунь-В-Чай',
+            'discount' => 87,
+        ]);
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 2,
+            'brand_name' => 'Reebosch',
+            //'discount' => 0,
+        ]);
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 5,
+            'brand_name' => 'Pear',
+            'discount' => 12,
+        ]);
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 7,
+            'brand_name' => 'Dolce & Kaballach',
+            'discount' => 5,
+        ]);
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 12,
+            'brand_name' => 'Nenovo',
+            'discount' => 49,
+        ]);
+        $this->insert('{{product_brands}}', [
+            'brand_id' => 17,
+            'brand_name' => 'United Colors of Balakleya',
+            'discount' => 49,
+        ]);
     }
 
     public function down()
