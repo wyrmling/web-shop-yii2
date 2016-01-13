@@ -27,20 +27,18 @@ class ProductsController extends Controller
 
     public function actionEdit($id)
     {
-        if (!empty($id)) {
-            $products = Products::find()
-                ->where(['product_id' => $id])
-                ->one();
+        $products = Products::find()
+            ->where(['product_id' => $id])
+            ->one();
 
-            if ($products->load(Yii::$app->request->post()) && $products->validate()) {
-                $results = $products->save();
-                return $this->render('edit', ['model' => $products, 'type' => 'create', 'result' => $results]);
-            } else {
-                return $this->render('edit', ['model' => $products, 'type' => 'edit']);
-            }
+        if ($products->load(Yii::$app->request->post()) && $products->validate()) {
+            $results = $products->save();
+            return $this->render('edit', ['model' => $products, 'type' => 'create', 'result' => $results]);
+        } else {
+            return $this->render('edit', ['model' => $products, 'type' => 'edit']);
         }
     }
-    
+
     public function actionDelete($id)
     {
         if (Products::deleteAll(['product_id' => $id])) {
