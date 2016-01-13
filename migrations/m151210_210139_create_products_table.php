@@ -35,6 +35,44 @@ class m151210_210139_create_products_table extends Migration
             'updated_by' => $this->integer(),
             'time_updated' => $this->timestamp(),
         ]);
+        
+        $this->insert('{{products}}', [
+            'product_id' => 1,
+            'brand_id' => 7,
+            'sku' => 'D&C 205-7',
+            'article' => 'А654',
+            'title' => 'Тапки',
+            'description' => 'Непромокаемые и несносные',
+            'status' => 1,
+            'price' => '648,89',
+            'special_price' => '149,89',
+            'created_by' => '1' 
+        ]);
+        $this->insert('{{products}}', [
+            'product_id' => 2,
+            'brand_id' => 1,
+            'sku' => 'ВЧ8765',
+            'article' => 'А747',
+            'title' => 'Насос',
+            'description' => 'Качать-не перекачать',
+            'status' => 0,
+            'price' => '1400,99',
+            'special_price' => '239,98',
+            'created_by' => '1' 
+        ]);
+        $this->insert('{{products}}', [
+            'product_id' => 3,
+            'brand_id' => 5,
+            'sku' => 'P502',
+            'article' => 'А123',
+            'title' => 'Коннектор',
+            'description' => 'Коннектинг пиплов',
+            'status' => 1,
+            'price' => '55,89',
+            'special_price' => '17,99',
+            'created_by' => '1' 
+        ]);
+        
     }
 
     public function down()
