@@ -14,7 +14,8 @@ class ProductsController extends Controller
         return $this->render('index');
     }
 
-    public function actionAdd() {
+    public function actionAdd()
+    {
         $products = (new Products)->loadDefaultValues();
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
@@ -28,8 +29,8 @@ class ProductsController extends Controller
     public function actionEdit($id)
     {
         $products = Products::find()
-            ->where(['product_id' => $id])
-            ->one();
+                ->where(['product_id' => $id])
+                ->one();
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
             $results = $products->save();

@@ -44,10 +44,10 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['brand_id', 'title', 'status', 'created_by'], 'required'],
+            [['brand_id', 'title', 'status'], 'required'],
             [['brand_id', 'status', 'created_by', 'updated_by'], 'integer'],
             [['price', 'special_price'], 'number'],
-            //[['time_created', 'time_updated'], 'safe'],
+            [['time_created', 'time_updated'], 'safe'],
             [['sku', 'article', 'title', 'description'], 'string', 'max' => 255],
             ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
         ];
@@ -59,7 +59,7 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'product_id' => 'ID товара',
+            'product_id' => 'ID',
             'brand_id' => 'ID бренда',
             'brand.brand_name' => 'Бренд',
             'sku' => 'Sku',
@@ -68,7 +68,7 @@ class Products extends \yii\db\ActiveRecord
             'description' => 'Описание',
             'status' => 'Статус',
             'price' => 'Цена',
-            'special_price' => 'Специальная цена',
+            'special_price' => 'Спец. цена',
             'createdBy.username' => 'Добавил',
             'time_created' => '(дата-время)',
             'updatedBy.username' => 'Редактировал',
