@@ -8,18 +8,18 @@ use kartik\widgets\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\checkbox\CheckboxX;
 use kartik\switchinput\SwitchInput;
+use app\models\Brands;
+use yii\helpers\ArrayHelper;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование данных о товаре (' . $model->product_id . ') ';
-
 ?>
 <div class="admin-edit">
 
     <?php
-    
     //var_dump($model->createdBy->username);
-    
+
     if (!empty($results)) {
         echo Alert::widget([
             'options' => [
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
     <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
     <?= $form->field($model, 'sku')->textInput() ?>
     <?= $form->field($model, 'article')->textInput() ?>
-    <?= $form->field($model, 'brand_id')->textInput() ?>
+    <?= $form->field($model, 'brand_id')->dropDownList(ArrayHelper::map(Brands::find()->all(), 'brand_id', 'brand_name')) ?>
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'price')->textInput() ?>
     <?= $form->field($model, 'special_price')->textInput() ?>

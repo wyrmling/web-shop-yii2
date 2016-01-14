@@ -60,7 +60,7 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             'product_id' => 'ID',
-            'brand_id' => 'ID бренда',
+            'brand_id' => 'Бренд',
             'brand.brand_name' => 'Бренд',
             'sku' => 'Sku',
             'article' => 'Артикул',

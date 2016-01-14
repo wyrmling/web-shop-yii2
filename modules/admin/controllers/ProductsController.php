@@ -7,7 +7,7 @@ use yii\web\Controller;
 use app\models\Products;
 
 class ProductsController extends Controller
-{
+    {
 
     public function actionIndex()
     {
@@ -22,7 +22,7 @@ class ProductsController extends Controller
             $res = $products->save();
             return $this->redirect('/admin/products/edit/' . $products->product_id);
         } else {
-            return $this->render('add', ['model' => $products, 'type' => 'create']);
+            return $this->render('add', ['model' => $products, 'type' => 'add']);
         }
     }
 
@@ -47,4 +47,4 @@ class ProductsController extends Controller
         }
     }
 
-}
+    }

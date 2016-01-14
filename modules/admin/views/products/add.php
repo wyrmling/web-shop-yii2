@@ -7,13 +7,14 @@ use app\models\Products;
 //use yii\widgets\ActiveForm;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
+use app\models\Brands;
+use yii\helpers\ArrayHelper;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Добавление товара';
 
-
-$model['brand_id'] = 1;
+//$model['brand_id'] = 1;
 $model['status'] = 0;
 ?>
 <div class="admin-edit">
@@ -27,7 +28,16 @@ $model['status'] = 0;
             'title' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Название'], 'hint' => 'Обязательно заполните это поле'],
             'sku' => ['type' => Form::INPUT_TEXT],
             'article' => ['type' => Form::INPUT_TEXT],
-            'brand_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Бренд'], 'hint' => 'Обязательно заполните это поле'],
+            
+            'brand_id' => [
+                'type' => Form::INPUT_DROPDOWN_LIST,
+                'items' => [ArrayHelper::map(Brands::find()->all(), 'brand_id', 'brand_name')],
+                'options' => ['inline' => true],
+            ],
+            
+            
+            
+           // 'brand_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Бренд'], 'hint' => 'Обязательно заполните это поле'],
             'description' => ['type' => Form::INPUT_TEXT],
             'price' => ['type' => Form::INPUT_TEXT],
             'special_price' => ['type' => Form::INPUT_TEXT],
