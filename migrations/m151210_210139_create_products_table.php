@@ -8,8 +8,9 @@ class m151210_210139_create_products_table extends Migration
 
     // Таблица "товары"
     // ID товара - первичный ключ integer
+    // ID категории - integer notNull
     // ID бренда - integer notNull
-    // SKU (ассортиментная позиция товара) - varchar 255
+    // SKU - Stock Keeping Unit (ассортиментная позиция товара) - varchar 255
     // Артикул - varchar 255
     // Название товара - varchar 255 notNull
     // Описание товара - varchar 255
@@ -23,11 +24,12 @@ class m151210_210139_create_products_table extends Migration
         $this->createTable('{{products}}', [
             'product_id' => $this->primaryKey(),
             'brand_id' => $this->integer()->notNull(),
+            'category_id' => $this->integer()->notNull(),
             'sku' => $this->string(),
             'article' => $this->string(),
             'title' => $this->string()->notNull(),
             'description' => $this->string(),
-            'status' => $this->integer()->notNull(),
+            'status' => $this->integer()->notNull()->defaultValue(\app\models\Products::HIDDEN),
             'price' => $this->float(12, 2),
             'special_price' => $this->float(12, 2),
             'created_by' => $this->integer()->notNull(),
@@ -39,6 +41,7 @@ class m151210_210139_create_products_table extends Migration
         $this->insert('{{products}}', [
             'product_id' => 1,
             'brand_id' => 7,
+            'category_id' => 14,
             'sku' => 'D&C 205-7',
             'article' => 'А654',
             'title' => 'Тапки',
@@ -51,6 +54,7 @@ class m151210_210139_create_products_table extends Migration
         $this->insert('{{products}}', [
             'product_id' => 2,
             'brand_id' => 1,
+            'category_id' => 7,
             'sku' => 'ВЧ8765',
             'article' => 'А747',
             'title' => 'Насос',
@@ -63,6 +67,7 @@ class m151210_210139_create_products_table extends Migration
         $this->insert('{{products}}', [
             'product_id' => 3,
             'brand_id' => 5,
+            'category_id' => 17,
             'sku' => 'P502',
             'article' => 'А123',
             'title' => 'Коннектор',

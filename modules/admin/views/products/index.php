@@ -23,6 +23,14 @@ $dataProvider->sort->attributes['brand.brand_name'] = [
     'desc' => ['brand.brand_name' => SORT_DESC],
 ];
 
+$query->joinWith(['category' => function ($query) {
+    $query->from(['category' => 'product_categories_list']);
+}]);
+$dataProvider->sort->attributes['category.name'] = [
+    'asc' => ['category.name' => SORT_ASC],
+    'desc' => ['category.name' => SORT_DESC],
+];
+
 $query->joinWith(['createdBy' => function ($query) {
     $query->from(['createdBy' => 'users']);
 }]);
@@ -75,6 +83,7 @@ $dataProvider->sort->attributes['updatedBy.username'] = [
             'sku',
             'article',
             'brand.brand_name',
+            'category.name',
             'price',
             'special_price',
             'createdBy.username',

@@ -12,6 +12,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $product_id
  * @property integer $brand_id
+ * @property integer $name category_id
  * @property string $sku
  * @property string $article
  * @property string $title
@@ -44,12 +45,13 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['brand_id', 'title', 'status'], 'required'],
-            [['brand_id', 'status', 'created_by', 'updated_by'], 'integer'],
+            [['brand_id', 'category_id', 'title', 'status'], 'required'],
+            [['brand_id', 'category_id', 'status', 'created_by', 'updated_by'], 'integer'],
             [['price', 'special_price'], 'number'],
             [['time_created', 'time_updated'], 'safe'],
             [['sku', 'article', 'title', 'description'], 'string', 'max' => 255],
             ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
+            ['updated_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
         ];
     }
 
@@ -61,18 +63,20 @@ class Products extends \yii\db\ActiveRecord
         return [
             'product_id' => 'ID',
             'brand_id' => 'Бренд',
+            'category_id' => 'Категория',
+            'category.name' => 'Категория',
             'brand.brand_name' => 'Бренд',
-            'sku' => 'Sku',
+            'sku' => 'SKU',
             'article' => 'Артикул',
             'title' => 'Название',
             'description' => 'Описание',
             'status' => 'Статус',
             'price' => 'Цена',
-            'special_price' => 'Спец. цена',
+            'special_price' => 'Спец.цена',
             'createdBy.username' => 'Добавил',
-            'time_created' => '(дата-время)',
+            'time_created' => '(дата.время)',
             'updatedBy.username' => 'Редактировал',
-            'time_updated' => '(дата-время)',
+            'time_updated' => '(дата.время)',
         ];
     }
 
@@ -89,6 +93,11 @@ class Products extends \yii\db\ActiveRecord
     public function getBrand()
     {
         return $this->hasOne(Brands::className(), ['brand_id' => 'brand_id']);
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Categories::className(), ['category_id' => 'category_id']);
     }
 
     public function behaviors()

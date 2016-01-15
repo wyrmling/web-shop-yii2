@@ -1,7 +1,5 @@
 <?php
 
-//use dosamigos\ckeditor\CKEditorInline;
-//use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 use kartik\widgets\ActiveForm;
@@ -9,6 +7,7 @@ use yii\bootstrap\Alert;
 use kartik\checkbox\CheckboxX;
 use kartik\switchinput\SwitchInput;
 use app\models\Brands;
+use app\models\Categories;
 use yii\helpers\ArrayHelper;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
@@ -18,8 +17,6 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
 <div class="admin-edit">
 
     <?php
-    //var_dump($model->createdBy->username);
-
     if (!empty($results)) {
         echo Alert::widget([
             'options' => [
@@ -50,6 +47,7 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
     <?= $form->field($model, 'sku')->textInput() ?>
     <?= $form->field($model, 'article')->textInput() ?>
     <?= $form->field($model, 'brand_id')->dropDownList(ArrayHelper::map(Brands::find()->all(), 'brand_id', 'brand_name')) ?>
+    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Categories::find()->all(), 'category_id', 'name')) ?>
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'price')->textInput() ?>
     <?= $form->field($model, 'special_price')->textInput() ?>
