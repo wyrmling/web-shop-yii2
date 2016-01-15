@@ -6,6 +6,21 @@ use yii\db\ActiveRecord;
 use app\models\Users;
 use yii\behaviors\TimestampBehavior;
 
+/**
+ * This is the model class for table "articles".
+ *
+ * @property integer $article_id
+ * @property integer $user_id
+ * @property string $title
+ * @property string $description
+ * @property text $content
+ * @property timestamp $time_created
+ * @property integer $created_by
+ * @property timestamp $time_apdated
+ * @property integer $updated_by
+ * @property integer $article_status
+ * @property integer $comments_status
+ */
 class Articles extends ActiveRecord
     {
 
@@ -33,7 +48,7 @@ class Articles extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'article_id' => 'ID статьи',
+            'article_id' => 'ID',
             'title' => 'Заголовок',
             'user_id' => 'ID автора',
             'description' => 'Описание',
@@ -42,7 +57,7 @@ class Articles extends ActiveRecord
             'createdBy.username' => 'Автор',
             'time_created' => 'Cоздана',
             'updatedBy.username' => 'Редактировал',
-            'time_updated' => 'Изменена',
+            'time_updated' => '(дата.время)',
             'article_status' => 'Статья',
             'comments_status' => 'Комментарии',
         ];
@@ -72,7 +87,6 @@ class Articles extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => 'time_created',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'time_updated',
                 ],
-//                'value' => new \yii\db\Expression('NOW()')
                 'value' => function() {
                     return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
                 }

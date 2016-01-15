@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
 
 echo Html::a('Добавить категорию', ['/admin/categories/add/', 'id' => 0], ['class'=>'btn btn-success']);
 

@@ -9,16 +9,14 @@ use yii\bootstrap\Alert;
 use kartik\checkbox\CheckboxX;
 use kartik\switchinput\SwitchInput;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование статьи (' . $model->article_id . ')';
 ?>
+
 <div class="admin-edit">
 
     <?php
-    
-    //var_dump($model->createdBy->username);
-    
     if (!empty($results)) {
         echo Alert::widget([
             'options' => [
@@ -27,9 +25,7 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
             'body' => ($results) ? 'Сохранение успешно.' : 'Ошибка.'
         ]);
     }
-    ?>
 
-    <?php
     $form = ActiveForm::begin([
                 'id' => 'login-form-horizontal',
                 'type' => ActiveForm::TYPE_HORIZONTAL,
@@ -50,7 +46,7 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'content')->textarea() ?>
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'basic']) ?>
-    <?= $form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
+    <?php //$form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->createdBy, 'username')->staticInput(); ?>
 
     <div class="form-group">

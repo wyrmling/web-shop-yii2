@@ -5,8 +5,8 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap\Alert;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Бренды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование бренда (' . $model->brand_id . ')';
 ?>
 <div class="admin-edit">

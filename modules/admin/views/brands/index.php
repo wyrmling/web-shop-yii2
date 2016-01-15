@@ -6,8 +6,8 @@ use app\models\Brands;
 use kartik\grid\GridView;
 use yii\bootstrap\Html;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Brands', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Бренды', 'url' => ['index']];
 
 $query = Brands::find();
 $dataProvider = new ActiveDataProvider([
@@ -39,7 +39,7 @@ $dataProvider = new ActiveDataProvider([
         'panel' => [
             'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Бренды</h3>',
             'type' => 'success',
-            'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Lобавить бренд', ['add'], ['class' => 'btn btn-success']),
+            'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить бренд', ['add'], ['class' => 'btn btn-success']),
             'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
                 Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']),
             'footer' => false

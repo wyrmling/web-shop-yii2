@@ -6,8 +6,8 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Brands', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Бренды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Добавление бренда';
 ?>
 <div class="admin-edit">
@@ -18,12 +18,15 @@ $this->params['breadcrumbs'][] = 'Добавление бренда';
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'brand_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Название бренда'], 'hint' => 'Обязательно заполните это поле'],
+            'brand_name' => ['type' => Form::INPUT_TEXT,
+            'options' => ['placeholder' => 'Обязательно заполните это поле'],
+            //'hint' => 'Обязательно заполните это поле'
+             ],
         ],
     ]);
     ?>
     <div class="form-group">
-        <?= !$model->isNewRecord ? : Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
+        <?= !$model->isNewRecord ? : Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

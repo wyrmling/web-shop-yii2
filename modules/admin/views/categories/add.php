@@ -6,8 +6,8 @@ use app\models\Categories;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
 if (!empty($parent_category_id)) {
     $this->params['breadcrumbs'][] = 'Добавление подкатегории в категорию ' . $parent_category_id . ' - "' . $name . '"';
 } else {

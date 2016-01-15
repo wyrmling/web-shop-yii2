@@ -7,8 +7,14 @@ use app\models\Articles;
 use kartik\grid\GridView;
 use yii\bootstrap\Html;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
+
+?>
+
+<div class="admin-default-index">
+
+<?php
 
 $query = Articles::find();
 $dataProvider = new ActiveDataProvider([
@@ -22,7 +28,7 @@ $dataProvider = new ActiveDataProvider([
 $query->joinWith(['user' => function($query) {
         $query->from(['user' => 'users']);
     }]);
-// enable sorting for the related column
+        // enable sorting for the related column
         $dataProvider->sort->attributes['user.username'] = [
             'asc' => ['user.username' => SORT_ASC],
             'desc' => ['user.username' => SORT_DESC],
@@ -35,7 +41,7 @@ $query->joinWith(['user' => function($query) {
             'asc' => ['createdBy.username' => SORT_ASC],
             'desc' => ['createdBy.username' => SORT_DESC],
         ];
-        
+
          $query->joinWith(['updatedBy' => function($query) {
         $query->from(['updatedBy' => 'users']);
     }]);
@@ -43,7 +49,7 @@ $query->joinWith(['user' => function($query) {
             'asc' => ['updatedBy.username' => SORT_ASC],
             'desc' => ['updatedBy.username' => SORT_DESC],
         ];
-        
+
         echo GridView::widget([
             'dataProvider' => $dataProvider,
             'toolbar' => [
@@ -62,7 +68,7 @@ $query->joinWith(['user' => function($query) {
             'panel' => [
                 'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Статьи</h3>',
                 'type' => 'success',
-                'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать статью', ['create'], ['class' => 'btn btn-success']),
+                'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить статью', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
                 Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']),
                 'footer' => false
@@ -74,7 +80,7 @@ $query->joinWith(['user' => function($query) {
                 'article_id',
                 'title',
                 'description',
-                'user.username',
+                //'user.username',
                 'createdBy.username',
                 'time_created:datetime',
                 'updatedBy.username',
@@ -110,5 +116,4 @@ $query->joinWith(['user' => function($query) {
                             'pjax' => true,
                         ]);
                         ?>
-                        </p>
 </div>

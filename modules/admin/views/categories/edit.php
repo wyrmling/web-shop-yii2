@@ -7,10 +7,11 @@ use yii\bootstrap\Alert;
 use kartik\checkbox\CheckboxX;
 use kartik\switchinput\SwitchInput;
 
-$this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['/admin']];
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
+$this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Переименование категории ' . $model->category_id . ' - "' . $model->name . '"';
 ?>
+
 <div class="admin-edit">
 
     <?php

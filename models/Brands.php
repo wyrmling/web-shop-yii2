@@ -43,7 +43,7 @@ class Brands extends \yii\db\ActiveRecord
             'brand_id' => 'ID бренда',
             'brand_name' => 'Название бренда',
             'logo_url' => 'Logo Url',
-            'discount' => 'Скидка (%)',
+            'discount' => 'Скидка на бренд (%)',
         ];
     }
 }
