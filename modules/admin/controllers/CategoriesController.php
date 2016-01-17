@@ -13,7 +13,8 @@ class CategoriesController extends Controller
     public function actionIndex()
     {
         $tree = Categories::getTree();
-        return $this->render('index', ['tree' => $tree]);
+        $quantities = Categories::getCategoriesList();
+        return $this->render('index', ['tree' => $tree, 'quantities' => $quantities]);
     }
 
     public function actionAdd($id)
@@ -37,7 +38,8 @@ class CategoriesController extends Controller
         } else {
             $tree = Categories::getTree();
             $category = Categories::findOne($id);
-            return $this->render('delete', ['model' => $category, 'tree' => $tree]);
+            $quantities = Categories::getCategoriesList();
+            return $this->render('delete', ['model' => $category, 'tree' => $tree, 'quantities' => $quantities]);
         }
     }
 

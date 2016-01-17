@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Products;
+use app\models\Categories;
 
 class ProductsController extends Controller
     {
@@ -36,7 +37,8 @@ class ProductsController extends Controller
             $results = $products->save();
             return $this->render('edit', ['model' => $products, 'type' => 'create', 'result' => $results]);
         } else {
-            return $this->render('edit', ['model' => $products, 'type' => 'edit']);
+            $fullPuch = Categories::getFullPach($products['category_id']);
+            return $this->render('edit', ['model' => $products, 'type' => 'edit', 'fullPuch' => $fullPuch]);
         }
     }
 

@@ -10,6 +10,9 @@ class m151210_214415_create_product_categories_list_table extends Migration
     // ID категории - первичный ключ integer
     // ID родительской категории - integer notNull (если категория наивысшего уровня, тогда ID = 0)
     // Название категории - varchar 255 notNull
+    // Скидка на бренд (%) - integer
+    // Количество видимых (выставленных на продажу товаров) - integer
+    // Количество невидимых (не выставленных на продажу товаров) - integer 
     public function up()
     {
         $this->createTable('{{product_categories_list}}', [
@@ -17,6 +20,8 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'parent_category_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'discount' => $this->integer(),
+            'quantity_visible' => $this->integer(),
+            'quantity_invisible' => $this->integer(),
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -28,6 +33,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 2,
             'parent_category_id' => 0,
             'name' => 'Для дома Для семьи',
+            'quantity_invisible' => 1,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 3,
@@ -38,6 +44,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 4,
             'parent_category_id' => 0,
             'name' => 'Разное',
+            'quantity_visible' => 1,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 8,
@@ -69,6 +76,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 7,
             'parent_category_id' => 2,
             'name' => 'Клизмы',
+            'quantity_invisible' => 1,
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -91,6 +99,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 14,
             'parent_category_id' => 4,
             'name' => 'Всякое',
+            'quantity_visible' => 1,
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -98,19 +107,20 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'parent_category_id' => 14,
             'name' => 'Кое-что еще',
         ]);
-        
+
         $this->insert('{{product_categories_list}}', [
             'category_id' => 16,
             'parent_category_id' => 15,
             'name' => 'Не понятно что',
         ]);
-        
+
         $this->insert('{{product_categories_list}}', [
             'category_id' => 17,
             'parent_category_id' => 4,
             'name' => 'Иное',
+            'quantity_visible' => 1,
         ]);
-        
+
         $this->insert('{{product_categories_list}}', [
             'category_id' => 18,
             'parent_category_id' => 4,

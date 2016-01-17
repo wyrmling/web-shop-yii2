@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $parent_category_id
  * @property string $name
  * @property intreger $discount
+ * @property intreger $quantity_visible
+ * @property intreger $quantity_invisible
  */
 class Categories extends \yii\db\ActiveRecord
 {
@@ -31,7 +33,7 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             [['parent_category_id', 'name'], 'required'],
-            [['parent_category_id', 'discount'], 'integer'],
+            [['parent_category_id', 'discount', 'quantity_visible', 'quantity_invisible'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -45,6 +47,8 @@ class Categories extends \yii\db\ActiveRecord
             'category_id' => 'Category ID',
             'parent_category_id' => '',
             'name' => '',
+            'quantity_visible' => 'Количество видимых товаров',
+            'quantity_invisible' => 'Количество невидимых товаров',
         ];
     }
 
@@ -55,6 +59,28 @@ class Categories extends \yii\db\ActiveRecord
             ->orderBy('name')
             ->all();
         return ArrayHelper::map($categories, 'category_id', 'name', 'parent_category_id');
+    }
+
+    public static function getFullPach ($id)
+    {
+        static $categoryList, $fullPach;
+
+        if (empty($categoryList)) {
+           $categoryList = Categories::getCategoriesList();
+        }
+        $fullPach[] = $categoryList[$id]['category_id'];
+        if (($categoryList[$id]['parent_category_id']) > 0){
+            self::getFullPach (($categoryList[$id]['parent_category_id']));
+        }
+        return $fullPach;
+    }
+
+    public static function getCategoriesList()
+    {
+        $categories = Categories::find()
+            ->asArray()
+            ->all();
+        return ArrayHelper::index($categories, 'category_id', 'parent_category_id', 'quantity_visible', 'quantity_invisible');
     }
 
     public static function getDeleteList($start = 0)
