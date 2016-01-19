@@ -6,9 +6,10 @@ use Yii;
 use yii\web\Controller;
 use app\models\Products;
 use app\models\Categories;
+use yii\helpers\ArrayHelper;
 
 class ProductsController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -21,6 +22,8 @@ class ProductsController extends Controller
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
             $res = $products->save();
+            $productParams = ArrayHelper::toArray($products);
+            Categories::setCategoriesCounters($productParams['category_id'], $productParams['status'], (1 - $productParams['status']));
             return $this->redirect('/admin/products/edit/' . $products->product_id);
         } else {
             return $this->render('add', ['model' => $products, 'type' => 'add']);
@@ -37,8 +40,7 @@ class ProductsController extends Controller
             $results = $products->save();
             return $this->render('edit', ['model' => $products, 'type' => 'create', 'result' => $results]);
         } else {
-            $fullPuch = Categories::getFullPach($products['category_id']);
-            return $this->render('edit', ['model' => $products, 'type' => 'edit', 'fullPuch' => $fullPuch]);
+            return $this->render('edit', ['model' => $products, 'type' => 'edit',]);
         }
     }
 
@@ -49,4 +51,4 @@ class ProductsController extends Controller
         }
     }
 
-    }
+}

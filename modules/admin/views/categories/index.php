@@ -29,8 +29,8 @@ function buildTree($start, $cats, $quant)
 
 // не пугатьсяБ фыв! это эксперименты:
 
-$a = Categories::getFullPach (5);
-Categories::updateAllCounters(['quantity_visible' => -1, 'quantity_invisible' => 1], ['category_id' => $a]);
+//$a = Categories::getFullPach (5);
+//Categories::updateAllCounters(['quantity_visible' => -1, 'quantity_invisible' => 1], ['category_id' => $a]);
 
 // нельзя передавать 0 в Categories::getFullPach
-var_dump($a);
+//var_dump($a);

@@ -10,8 +10,6 @@ use app\models\Brands;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
 
-var_dump($fullPuch);
-
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование данных о товаре (' . $model->product_id . ') ';
@@ -65,3 +63,8 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php 
+    print_r(ArrayHelper::toArray($model));
+    
+    

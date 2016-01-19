@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property intreger $quantity_invisible
  */
 class Categories extends \yii\db\ActiveRecord
-    {
+{
 
     /**
      * @inheritdoc
@@ -103,4 +103,17 @@ class Categories extends \yii\db\ActiveRecord
         return $deleteList;
     }
 
+    public static function setCategoriesCounters($categoryId, $counterVisible, $counterVInvisible)
+    {
+        return self::updateAllCounters(
+                [
+                    'quantity_visible' => $counterVisible,
+                    'quantity_invisible' => $counterVInvisible,
+                ],
+                [
+                    'category_id' => self::getFullPach($categoryId)
+                ]
+        );
     }
+
+}
