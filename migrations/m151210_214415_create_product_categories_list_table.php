@@ -20,8 +20,8 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'parent_category_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'discount' => $this->integer(),
-            'quantity_visible' => $this->integer()->notNull()->defaultValue(0),
-            'quantity_invisible' => $this->integer()->notNull()->defaultValue(0),
+            'quantity_visible' => $this->integer()->notNull()->defaultValue(\app\models\Products::HIDDEN),
+            'quantity_invisible' => $this->integer()->notNull()->defaultValue(\app\models\Products::HIDDEN),
         ]);
 
         $this->insert('{{product_categories_list}}', [
