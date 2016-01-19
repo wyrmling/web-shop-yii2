@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Categories;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
@@ -25,3 +26,11 @@ function buildTree($start, $cats, $quant)
         return $tree;
     }
 }
+
+// не пугатьсяБ фыв! это эксперименты:
+
+$a = Categories::getFullPach (5);
+Categories::updateAllCounters(['quantity_visible' => -1, 'quantity_invisible' => 1], ['category_id' => $a]);
+
+// нельзя передавать 0 в Categories::getFullPach
+var_dump($a);

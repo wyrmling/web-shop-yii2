@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property intreger $quantity_invisible
  */
 class Categories extends \yii\db\ActiveRecord
-{
+    {
 
     /**
      * @inheritdoc
@@ -55,40 +55,44 @@ class Categories extends \yii\db\ActiveRecord
     public static function getTree()
     {
         $categories = Categories::find()
-            ->asArray()
-            ->orderBy('name')
-            ->all();
+                ->asArray()
+                ->orderBy('name')
+                ->all();
         return ArrayHelper::map($categories, 'category_id', 'name', 'parent_category_id');
     }
 
-    public static function getFullPach ($id)
+    public static function getFullPach($id)
     {
         static $categoryList, $fullPach;
-
-        if (empty($categoryList)) {
-           $categoryList = Categories::getCategoriesList();
+        if ($id == 0) {
+            return;
+        } else {
+            if (empty($categoryList)) {
+                $categoryList = Categories::getCategoriesList();
+            }
+            $fullPach[] = $categoryList[$id]['category_id'];
+            if (($categoryList[$id]['parent_category_id']) > 0) {
+                self::getFullPach(($categoryList[$id]['parent_category_id']));
+            }
+            return $fullPach;
         }
-        $fullPach[] = $categoryList[$id]['category_id'];
-        if (($categoryList[$id]['parent_category_id']) > 0){
-            self::getFullPach (($categoryList[$id]['parent_category_id']));
-        }
-        return $fullPach;
     }
 
     public static function getCategoriesList()
     {
         $categories = Categories::find()
-            ->asArray()
-            ->all();
+                ->asArray()
+                ->all();
         return ArrayHelper::index($categories, 'category_id', 'parent_category_id', 'quantity_visible', 'quantity_invisible');
     }
 
     public static function getDeleteList($start = 0)
     {
         static $tree, $deleteList;
+
         if (empty($tree)) {
             $tree = Categories::getTree();
-            $deleteList = [(int)$start];
+            $deleteList = [(int) $start];
         }
         if (isset($tree[$start])) {
             foreach ($tree[$start] as $cat_id => $name) {
@@ -99,4 +103,4 @@ class Categories extends \yii\db\ActiveRecord
         return $deleteList;
     }
 
-}
+    }

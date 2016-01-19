@@ -12,7 +12,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
     // Название категории - varchar 255 notNull
     // Скидка на бренд (%) - integer
     // Количество видимых (выставленных на продажу товаров) - integer
-    // Количество невидимых (не выставленных на продажу товаров) - integer 
+    // Количество невидимых (не выставленных на продажу товаров) - integer
     public function up()
     {
         $this->createTable('{{product_categories_list}}', [
@@ -20,8 +20,8 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'parent_category_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'discount' => $this->integer(),
-            'quantity_visible' => $this->integer(),
-            'quantity_invisible' => $this->integer(),
+            'quantity_visible' => $this->integer()->notNull()->defaultValue(0),
+            'quantity_invisible' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -44,7 +44,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 4,
             'parent_category_id' => 0,
             'name' => 'Разное',
-            'quantity_visible' => 1,
+            'quantity_visible' => 2,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 8,

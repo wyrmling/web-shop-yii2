@@ -6,6 +6,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Администрирование
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Удаление категории $model->category_id - '$model->name' и всех ее подкатегорий:";
 
+echo "$model->category_id - $model->name ({$quantities[$model->category_id]['quantity_visible']}) ({$quantities[$model->category_id]['quantity_invisible']})";
 
 echo buildTree($tree, $model->category_id, $quantities);
 
@@ -24,12 +25,20 @@ function buildTree($cats, $parent_id, $quant)
 }
 ?>
 
-<div>
-    Вы действительно хотите удалить категорию <?= $model->category_id ?> - "<?= $model->name ?>"
-    ( <?= $quantities[$model->category_id]['quantity_visible'] ?> )
-    ( <?= $quantities[$model->category_id]['quantity_invisible'] ?> )
-    и все ее подкатегории?
-</div>
-
-<?= Html::a('Да', ['categories/delete', 'id' => $model->category_id, 'confirm' => true], ['class' => 'btn btn-success']); ?>
-<?= Html::a('Нет', ['categories/index'], ['class' => 'btn btn-warning']); ?>
+<?php if ($quantities[$model->category_id]['quantity_visible'] > 0 || $quantities[$model->category_id]['quantity_invisible'] > 0): ?>
+    <div>
+        Удаление невозможно, так как имеются товары (количество указано в скобках), принадлежащие ей или ее подкатегориям
+    </div>
+    <div>
+        <?= Html::a('Вернуться к дереву категорий', ['categories/index'], ['class' => 'btn btn-warning']); ?>
+    </div>
+<?php else: ?>
+    <div>
+        Вы действительно хотите удалить категорию <?= $model->category_id ?> - "<?= $model->name ?>"
+        ( <?= $quantities[$model->category_id]['quantity_visible'] ?> )
+        ( <?= $quantities[$model->category_id]['quantity_invisible'] ?> )
+        и все ее подкатегории?
+    </div>
+    <?= Html::a('Да', ['categories/delete', 'id' => $model->category_id, 'confirm' => true], ['class' => 'btn btn-success']); ?>
+    <?= Html::a('Нет', ['categories/index'], ['class' => 'btn btn-warning']); ?>
+<?php endif; ?>
