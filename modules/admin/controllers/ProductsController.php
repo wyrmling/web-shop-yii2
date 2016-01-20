@@ -9,7 +9,7 @@ use app\models\Categories;
 use yii\helpers\ArrayHelper;
 
 class ProductsController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -23,9 +23,11 @@ class ProductsController extends Controller
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
             $res = $products->save();
             $productParams = ArrayHelper::toArray($products);
+
             if ($productParams['status'] == Products::VISIBLE) {
                 Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
-            } else {
+            }
+            if ($productParams['status'] == Products::HIDDEN) {
                 Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
             }
             return $this->redirect('/admin/products/edit/' . $products->product_id);
@@ -39,9 +41,20 @@ class ProductsController extends Controller
         $products = Products::find()
                 ->where(['product_id' => $id])
                 ->one();
+        $productOldParams = ArrayHelper::toArray($products);
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
             $results = $products->save();
+            $productParams = ArrayHelper::toArray($products);
+
+            if ($productParams['status'] == Products::VISIBLE
+                    && (int) $productParams['status'] != (int) $productOldParams['status']) {
+                Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
+            }
+            if ($productParams['status'] == Products::HIDDEN
+                    && (int) $productParams['status'] != (int) $productOldParams['status']) {
+                Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
+            }
             return $this->render('edit', ['model' => $products, 'type' => 'edit', 'result' => $results]);
         } else {
             return $this->render('edit', ['model' => $products, 'type' => 'create',]);
@@ -54,7 +67,9 @@ class ProductsController extends Controller
                 ->where(['product_id' => $id])
                 ->asArray()
                 ->one();
+
         if (Products::deleteAll(['product_id' => $id])) {
+
             if ($productParams['status'] == Products::VISIBLE) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 0);
             } else {
@@ -64,4 +79,4 @@ class ProductsController extends Controller
         }
     }
 
-    }
+}
