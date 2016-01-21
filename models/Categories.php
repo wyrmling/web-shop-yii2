@@ -61,20 +61,20 @@ class Categories extends \yii\db\ActiveRecord
         return ArrayHelper::map($categories, 'category_id', 'name', 'parent_category_id');
     }
 
-    public static function getFullPach($id)
+    public static function getFullPath($id, $fullPath = [])
     {
-        static $categoryList, $fullPach;
+        static $categoryList;
         if ($id == 0) {
             return;
         } else {
             if (empty($categoryList)) {
                 $categoryList = Categories::getCategoriesList();
             }
-            $fullPach[] = $categoryList[$id]['category_id'];
+            $fullPath[] = $categoryList[$id]['category_id'];
             if (($categoryList[$id]['parent_category_id']) > 0) {
-                self::getFullPach(($categoryList[$id]['parent_category_id']));
+                self::getFullPath(($categoryList[$id]['parent_category_id']), $fullPath);
             }
-            return $fullPach;
+            return $fullPath;
         }
     }
 
@@ -103,16 +103,16 @@ class Categories extends \yii\db\ActiveRecord
         return $deleteList;
     }
 
-    public static function setCategoriesCounters($categoryId, $counterVisible, $counterVInvisible)
+    public static function setCategoriesCounters($categoryId, $counterVisible, $counterInvisible)
     {
         return self::updateAllCounters(
-                [
-                    'quantity_visible' => $counterVisible,
-                    'quantity_invisible' => $counterVInvisible,
-                ],
-                [
-                    'category_id' => self::getFullPach($categoryId)
-                ]
+            [
+                'quantity_visible' => $counterVisible,
+                'quantity_invisible' => $counterInvisible,
+            ],
+            [
+                'category_id' => self::getFullPath($categoryId)
+            ]
         );
     }
 
