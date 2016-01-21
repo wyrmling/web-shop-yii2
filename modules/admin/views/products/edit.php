@@ -10,10 +10,6 @@ use app\models\Brands;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
 
-echo '$productOldParams[category_id] = '. $productOldParams['category_id'];
-echo '<br>';
-echo '$productParams[category_id] = '. $productParams['category_id'];
-
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование данных о товаре (' . $model->product_id . ') ';

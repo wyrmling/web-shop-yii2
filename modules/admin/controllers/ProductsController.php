@@ -55,16 +55,15 @@ class ProductsController extends Controller
                     && (int) $productParams['status'] != (int) $productOldParams['status']) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
             }
-            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
-                Categories::setCategoriesCounters($productOldParams['category_id'], -5, -5);
-                Categories::setCategoriesCounters($productParams['category_id'], 5, 5);
-            }
+//            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+//                Categories::setCategoriesCounters($productOldParams['category_id'], -55, -55);
+//                Categories::setCategoriesCounters($productParams['category_id'], 55, 55);
+//            }
 
-
-            return $this->render('edit', ['productOldParams' => $productOldParams, 'productParams' => $productParams, 'model' => $products, 'type' => 'edit', 'result' => $results]);
+            return $this->render('edit', ['model' => $products, 'type' => 'edit', 'result' => $results]);
         } else {
             $productParams = $productOldParams;
-            return $this->render('edit', ['productOldParams' => $productOldParams, 'productParams' => $productParams, 'model' => $products, 'type' => 'create',]);
+            return $this->render('edit', ['model' => $products, 'type' => 'create',]);
         }
     }
 
