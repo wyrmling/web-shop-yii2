@@ -72,7 +72,7 @@ class Categories extends \yii\db\ActiveRecord
             }
             $fullPath[] = $categoryList[$id]['category_id'];
             if (($categoryList[$id]['parent_category_id']) > 0) {
-                self::getFullPath(($categoryList[$id]['parent_category_id']), $fullPath);
+                return self::getFullPath(($categoryList[$id]['parent_category_id']), $fullPath);
             }
             return $fullPath;
         }

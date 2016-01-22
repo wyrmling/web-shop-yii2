@@ -55,11 +55,16 @@ class ProductsController extends Controller
                     && (int) $productParams['status'] != (int) $productOldParams['status']) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
             }
-            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
-                Categories::setCategoriesCounters($productOldParams['category_id'], -1, -1);
-                Categories::setCategoriesCounters($productParams['category_id'], 1, 1);
+            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']
+                    && $productParams['status'] == Products::VISIBLE) {
+                Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
+                Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
             }
-
+            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']
+                    && $productParams['status'] == Products::HIDDEN) {
+                Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
+                Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
+            }
             return $this->render('edit', ['model' => $products, 'type' => 'edit', 'result' => $results]);
         } else {
             return $this->render('edit', ['model' => $products, 'type' => 'create']);
@@ -77,7 +82,8 @@ class ProductsController extends Controller
 
             if ($productParams['status'] == Products::VISIBLE) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 0);
-            } else {
+            }
+            if ($productParams['status'] == Products::HIDDEN) {
                 Categories::setCategoriesCounters($productParams['category_id'], 0, -1);
             }
             return $this->redirect('/admin/products');

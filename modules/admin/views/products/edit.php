@@ -51,7 +51,6 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
     <?= $form->field($model, 'description')->textInput() ?>
     <?= $form->field($model, 'price')->textInput() ?>
     <?= $form->field($model, 'special_price')->textInput() ?>
-    <?php //$form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->createdBy, 'username')->staticInput(); ?>
 
     <div class="form-group">
