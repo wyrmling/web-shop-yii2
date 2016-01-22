@@ -39,31 +39,42 @@ class ProductsController extends Controller
     public function actionEdit($id)
     {
         $products = Products::find()
-            ->where(['product_id' => $id])
-            ->one();
+                ->where(['product_id' => $id])
+                ->one();
         $productOldParams = ArrayHelper::toArray($products);
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
             $results = $products->save();
             $productParams = ArrayHelper::toArray($products);
 
-            if ($productParams['status'] == Products::VISIBLE
-                    && (int) $productParams['status'] != (int) $productOldParams['status']) {
-                Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
-            }
-            if ($productParams['status'] == Products::HIDDEN
-                    && (int) $productParams['status'] != (int) $productOldParams['status']) {
-                Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
-            }
-            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']
-                    && $productParams['status'] == Products::VISIBLE) {
-                Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
-                Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
-            }
-            if ((int) $productParams['category_id'] != (int) $productOldParams['category_id']
-                    && $productParams['status'] == Products::HIDDEN) {
-                Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
-                Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
+            if ((int) $productParams['status'] != (int) $productOldParams['status']
+                    && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                if ($productParams['status'] == Products::VISIBLE) {
+                    Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
+                    Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
+                }
+                if ($productParams['status'] == Products::HIDDEN) {
+                    Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
+                    Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
+                }
+            } else {
+                if ($productParams['status'] == Products::VISIBLE
+                        && (int) $productParams['status'] != (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                    Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
+                } elseif ($productParams['status'] == Products::HIDDEN
+                        && (int) $productParams['status'] != (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                    Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
+                } elseif ($productParams['status'] == Products::VISIBLE
+                        && (int) $productParams['status'] = (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                    Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
+                    Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
+                } else {
+                    Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
+                    Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
+                }
             }
             return $this->render('edit', ['model' => $products, 'type' => 'edit', 'result' => $results]);
         } else {

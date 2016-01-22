@@ -106,14 +106,21 @@ class Categories extends \yii\db\ActiveRecord
     public static function setCategoriesCounters($categoryId, $counterVisible, $counterInvisible)
     {
         return self::updateAllCounters(
-            [
-                'quantity_visible' => $counterVisible,
-                'quantity_invisible' => $counterInvisible,
-            ],
-            [
-                'category_id' => self::getFullPath($categoryId)
-            ]
+                        [
+                    'quantity_visible' => $counterVisible,
+                    'quantity_invisible' => $counterInvisible,
+                        ], [
+                    'category_id' => self::getFullPath($categoryId)
+                        ]
         );
+    }
+
+    public function transactions()
+    {
+        return [
+            'admin' => self::OP_INSERT | self::OP_UPDATE | self::OP_DELETE,
+            'api' => self::OP_INSERT | self::OP_UPDATE | self::OP_DELETE,
+        ];
     }
 
 }
