@@ -53,7 +53,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Новости', 'url' => ['/site/index']],
             ['label' => 'Статьи', 'url' => ['/articles/index']],
-            ['label' => 'Каталог товаров', 'url' => ['/Produts']],
+            ['label' => 'Каталог товаров', 'url' => ['/catalog/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
             $auth_block
