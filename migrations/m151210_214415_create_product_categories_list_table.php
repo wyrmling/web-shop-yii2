@@ -28,12 +28,12 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 1,
             'parent_category_id' => 0,
             'name' => 'Малогабаритная мебель',
+            'quantity_invisible' => 1,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 2,
             'parent_category_id' => 0,
             'name' => 'Для дома Для семьи',
-            'quantity_invisible' => 1,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 3,
@@ -44,12 +44,13 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 4,
             'parent_category_id' => 0,
             'name' => 'Разное',
-            'quantity_visible' => 2,
+            'quantity_visible' => 4,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 8,
             'parent_category_id' => 1,
             'name' => 'Мыльницы',
+            'quantity_invisible' => 1,
         ]);
         $this->insert('{{product_categories_list}}', [
             'category_id' => 12,
@@ -76,7 +77,6 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 7,
             'parent_category_id' => 2,
             'name' => 'Клизмы',
-            'quantity_invisible' => 1,
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -99,7 +99,7 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 14,
             'parent_category_id' => 4,
             'name' => 'Всякое',
-            'quantity_visible' => 1,
+            'quantity_visible' => 4,
         ]);
 
         $this->insert('{{product_categories_list}}', [
@@ -118,7 +118,6 @@ class m151210_214415_create_product_categories_list_table extends Migration
             'category_id' => 17,
             'parent_category_id' => 4,
             'name' => 'Иное',
-            'quantity_visible' => 1,
         ]);
 
         $this->insert('{{product_categories_list}}', [

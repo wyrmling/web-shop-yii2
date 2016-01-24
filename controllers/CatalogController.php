@@ -4,7 +4,9 @@ namespace app\controllers;
 
 //use yii\web\Controller;
 use app\models\Categories;
+use app\models\Products;
 use app\components\Controller;
+use yii\data\Pagination;
 
 class CatalogController extends Controller
 {
@@ -13,7 +15,6 @@ class CatalogController extends Controller
     {
         $categories = Categories::find()
                 ->where(['parent_category_id' => 0])
-                // ->asArray()
                 ->orderBy('name')
                 ->all();
         return $this->render('index', ['categories' => $categories]);
@@ -23,16 +24,34 @@ class CatalogController extends Controller
     {
         $subcategories = Categories::find()
                 ->where(['parent_category_id' => $id])
-                //->asArray()
                 ->orderBy('name')
                 ->all();
 
         $fullPach = Categories::findAll(Categories::getFullPath($id));
 
+        $query = Products::find()
+                ->select('products.*, product_brands.brand_name')
+                ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
+                ->where(['category_id' => $id, 'status' => 1]);
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 3,
+            'totalCount' => $query->count(),
+        ]);
+
+        $products = $query
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->orderBy('title')
+            ->all();
+
         return $this->render('category', [
                     'subcategories' => $subcategories,
-                    'fullPach' => $fullPach
-                    ]);
+                    'fullPach' => $fullPach,
+                    'products' => $products,
+                    'pagination' => $pagination,
+                    ]
+                );
     }
 
 }
