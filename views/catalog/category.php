@@ -24,7 +24,7 @@ foreach ($fullPach as $pach) {
     <div>
         <b> <?= Html::encode("{$product->title}") ?> </b>
         <div>
-            <?= Html::encode("{$product->brand_id}") ?>
+            <?= Html::encode("{$product->brand->brand_name}") ?>
         </div>
         <div>
             <?= Html::encode("цена: {$product->price} (специальная цена: {$product->special_price})") ?>

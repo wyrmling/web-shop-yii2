@@ -30,8 +30,9 @@ class CatalogController extends Controller
         $fullPach = Categories::findAll(Categories::getFullPath($id));
 
         $query = Products::find()
-                ->select('products.*, product_brands.brand_name')
-                ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
+                //->select('products.*, product_brands.brand_name')
+                ->with('brand')
+                //->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
                 ->where(['category_id' => $id, 'status' => 1]);
 
         $pagination = new Pagination([
@@ -40,18 +41,18 @@ class CatalogController extends Controller
         ]);
 
         $products = $query
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->orderBy('title')
-            ->all();
+                ->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->orderBy('title')
+                ->all();
 
         return $this->render('category', [
                     'subcategories' => $subcategories,
                     'fullPach' => $fullPach,
                     'products' => $products,
                     'pagination' => $pagination,
-                    ]
-                );
+                        ]
+        );
     }
 
 }
