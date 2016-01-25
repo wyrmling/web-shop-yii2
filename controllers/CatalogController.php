@@ -31,7 +31,7 @@ class CatalogController extends Controller
 
         $query = Products::find()
                 //->select('products.*, product_brands.brand_name')
-                ->with('brand')
+                //->with('brand')
                 //->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
                 ->where(['category_id' => $id, 'status' => 1]);
 
