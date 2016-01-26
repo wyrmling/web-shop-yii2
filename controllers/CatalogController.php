@@ -30,6 +30,7 @@ class CatalogController extends Controller
         $fullPach = Categories::findAll(Categories::getFullPath($id));
 
         $query = Products::find()
+                ->joinWith('brand')
                 //->select('products.*, product_brands.brand_name')
                 //->with('brand')
                 //->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')

@@ -9,13 +9,15 @@ class m151210_213722_create_product_attributes_table extends Migration
     // Таблица "Атрибуты товаров"
     // ID атрибута - первичный ключ integer
     // Название атрибута - varchar 255 notNull
+    // // ID категории товара - integer notNull
     // Единица измерения - varchar 255
     public function up()
     {
         $this->createTable('{{product_attributes}}', [
             'attribute_id' => $this->primaryKey(),
             'attribute_name' => $this->string()->notNull(),
-            'unite' => $this->string(),
+            'category_id' => $this->integer()->notNull(),
+            'unit' => $this->string(),
         ]);
     }
 

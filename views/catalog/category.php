@@ -12,7 +12,7 @@ foreach ($fullPach as $pach) {
 <div>
     <?php foreach ($subcategories as $category): ?>
         <div class="category">
-            <br>подкатегория <?= $category->category_id ?> - <?= Html::a("$category->name", ['/catalog/category/', 'id' => $category->category_id]) ?>
+            подкатегория <?= $category->category_id ?> - <?= Html::a("$category->name", ['/catalog/category/', 'id' => $category->category_id]) ?>
             <br> количество товаров ( <?= $category->quantity_visible ?> ) ( <?= $category->quantity_invisible ?> )
         </div>
     <?php endforeach; ?>
