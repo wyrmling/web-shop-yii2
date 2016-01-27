@@ -45,6 +45,7 @@ AppAsset::register($this);
             ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
             ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles/index']],
             ['label' => 'Categories', 'url' => ['/admin/categories/index']],
+            ['label' => 'Attributes', 'url' => ['/admin/attributes/index']],
             ['label' => 'Brands', 'url' => ['/admin/brands/index']],
             ['label' => 'Products', 'url' => ['/admin/products/index']],
             ['label' => '<i class="fa fa-user"></i> Users', 'url' => ['/admin/users/index']],
