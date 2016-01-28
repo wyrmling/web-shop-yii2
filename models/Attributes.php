@@ -39,9 +39,9 @@ class Attributes extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'attribute_id' => 'Attribute ID',
-            'attribute_name' => 'Attribute Name',
-            'unit' => 'Unit',
+            'attribute_id' => 'ID',
+            'attribute_name' => 'Название атрибута',
+            'unit' => 'Единица измерения',
         ];
     }
 }

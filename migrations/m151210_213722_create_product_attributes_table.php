@@ -16,6 +16,22 @@ class m151210_213722_create_product_attributes_table extends Migration
             'attribute_name' => $this->string()->notNull(),
             'unit' => $this->string(),
         ]);
+        
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 1,
+            'attribute_name' => 'масса',
+            'unit' => 'кг',
+        ]);
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 2,
+            'attribute_name' => 'диагональ',
+            'unit' => 'см',
+        ]);
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 3,
+            'attribute_name' => 'объем памяти',
+            'unit' => 'Гб',
+        ]);
     }
 
     public function down()

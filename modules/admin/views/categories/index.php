@@ -18,7 +18,8 @@ function buildTree($start, $cats, $quant)
             $tree .= '<li>' . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
                     . Html::a('[переименовать]', ['categories/edit', 'id' => $cat_id])
                     . Html::a('[удалить]', ['categories/delete', 'id' => $cat_id])
-                    . Html::a('[добавить подкатегорию]', ['categories/add', 'id' => $cat_id]);
+                    . Html::a('[добавить подкатегорию]', ['categories/add', 'id' => $cat_id])
+                    . Html::a('[список атрибутов]', ['attributes/list', 'id' => $cat_id]);
             $tree .= buildTree($cat_id, $cats, $quant);
             $tree .= '</li>';
         }
