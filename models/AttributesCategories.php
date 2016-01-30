@@ -42,4 +42,9 @@ class AttributesCategories extends ActiveRecord
             'category_id' => 'Category ID',
         ];
     }
+
+    public function getAttributeinfo()
+    {
+        return $this->hasOne(Attributes::className(), ['attribute_id' => 'attribute_id']);
+    }
 }
