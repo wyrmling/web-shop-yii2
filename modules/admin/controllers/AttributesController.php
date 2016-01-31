@@ -8,9 +8,10 @@ use app\models\Attributes;
 use app\models\AttributesCategories;
 //use app\models\AttributesList;
 use app\models\Categories;
+use yii\helpers\ArrayHelper;
 
 class AttributesController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -54,18 +55,33 @@ class AttributesController extends Controller
 
     public function actionList($id)
     {
-        $category = Categories::findOne($id);
+        $attribute = (new AttributesCategories)->loadDefaultValues();
+
         $attributes = AttributesCategories::find()
                 ->joinWith('attributeinfo')
                 ->where(['category_id' => $id])
                 ->orderBy('product_attributes_categories.order')
                 ->all();
-        return $this->render('list', ['category' => $category, 'attributes' => $attributes,]);
+
+        if ($attribute->load(Yii::$app->request->post()) && $attribute->validate()) {
+            $res = $attribute->save();
+            $order = ArrayHelper::map($attributes, 'attribute_id', 'order');
+            if (count($order)) {
+                AttributesCategories::updateAll(['order' => max($order) + 1], ['category_id' => $id, 'order' => 0]);
+            }
+            return $this->redirect(['/admin/attributes/list', 'id' => $id,]);
+        } else {
+            $category = Categories::findOne($id);
+
+            return $this->render('list', ['category' => $category, 'attributes' => $attributes, 'model' => $attribute,]);
+        }
     }
 
     public function actionDel($id, $cat)
     {
-        return $this->render('del', ['id' => $id, 'cat' => $cat]);
+        if (AttributesCategories::deleteAll(['attribute_id' => $id, 'category_id' => $cat])) {
+            return $this->redirect(['/admin/attributes/list', 'id' => $cat,]);
+        }
     }
 
-    }
+}

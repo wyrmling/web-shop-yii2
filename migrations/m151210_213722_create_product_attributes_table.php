@@ -16,7 +16,7 @@ class m151210_213722_create_product_attributes_table extends Migration
             'attribute_name' => $this->string()->notNull(),
             'unit' => $this->string(),
         ]);
-        
+
         $this->insert('{{product_attributes}}', [
             'attribute_id' => 1,
             'attribute_name' => 'масса',
@@ -31,6 +31,21 @@ class m151210_213722_create_product_attributes_table extends Migration
             'attribute_id' => 3,
             'attribute_name' => 'объем памяти',
             'unit' => 'Гб',
+        ]);
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 4,
+            'attribute_name' => 'объем',
+            'unit' => 'л',
+        ]);
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 5,
+            'attribute_name' => 'цвет',
+            'unit' => '--',
+        ]);
+        $this->insert('{{product_attributes}}', [
+            'attribute_id' => 6,
+            'attribute_name' => 'материал корпуса',
+            'unit' => '--',
         ]);
     }
 

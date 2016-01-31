@@ -10,6 +10,7 @@ use Yii;
  *
  * @property integer $attribute_id
  * @property integer $category_id
+ * @property integer $order
  */
 class AttributesCategories extends ActiveRecord
 {
@@ -28,7 +29,7 @@ class AttributesCategories extends ActiveRecord
     {
         return [
             [['attribute_id', 'category_id'], 'required'],
-            [['attribute_id', 'category_id'], 'integer']
+            [['attribute_id', 'category_id', 'order'], 'integer']
         ];
     }
 
@@ -38,8 +39,9 @@ class AttributesCategories extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'attribute_id' => 'Attribute ID',
-            'category_id' => 'Category ID',
+            'attribute_id' => ' ',
+            'category_id' => ' ',
+            'order' => 'order',
         ];
     }
 
