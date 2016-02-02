@@ -9,7 +9,7 @@ use Yii;
  * This is the model class for table "product_attributes_list".
  *
  * @property integer $attribute_id
- * @property integer $poduct_id
+ * @property integer $product_id
  * @property string $value
  */
 class AttributesList extends ActiveRecord
@@ -28,8 +28,8 @@ class AttributesList extends ActiveRecord
     public function rules()
     {
         return [
-            [['attribute_id', 'poduct_id'], 'required'],
-            [['attribute_id', 'poduct_id'], 'integer'],
+            [['attribute_id', 'product_id'], 'required'],
+            [['attribute_id', 'product_id'], 'integer'],
             [['value'], 'string', 'max' => 255]
         ];
     }
@@ -41,7 +41,7 @@ class AttributesList extends ActiveRecord
     {
         return [
             'attribute_id' => 'Attribute ID',
-            'poduct_id' => 'Poduct ID',
+            'product_id' => 'Product ID',
             'value' => 'Value',
         ];
     }

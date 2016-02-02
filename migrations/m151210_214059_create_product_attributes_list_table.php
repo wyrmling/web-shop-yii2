@@ -13,8 +13,11 @@ class m151210_214059_create_product_attributes_list_table extends Migration
     {
         $this->createTable('{{product_attributes_list}}', [
             'attribute_id' => $this->integer()->notNull(),
-            'poduct_id' => $this->integer()->notNull(),
+            'product_id' => $this->integer()->notNull(),
             'value' => $this->string(),
+        ]);
+        $this->addPrimaryKey('at_prod_key', '{{product_attributes_list}}', [
+            'attribute_id', 'product_id',
         ]);
     }
 

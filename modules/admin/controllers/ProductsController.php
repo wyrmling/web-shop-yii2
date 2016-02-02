@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\Products;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
+use app\models\AttributesList;
 
 class ProductsController extends Controller
 {
@@ -100,5 +101,37 @@ class ProductsController extends Controller
             return $this->redirect('/admin/products');
         }
     }
+
+public function actionAttributes($id=1)
+{
+    $att = AttributesList::find()
+                ->where(['product_id' => $id])
+                ->asArray()
+                ->all();
+    
+    $atributs_list[1] = (new AttributesList)->loadDefaultValues();
+    $atributs_list[2] = (new AttributesList)->loadDefaultValues();
+    $atributs_list[3] = (new AttributesList)->loadDefaultValues();
+    
+    if (AttributesList::loadMultiple($atributs_list, Yii::$app->request->post()) && 
+        AttributesList::validateMultiple($atributs_list)) {
+        $counter = 0;
+        foreach ($atributs_list as $item) {
+            if ($item->save()) {
+                $counter++;
+            }
+        }
+        Yii::$app->session->setFlash('success', "Processed {$counter} records successfully.");
+        return $this->redirect(['index']);
+    } else {
+        return $this->render('attributes', [
+            'atributs_list' => $atributs_list, 
+            'product_id' => $id,
+            'att' => $att,
+        ]);
+    }
+}
+   
+
 
 }
