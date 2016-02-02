@@ -68,6 +68,8 @@ class AttributesController extends Controller
             $order = ArrayHelper::map($attributes, 'attribute_id', 'order');
             if (count($order)) {
                 AttributesCategories::updateAll(['order' => max($order) + 1], ['category_id' => $id, 'order' => 0]);
+            } else {
+                AttributesCategories::updateAll(['order' => 1], ['category_id' => $id, 'order' => 0]);
             }
             return $this->redirect(['/admin/attributes/list', 'id' => $id,]);
         } else {
