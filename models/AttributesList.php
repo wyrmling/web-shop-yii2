@@ -45,4 +45,5 @@ class AttributesList extends ActiveRecord
             'value' => 'Value',
         ];
     }
+    
 }

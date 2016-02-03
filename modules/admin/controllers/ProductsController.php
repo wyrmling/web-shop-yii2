@@ -8,6 +8,7 @@ use app\models\Products;
 use app\models\Categories;
 use yii\helpers\ArrayHelper;
 use app\models\AttributesList;
+use app\models\AttributesCategories;
 
 class ProductsController extends Controller
 {
@@ -48,8 +49,8 @@ class ProductsController extends Controller
             $results = $products->save();
             $productParams = ArrayHelper::toArray($products);
 
-            if ((int) $productParams['status'] != (int) $productOldParams['status']
-                    && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+            if ((int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                AttributesList::deleteAll(['product_id' => $id]);
                 if ($productParams['status'] == Products::VISIBLE) {
                     Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
                     Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
@@ -59,17 +60,12 @@ class ProductsController extends Controller
                     Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
                 }
             } else {
-                if ($productParams['status'] == Products::VISIBLE
-                        && (int) $productParams['status'] != (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                if ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
-                } elseif ($productParams['status'] == Products::HIDDEN
-                        && (int) $productParams['status'] != (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::HIDDEN && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
-                } elseif ($productParams['status'] == Products::VISIBLE
-                        && (int) $productParams['status'] = (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] = (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                    AttributesList::deleteAll(['product_id' => $id]);
                     Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
                     Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
                 } else {
@@ -85,6 +81,7 @@ class ProductsController extends Controller
 
     public function actionDelete($id)
     {
+        // где-то накосячил с удалением: разобраться!
         $productParams = Products::find()
                 ->where(['product_id' => $id])
                 ->asArray()
@@ -92,6 +89,8 @@ class ProductsController extends Controller
 
         if (Products::deleteAll(['product_id' => $id])) {
 
+            AttributesList::deleteAll(['product_id' => $id]);
+            
             if ($productParams['status'] == Products::VISIBLE) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 0);
             }
@@ -102,36 +101,53 @@ class ProductsController extends Controller
         }
     }
 
-public function actionAttributes($id=1)
-{
-    $att = AttributesList::find()
+    public function actionList($id)
+    {
+        $list_by_product_id = AttributesList::find()
                 ->where(['product_id' => $id])
                 ->asArray()
                 ->all();
-    
-    $atributs_list[1] = (new AttributesList)->loadDefaultValues();
-    $atributs_list[2] = (new AttributesList)->loadDefaultValues();
-    $atributs_list[3] = (new AttributesList)->loadDefaultValues();
-    
-    if (AttributesList::loadMultiple($atributs_list, Yii::$app->request->post()) && 
-        AttributesList::validateMultiple($atributs_list)) {
-        $counter = 0;
-        foreach ($atributs_list as $item) {
-            if ($item->save()) {
-                $counter++;
+
+        $product = Products::find()
+                ->where(['product_id' => $id])
+                ->one();
+
+        $att = AttributesCategories::find()
+                //->joinWith('attributename')
+                ->where(['category_id' => $product->category_id])
+                ->orderBy('product_attributes_categories.order')
+                ->all();
+        // сделать исключение, если для категории не выбраны атрибуты
+        if(!$att){
+            return $this->redirect(['attributes/list', 'id' => $product->category_id,]);
+        }
+
+        foreach ($att as $i) {
+            $atributs_list[$i->attribute_id] = (new AttributesList)->loadDefaultValues();
+            if ($list_by_product_id) {
+                $atributs_list[$i->attribute_id]->value = AttributesList::findOne(['attribute_id' => $i->attribute_id, 'product_id' => $id])->value;
             }
         }
-        Yii::$app->session->setFlash('success', "Processed {$counter} records successfully.");
-        return $this->redirect(['index']);
-    } else {
-        return $this->render('attributes', [
-            'atributs_list' => $atributs_list, 
-            'product_id' => $id,
-            'att' => $att,
-        ]);
-    }
-}
-   
 
+        if (AttributesList::loadMultiple($atributs_list, Yii::$app->request->post()) &&
+                AttributesList::validateMultiple($atributs_list)) {
+            $counter = 0;
+
+            AttributesList::deleteAll(['product_id' => $id]);
+
+            foreach ($atributs_list as $item) {
+                if ($item->save()) {
+                    $counter++;
+                }
+            }
+            Yii::$app->session->setFlash('success', "Processed {$counter} records successfully.");
+            return $this->redirect(['list', 'id' => $id,]);
+        } else {
+            return $this->render('list', [
+                        'atributs_list' => $atributs_list,
+                        'product' => $product,
+            ]);
+        }
+    }
 
 }

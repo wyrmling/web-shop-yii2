@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Редактирование данных о товаре (' . $model->product_id . ') ';
+$this->params['breadcrumbs'][] = 'Редактирование данных о товаре (' . $model->product_id . ') "'. $model->title . '"';
 ?>
 <div class="admin-edit">
 
@@ -28,6 +28,8 @@ $this->params['breadcrumbs'][] = 'Редактирование данных о �
     ?>
 
     <?php
+    echo Html::a('Список атрибутов товара', ['/admin/products/list', 'id' => $model->product_id], ['class' => 'btn btn-success']);
+    
     $form = ActiveForm::begin([
                 'id' => 'login-form-horizontal',
                 'type' => ActiveForm::TYPE_HORIZONTAL,
