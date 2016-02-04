@@ -14,9 +14,10 @@ $model['category_id'] = $category->category_id;
 $exept = ArrayHelper::map($attributes, 'attribute_id', 'attribute_id');
 ?>
 
-<div>
-Список атрибутов товара будет отображаться в том же порядке, в каком Вы его наберете: <br><br>
-</div>
+<?php if(!$attributes){
+    echo 'Для данной категории список атрибутов еще не составлен';
+}
+?>
 
 <div>
     <?php foreach ($attributes as $list): ?>
@@ -51,4 +52,8 @@ $exept = ArrayHelper::map($attributes, 'attribute_id', 'attribute_id');
     </div>
     <?php ActiveForm::end(); ?>
 
+</div>
+
+<div>
+Список атрибутов будет отображаться в том же порядке, в каком Вы его составите: <br><br>
 </div>

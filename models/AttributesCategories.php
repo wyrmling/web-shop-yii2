@@ -53,6 +53,6 @@ class AttributesCategories extends ActiveRecord
     public function getAttributename()
     {
         return $this->hasOne(Attributes::className(), ['attribute_id' => 'attribute_id']);
-    }
+    } 
     
 }

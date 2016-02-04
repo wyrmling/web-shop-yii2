@@ -49,7 +49,8 @@ class ProductsController extends Controller
             $results = $products->save();
             $productParams = ArrayHelper::toArray($products);
 
-            if ((int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+            if ((int) $productParams['status'] != (int) $productOldParams['status']
+                    && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
                 AttributesList::deleteAll(['product_id' => $id]);
                 if ($productParams['status'] == Products::VISIBLE) {
                     Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
@@ -60,11 +61,17 @@ class ProductsController extends Controller
                     Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
                 }
             } else {
-                if ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                if ($productParams['status'] == Products::VISIBLE
+                        && (int) $productParams['status'] != (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
-                } elseif ($productParams['status'] == Products::HIDDEN && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::HIDDEN
+                        && (int) $productParams['status'] != (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
-                } elseif ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] = (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::VISIBLE
+                        && (int) $productParams['status'] = (int) $productOldParams['status']
+                        && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
                     AttributesList::deleteAll(['product_id' => $id]);
                     Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
                     Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
@@ -81,7 +88,6 @@ class ProductsController extends Controller
 
     public function actionDelete($id)
     {
-        // где-то накосячил с удалением: разобраться!
         $productParams = Products::find()
                 ->where(['product_id' => $id])
                 ->asArray()
@@ -113,11 +119,10 @@ class ProductsController extends Controller
                 ->one();
 
         $att = AttributesCategories::find()
-                //->joinWith('attributename')
+                ->joinWith('attributename')
                 ->where(['category_id' => $product->category_id])
                 ->orderBy('product_attributes_categories.order')
                 ->all();
-        // сделать исключение, если для категории не выбраны атрибуты
         if(!$att){
             return $this->redirect(['attributes/list', 'id' => $product->category_id,]);
         }
@@ -125,7 +130,13 @@ class ProductsController extends Controller
         foreach ($att as $i) {
             $atributs_list[$i->attribute_id] = (new AttributesList)->loadDefaultValues();
             if ($list_by_product_id) {
-                $atributs_list[$i->attribute_id]->value = AttributesList::findOne(['attribute_id' => $i->attribute_id, 'product_id' => $id])->value;
+                if ($value = AttributesList::findOne([
+                    'attribute_id' => $i->attribute_id, 
+                    'product_id' => $id
+                    ])
+                ){
+                $atributs_list[$i->attribute_id]->value = $value->value;
+                }
             }
         }
 

@@ -137,14 +137,5 @@ class Products extends \yii\db\ActiveRecord
             return self::productStatusList()[$status][0];
         }
     }
-
-    public static function AttributesLystByCategoryId ($id=14){
-        return $attributes = AttributesCategories::find()
-                ->where(['category_id' => $id])
-                ->orderBy('product_attributes_categories.order')
-                ->asArray()
-                ->all();
-    }
-    
     
 }

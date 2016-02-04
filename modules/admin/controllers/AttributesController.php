@@ -81,6 +81,10 @@ class AttributesController extends Controller
 
     public function actionDel($id, $cat)
     {
+        // сделать удаление записей из таблицы AttributesList
+        // для удаленного атрибута (attribute_id) он же $id
+        // для всех товаров (product_id)
+        // пренадлежащих категориии $cat
         if (AttributesCategories::deleteAll(['attribute_id' => $id, 'category_id' => $cat])) {
             return $this->redirect(['/admin/attributes/list', 'id' => $cat,]);
         }
