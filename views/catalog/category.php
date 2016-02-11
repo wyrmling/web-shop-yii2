@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'url' => ['/catalog']];
 foreach ($fullPach as $pach) {
@@ -12,8 +13,8 @@ foreach ($fullPach as $pach) {
 <div>
     <?php foreach ($subcategories as $category): ?>
         <div class="category">
-            подкатегория <?= $category->category_id ?> - <?= Html::a("$category->name", ['/catalog/category/', 'id' => $category->category_id]) ?>
-            <br> количество товаров ( <?= $category->quantity_visible ?> ) ( <?= $category->quantity_invisible ?> )
+            подкатегория <?= $category['category_id'] ?> - <?= Html::a("{$category['name']}", ['/catalog/category/', 'id' => $category['category_id']]) ?>
+            <br> количество товаров ( <?= $category['quantity_visible'] ?> ) ( <?= $category['quantity_invisible'] ?> )
         </div>
     <?php endforeach; ?>
 </div>
@@ -24,16 +25,16 @@ foreach ($fullPach as $pach) {
 <?php foreach ($products as $product): ?>
     <div class="product">
         <div> Название товара:
-        <b> <?= Html::a("$product->title", ['/products/', 'id' => $product->product_id]) ?> </b>
+            <b> <?= Html::a("{$product['title']}", ['/products/', 'id' => $product['product_id']]) ?> </b>
         </div>
         <div> Бренд:
-            <?= Html::encode("{$product->brand->brand_name}") ?>
+            <?= Html::encode("{$product['brand_name']}") ?>
         </div>
         <div> Описание:
-            <?= Html::encode("{$product->description}") ?>
+            <?= Html::encode("{$product['description']}") ?>
         </div>
         <div>
-            <?= Html::encode("цена: {$product->price} (специальная цена: {$product->special_price})") ?>
+            <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
         </div>
     </div>
 <?php endforeach; ?>
@@ -41,3 +42,29 @@ foreach ($fullPach as $pach) {
 <div class="clear"></div>
 
 <?= LinkPager::widget(['pagination' => $pagination]) ?>
+
+<?php var_dump($_POST); ?>
+
+
+
+<?php
+$form = ActiveForm::begin([
+            'id' => 'active-form',
+            'options' => [
+                'class' => 'form-horizontal',
+                'enctype' => 'multipart/form-data',
+            //    'method' => 'get',
+            //    'action' => ['catalog/index']
+            ],
+        ]);
+?>
+
+<?= $form->field($filtermodel, 'brand1')->checkbox(['label' => ''])->label('бренд1') ?>
+
+<?= $form->field($filtermodel, 'brand2')->checkbox(['label' => ''])->label('бренд2') ?>
+
+<div class="form-group">
+<?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+</div>
+
+<?php ActiveForm::end(); ?>

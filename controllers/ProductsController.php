@@ -9,7 +9,7 @@ use app\models\AttributesCategories;
 use Yii;
 
 class ProductsController extends Controller
-    {
+{
 
     public function actionIndex($id)
     {
@@ -19,13 +19,9 @@ class ProductsController extends Controller
                                                 WHERE product_id=:product_id AND status=:status')
                 ->bindValue(':product_id', $_GET['id'])
                 ->bindValue(':status', 1)
-                ->queryAll();
+                ->queryOne();
 
-//$product = Products::find()
-        //        ->where(['product_id' => $id, 'status' => 1])
-        //        ->one();
-
-        $fullPach = Categories::findAll(Categories::getFullPath($product[0]['category_id']));
+        $fullPach = Categories::findAll(Categories::getFullPath($product['category_id']));
 
         $attributes = Yii::$app->db->createCommand('SELECT product_attributes_categories.attribute_id,
                                                            product_attributes.attribute_name,
@@ -39,22 +35,15 @@ class ProductsController extends Controller
                                                     WHERE category_id=:category_id AND product_id=:product_id
                                                     ORDER BY product_attributes_categories.order')
                 ->bindValue(':product_id', $_GET['id'])
-                ->bindValue(':category_id', $product[0]['category_id'])
+                ->bindValue(':category_id', $product['category_id'])
                 ->queryAll();
-
-        $att = AttributesCategories::find()
-                ->joinWith('attributename')
-                ->where(['category_id' => $product[0]['category_id']])
-                ->orderBy('product_attributes_categories.order')
-                ->all();
 
         return $this->render('index', [
                     'product' => $product,
                     'fullPach' => $fullPach,
-                    'att' => $att,
-            'attributes' => $attributes,
+                    'attributes' => $attributes,
                         ]
         );
     }
 
-    }
+}

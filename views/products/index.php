@@ -10,45 +10,28 @@ foreach ($fullPach as $pach) {
 ?>
 
 <div> Название товара:
-    <b> <?= Html::encode("{$product[0]['title']}") ?> </b>
+    <b> <?= Html::encode("{$product['title']}") ?> </b>
 </div>
 <div> Бренд:
-    <?= Html::encode("{$product[0]['brand_name']}") ?>
+    <?= Html::encode("{$product['brand_name']}") ?>
 </div>
 <div> SKU:
-    <?= Html::encode("{$product[0]['sku']}") ?>
+    <?= Html::encode("{$product['sku']}") ?>
 </div>
 <div> Артикул:
-    <?= Html::encode("{$product[0]['article']}") ?>
+    <?= Html::encode("{$product['article']}") ?>
 </div>
 <div> Описание:
-    <?= Html::encode("{$product[0]['description']}") ?>
+    <?= Html::encode("{$product['description']}") ?>
 </div>
 <div>
-    <?= Html::encode("цена: {$product[0]['price']} (специальная цена: {$product[0]['special_price']})") ?>
+    <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
 </div>
 
 <br>
 <div>
     Атрибуты товара:
 </div>
-
-<?php foreach ($att as $attribute => $item): ?>
-    <div>
-        <?= $item->attribute_id ?> - <?= $item->attributename->attribute_name ?> -
-
-        <?php
-        if ($value = AttributesList::findOne([
-                    'attribute_id' => $item->attribute_id,
-                    'product_id' => $product[0]['product_id'],
-                ])) {
-            echo $value->value;
-        }
-        ?>
-
-        (<?= $item->attributename->unit ?>)
-    </div>
-<?php endforeach; ?>
 
 <br><br>
 <?php foreach ($attributes as $attribute): ?>
