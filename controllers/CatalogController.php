@@ -36,20 +36,15 @@ class CatalogController extends Controller
 
         $fullPach = Categories::findAll(Categories::getFullPath($id));
 
-        $filterinfo = Yii::$app->db->createCommand('SELECT * FROM products
-                                                     LEFT JOIN product_brands
-                                                            ON product_brands.brand_id = products.brand_id
-                                                     WHERE category_id = :category_id AND status = :status
-                                                     ORDER BY title')
-                ->bindValue(':category_id', $_GET['id'])
-                ->bindValue(':status', 1)
-                ->queryAll();
-
         $query = (new \yii\db\Query())
                 ->select(['*'])
                 ->from('products')
                 ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
-                ->where(['category_id' => $_GET['id'], 'status' => 1]);
+                ->where([
+                    'category_id' => $_GET['id'],
+                    'status' => 1,
+                    //'products.brand_id' => 1,
+                    ]);
 
         $pagination = new Pagination([
             'defaultPageSize' => 3,
@@ -62,15 +57,24 @@ class CatalogController extends Controller
                 ->orderBy('title')
                 ->all();
 
+        $filterinfo = Yii::$app->db->createCommand('SELECT * FROM products
+                                                     LEFT JOIN product_brands
+                                                            ON product_brands.brand_id = products.brand_id
+                                                     WHERE category_id = :category_id AND status = :status
+                                                     ORDER BY title')
+                ->bindValue(':category_id', $_GET['id'])
+                ->bindValue(':status', 1)
+                ->queryAll();
+        
         //фильтр по брендам
         $brands = [];
         foreach ($filterinfo as $pi) {
-            $brands[$pi['brand_id']] = $pi['brand_name'];
+            $brands['brand'.$pi['brand_id']] = $pi['brand_name'];
         }
         asort($brands);
         
         // модель для динамической формы фильтра
-        $filtermodel = (new DynamicModel(['brand1', 'brand2']));
+        $filtermodel = (new DynamicModel($brands));
 
         return $this->render('category', [
                     'subcategories' => $subcategories,

@@ -43,10 +43,6 @@ foreach ($fullPach as $pach) {
 
 <?= LinkPager::widget(['pagination' => $pagination]) ?>
 
-<?php var_dump($_POST); ?>
-
-
-
 <?php
 $form = ActiveForm::begin([
             'id' => 'active-form',
@@ -59,12 +55,17 @@ $form = ActiveForm::begin([
         ]);
 ?>
 
-<?= $form->field($filtermodel, 'brand1')->checkbox(['label' => ''])->label('бренд1') ?>
+<?php foreach ($brands as $i => $item): ?>
 
-<?= $form->field($filtermodel, 'brand2')->checkbox(['label' => ''])->label('бренд2') ?>
+<?= $form->field($filtermodel, "$i")->checkbox(['label' => ''])->label("$item") ?>
+
+<?php endforeach; ?>
 
 <div class="form-group">
 <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
+
+
+<?php var_dump($_POST); ?>
