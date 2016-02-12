@@ -5,7 +5,7 @@ use yii\widgets\LinkPager;
 use yii\widgets\ActiveForm;
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'url' => ['/catalog']];
-foreach ($fullPach as $pach) {
+foreach ($fullPath as $pach) {
     $this->params['breadcrumbs'][] = ['label' => "$pach->name", 'url' => ["/catalog/category/$pach->category_id"]];
 }
 ?>
@@ -45,19 +45,22 @@ foreach ($fullPach as $pach) {
 
 <?php
 $form = ActiveForm::begin([
-            'id' => 'active-form',
-            'options' => [
-                'class' => 'form-horizontal',
-                'enctype' => 'multipart/form-data',
-            //    'method' => 'get',
-            //    'action' => ['catalog/index']
-            ],
-        ]);
+    'id' => 'active-form',
+//    'method' => 'get',
+//    'action' => ['catalog/index'],
+    'options' => [
+        'class' => 'form-horizontal',
+        'enctype' => 'multipart/form-data',
+    ],
+    'fieldConfig' => [
+        'template' => "{input}\n{label}\n{hint}\n{error}",
+    ]
+]);
 ?>
 
-<?php foreach ($brands as $i => $item): ?>
+<?php foreach ($brands as $attr => $item): ?>
 
-<?= $form->field($filtermodel, "$i")->checkbox(['label' => ''])->label("$item") ?>
+<?= $form->field($filtermodel, $attr)->checkbox(['label' => '', 'name' => "brands[$attr]"])->label($item) ?>
 
 <?php endforeach; ?>
 
