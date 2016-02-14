@@ -3,12 +3,14 @@
 namespace app\controllers;
 
 //use yii\web\Controller;
-use app\models\Categories;
 use app\components\Controller;
+use app\models\Categories;
 use app\models\Products;
+use app\models\Filters;
 use yii\data\Pagination;
 use Yii;
 use yii\base\DynamicModel;
+
 
 class CatalogController extends Controller
 {
@@ -38,14 +40,26 @@ class CatalogController extends Controller
 
         $fullPath = Categories::findAll(Categories::getFullPath($id));
 
+        $filterquery = Yii::$app->db->createCommand(
+            'SELECT * FROM products pr
+             LEFT JOIN product_brands pr_b ON pr_b.brand_id = pr.brand_id
+             WHERE pr.category_id = :category_id AND pr.status = :status
+             ORDER BY pr.title')
+            ->bindValue(':category_id', $_GET['id'])
+            ->bindValue(':status', Products::VISIBLE)
+            ->queryAll();
+
+        $brands = Filters::getBrandsForFilter($filterquery);
+        $filtermodel = (new DynamicModel($brands));
+
         $query = (new \yii\db\Query())
             ->select('*')
             ->from('products')
             ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
             ->where([
                 'category_id' => $_GET['id'],
-                'status' => 1,
-                //'products.brand_id' => 1,
+                'status' => Products::VISIBLE,
+                //'products.brand_id' => подставить данные из фильтра
             ]);
 
         $pagination = new Pagination([
@@ -58,25 +72,6 @@ class CatalogController extends Controller
             ->limit($pagination->limit)
             ->orderBy('title')
             ->all();
-
-        $filterinfo = Yii::$app->db->createCommand(
-            'SELECT * FROM products pr
-             LEFT JOIN product_brands pr_b ON pr_b.brand_id = pr.brand_id
-             WHERE pr.category_id = :category_id AND pr.status = :status
-             ORDER BY pr.title')
-            ->bindValue(':category_id', $_GET['id'])
-            ->bindValue(':status', Products::VISIBLE)
-            ->queryAll();
-
-        //фильтр по брендам
-        $brands = [];
-        foreach ($filterinfo as $pi) {
-            $brands['brand'.$pi['brand_id']] = $pi['brand_name'];
-        }
-        asort($brands);
-
-        // модель для динамической формы фильтра
-        $filtermodel = (new DynamicModel($brands));
 
         return $this->render('category', [
                 'subcategories' => $subcategories,
