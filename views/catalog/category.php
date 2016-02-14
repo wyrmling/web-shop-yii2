@@ -51,6 +51,7 @@ $form = ActiveForm::begin([
     'options' => [
         'class' => 'form-horizontal',
         'enctype' => 'multipart/form-data',
+        'name' => 'brandsfilter',
     ],
     'fieldConfig' => [
         'template' => "{input}\n{label}\n{hint}\n{error}",
@@ -60,7 +61,7 @@ $form = ActiveForm::begin([
 
 <?php foreach ($brands as $attr => $item): ?>
 
-<?= $form->field($filtermodel, $attr)->checkbox(['label' => '', 'name' => "brands[$attr]"])->label($item) ?>
+<?= $form->field($filtermodel, $attr)->checkbox(['label' => '', 'name' => $attr])->label($item) ?>
 
 <?php endforeach; ?>
 
@@ -70,5 +71,11 @@ $form = ActiveForm::begin([
 
 <?php ActiveForm::end(); ?>
 
-
+$brands<br>
+<?php var_dump($brands); ?>
+<br><br>
+$_POST<br>
 <?php var_dump($_POST); ?>
+<br><br>
+$filtermodel<br>
+<?php var_dump($filtermodel); ?>
