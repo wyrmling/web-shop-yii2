@@ -52,14 +52,8 @@ class CatalogController extends Controller
 
         $br = Filters::getBrandsForDynamicModel($filterquery);
 
-        $filtermodel = (new DynamicModel($br));
-        $filtermodel->addRule($br, 'integer');
-        //$filtermodel->addRule($br, 'safe');
-        //          ->validate();
-
-        if ($filtermodel->load(Yii::$app->request->post()) && $filtermodel->validate()) {
-            return $this->redirect('/catalog/index');
-        }
+        $filtermodel = (new DynamicModel(array_merge($br, \Yii::$app->request->post())));
+        $filtermodel->addRule($br, 'integer')->validate();
 
         $query = (new \yii\db\Query())
                 ->select('*')
@@ -89,6 +83,7 @@ class CatalogController extends Controller
                     'pagination' => $pagination,
                     'brands' => $brands,
                     'filtermodel' => $filtermodel,
+            'br' => $br,
                         ]
         );
     }

@@ -74,6 +74,9 @@ $form = ActiveForm::begin([
 $brands<br>
 <?php var_dump($brands); ?>
 <br><br>
+$br<br>
+<?php var_dump($br); ?>
+<br><br>
 $_POST<br>
 <?php var_dump($_POST); ?>
 <br><br>
