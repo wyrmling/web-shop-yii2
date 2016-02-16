@@ -12,7 +12,7 @@ use Yii;
 use yii\base\DynamicModel;
 
 class CatalogController extends Controller
-{
+    {
 
     public function actionIndex()
     {
@@ -56,25 +56,25 @@ class CatalogController extends Controller
         $filtermodel = (new DynamicModel(array_merge($br, $post)));
         $filtermodel->addRule($br, 'integer')->validate();
 
-        $brands_for_filter = Filters::getBrandsForFilterQuery($post);
-        
+        $brands_from_filter = Filters::getBrandsForFilterQuery($post);
+
         // извлечение списка товаров
         $query = (new \yii\db\Query())
                 ->select('*')
                 ->from('products')
                 ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id');
-        
+
         // для данной категории
         $query->where([
             'category_id' => $_GET['id'],
             'status' => Products::VISIBLE,
         ]);
 
-        // если отправлен запрос из фильтра, добавляется еще одно условие:
+        // если отправлен post из фильтра, в запрос добавляется еще одно условие:
         // извлечь товары согласно списку брендов из фильтра
         if ($post) {
             $query->andWhere([
-                'products.brand_id' => $brands_for_filter,
+                'products.brand_id' => $brands_from_filter,
             ]);
         }
 
@@ -100,4 +100,4 @@ class CatalogController extends Controller
         );
     }
 
-}
+    }
