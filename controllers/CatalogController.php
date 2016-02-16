@@ -12,7 +12,7 @@ use Yii;
 use yii\base\DynamicModel;
 
 class CatalogController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -52,18 +52,31 @@ class CatalogController extends Controller
 
         $br = Filters::getBrandsForDynamicModel($filterquery);
 
-        $filtermodel = (new DynamicModel(array_merge($br, \Yii::$app->request->post())));
+        $post = \Yii::$app->request->post();
+        $filtermodel = (new DynamicModel(array_merge($br, $post)));
         $filtermodel->addRule($br, 'integer')->validate();
 
+        $brands_for_filter = Filters::getBrandsForFilterQuery($post);
+        
+        // извлечение списка товаров
         $query = (new \yii\db\Query())
                 ->select('*')
                 ->from('products')
-                ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
-                ->where([
+                ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id');
+        
+        // для данной категории
+        $query->where([
             'category_id' => $_GET['id'],
             'status' => Products::VISIBLE,
-                //'products.brand_id' => подставить данные из фильтра
         ]);
+
+        // если отправлен запрос из фильтра, добавляется еще одно условие:
+        // извлечь товары согласно списку брендов из фильтра
+        if ($post) {
+            $query->andWhere([
+                'products.brand_id' => $brands_for_filter,
+            ]);
+        }
 
         $pagination = new Pagination([
             'defaultPageSize' => 3,
@@ -83,9 +96,8 @@ class CatalogController extends Controller
                     'pagination' => $pagination,
                     'brands' => $brands,
                     'filtermodel' => $filtermodel,
-            'br' => $br,
                         ]
         );
     }
 
-    }
+}

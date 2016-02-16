@@ -37,4 +37,21 @@ class Filters extends Model
         return $brands;
     }
 
+    /**
+     * @return array the attributes ID for FilterQuery.
+     */
+    public static function getBrandsForFilterQuery($filterinfo)
+    {
+        foreach ($filterinfo as $key => $value) {
+            if ($value == 1) {
+                $brands[] = substr($key, 5);
+            }
+        }
+        if (isset($brands)) {
+            return $brands;
+        } else {
+            return;
+        }
+    }
+
 }

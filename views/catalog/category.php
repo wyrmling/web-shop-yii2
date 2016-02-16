@@ -70,15 +70,3 @@ $form = ActiveForm::begin([
 </div>
 
 <?php ActiveForm::end(); ?>
-
-$brands<br>
-<?php var_dump($brands); ?>
-<br><br>
-$br<br>
-<?php var_dump($br); ?>
-<br><br>
-$_POST<br>
-<?php var_dump($_POST); ?>
-<br><br>
-$filtermodel<br>
-<?php var_dump($filtermodel); ?>
