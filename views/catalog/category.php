@@ -30,12 +30,13 @@ foreach ($fullPath as $pach) {
 
     <?php foreach ($brands as $attr => $item): ?>
 
-        <?= $form->field($filtermodel, $attr)->checkbox(['label' => '', 'name' => $attr])->label($item) ?>
+        <?= $form->field($filtermodel, $attr)->checkbox(['label' => $item, 'name' => $attr]) ?>
 
     <?php endforeach; ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
+        <?= Html::submitInput('Фильтровать', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

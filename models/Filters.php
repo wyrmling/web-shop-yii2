@@ -47,11 +47,7 @@ class Filters extends Model
                 $brands[] = substr($key, 5);
             }
         }
-        if (isset($brands)) {
-            return $brands;
-        } else {
-            return;
-        }
+        return (isset($brands)) ? $brands : null;
     }
 
 }
