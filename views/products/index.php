@@ -27,6 +27,10 @@ foreach ($fullPach as $pach) {
 <div>
     <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
 </div>
+<br>
+<div>
+    <?= Html::a('[добавить в корзину]', ['/cart', 'id' => $product['product_id']]) ?>
+</div>
 
 <br>
 <div>

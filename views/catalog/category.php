@@ -9,37 +9,38 @@ foreach ($fullPath as $pach) {
     $this->params['breadcrumbs'][] = ['label' => "$pach->name", 'url' => ["/catalog/category/$pach->category_id"]];
 }
 ?>
-
+Фильтр товаров по брендам:<br>
 <div class="filter">
-    Фильтр товаров по брендам:
-    <?php
-    $form = ActiveForm::begin([
-                'id' => 'active-form',
-                //    'method' => 'get',
-                //    'action' => ['catalog/index'],
-                'options' => [
-                    'class' => 'form-horizontal',
-                    'enctype' => 'multipart/form-data',
-                    'name' => 'brandsfilter',
-                ],
-                'fieldConfig' => [
-                    'template' => "{input}\n{label}\n{hint}\n{error}",
-                ]
-    ]);
-    ?>
+    <div>
+        <?php
+        $form = ActiveForm::begin([
+                    'id' => 'active-form',
+                    //    'method' => 'get',
+                    //    'action' => ['catalog/index'],
+                    'options' => [
+                        'class' => 'form-horizontal',
+                        'enctype' => 'multipart/form-data',
+                        'name' => 'brandsfilter',
+                    ],
+                    'fieldConfig' => [
+                        'template' => "{input}\n{label}\n{hint}\n{error}",
+                    ]
+        ]);
+        ?>
 
-    <?php foreach ($brands as $attr => $item): ?>
+        <?php foreach ($brands as $attr => $item): ?>
 
-        <?= $form->field($filtermodel, $attr)->checkbox(['label' => $item, 'name' => $attr]) ?>
+            <?= $form->field($filtermodel, $attr)->checkbox(['label' => $item, 'name' => $attr]) ?>
 
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
-        <?= Html::submitInput('Фильтровать', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
+        <div class="form-group">
+            <?php // Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
+            <?= Html::submitInput('Фильтровать', ['class' => 'btn btn-primary', 'name' => 'filter_submit']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
 </div>
 
 <div class="content">
@@ -69,6 +70,7 @@ foreach ($fullPath as $pach) {
             </div>
             <div>
                 <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
+                <?= Html::a('[добавить в корзину]', ['/cart', 'id' => $product['product_id']]) ?>
             </div>
         </div>
     <?php endforeach; ?>
@@ -77,3 +79,7 @@ foreach ($fullPath as $pach) {
 
     <?= LinkPager::widget(['pagination' => $pagination]) ?>
 </div>
+
+В корзину добавлено <?= count(Yii::$app->session->get('productsarray')) ?> товаров
+<?php
+var_dump(Yii::$app->session->get('productsarray'));
