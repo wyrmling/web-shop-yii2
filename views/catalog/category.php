@@ -70,7 +70,7 @@ foreach ($fullPath as $pach) {
             </div>
             <div>
                 <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
-                <?= Html::a('[добавить в корзину]', ['/cart', 'id' => $product['product_id']]) ?>
+                <?= Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
             </div>
         </div>
     <?php endforeach; ?>
@@ -79,7 +79,3 @@ foreach ($fullPath as $pach) {
 
     <?= LinkPager::widget(['pagination' => $pagination]) ?>
 </div>
-
-В корзину добавлено <?= count(Yii::$app->session->get('productsarray')) ?> товаров
-<?php
-var_dump(Yii::$app->session->get('productsarray'));

@@ -48,6 +48,8 @@ AppAsset::register($this);
         ]];
     }
 
+    $products_in_cart = count(Yii::$app->session->get('productsarray'));
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -56,6 +58,7 @@ AppAsset::register($this);
             ['label' => 'Каталог товаров', 'url' => ['/catalog/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
+            ['label' => "Корзина ($products_in_cart)", 'url' => ['/cart/index']],
             $auth_block
         ],
     ]);

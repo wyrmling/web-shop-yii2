@@ -29,7 +29,7 @@ foreach ($fullPach as $pach) {
 </div>
 <br>
 <div>
-    <?= Html::a('[добавить в корзину]', ['/cart', 'id' => $product['product_id']]) ?>
+    <?= Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
 </div>
 
 <br>

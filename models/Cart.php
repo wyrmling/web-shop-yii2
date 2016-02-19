@@ -21,4 +21,12 @@ class Cart extends Model
         $session->set('productsarray', $products);
     }
 
+    public static function DeleteProduct($product_id)
+    {
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+        unset($_SESSION['productsarray'][$product_id]);
+    }
+
 }
