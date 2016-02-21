@@ -7,7 +7,7 @@ use Yii;
 
 /*
  * This is the model class for user cart
- * @propertys 
+ * @propertys
  */
 
 class Cart extends Model
@@ -29,4 +29,11 @@ class Cart extends Model
         unset($_SESSION['productsarray'][$product_id]);
     }
 
+     public static function DeleteAllProducts()
+    {
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+        unset($_SESSION['productsarray']);
+    }
 }

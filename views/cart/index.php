@@ -1,19 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use app\models\Orders;
 
-$summ = 0;
+$sum = 0;
 ?>
 
 <h2>Корзина</h2>
 
-<?php if (!count(Yii::$app->session->get('productsarray'))): ?>
-
-    <div>
-        Нет выбранных товаров
-    </div>
-
-<?php else: ?>
+<?php if (count(Yii::$app->session->get('productsarray'))): ?>
 
     <?php foreach (Yii::$app->session->get('productsarray') as $key => $value): ?>
 
@@ -22,25 +18,55 @@ $summ = 0;
             <?= Html::encode($products[$value]['brand_name']) ?>
             <?= Html::encode($products[$value]['price']) ?>
             ( <?= Html::encode($products[$value]['special_price']) ?> )
-            <?= Html::a('[удалить из корзины]', ['/cart/delete', 'id' => $key]) ?>
+        <?= Html::a('[удалить из корзины]', ['/cart/delete', 'id' => $key]) ?>
         </div>
 
         <?php
         if (isset($products[$value]['special_price'])) {
-            $summ += $products[$value]['special_price'];
+            $sum += $products[$value]['special_price'];
         } else {
-            $summ += $products[$value]['price'];
+            $sum += $products[$value]['price'];
         }
         ?>
 
     <?php endforeach; ?>
+
+    <br><br>
+    <div>
+        Общая сумма заказа: <?= $sum ?>
+    </div>
+
 <?php endif; ?>
 
-<br><br>
-<div>
-    Общая сумма заказа: <?= $summ ?>
-</div>
-<br><br>
-<div>
-    <?= Html::a('Сделать заказ', ['/cart/order',], ['class' => 'btn btn-success']); ?>
-</div>
+<?php if ($res): ?>
+
+    <div>
+        Ваш заказ принят <br>
+        Наш оператор свяжется с Вами по указанному телефону
+    </div>
+
+<?php elseif (count(Yii::$app->session->get('productsarray'))): ?>
+
+    <div>
+        <?php
+        $form = ActiveForm::begin();
+        ?>
+
+        <?= $form->field($order, 'user_phone_number')->textInput()->hint('Чтобы сделать заказ, введите номер телефона (10 цифр), по которому с Вами можно связаться')->label(false) ?>
+        <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
+    <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
+
+        <div class="form-group">
+    <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
+        </div>
+
+    <?php ActiveForm::end(); ?>
+    </div>
+
+    <?php else: ?>
+
+    <div>
+        Нет выбранных товаров
+    </div>
+
+<?php endif; ?>

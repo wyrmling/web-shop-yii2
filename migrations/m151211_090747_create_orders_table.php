@@ -16,8 +16,9 @@ class m151211_090747_create_orders_table extends Migration
     {
         $this->createTable('{{orders}}', [
             'order_id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
-            'status' => $this->integer()->notNull(),
+            'user_id' => $this->integer(),
+            'user_phone_number' => $this->integer(),
+            'status' => $this->integer()->notNull()->defaultValue(\app\models\Orders::UNANSWERED),
             'total_sum' => $this->float(12, 2)->notNull(),
             'time_ordered' => $this->timestamp(),
         ]);
