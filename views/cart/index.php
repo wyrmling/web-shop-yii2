@@ -52,7 +52,10 @@ $sum = 0;
         $form = ActiveForm::begin();
         ?>
 
-        <?= $form->field($order, 'user_phone_number')->textInput()->hint('Чтобы сделать заказ, введите номер телефона (10 цифр), по которому с Вами можно связаться')->label(false) ?>
+        <?= $form->field($order, 'user_phone_number')->hint('Чтобы сделать заказ, введите номер телефона, по которому с Вами можно связаться')->label(false)->widget(\yii\widgets\MaskedInput::className(), [
+    'mask' => '(999) 999-99-99',
+]) ?>
+        
         <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
     <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
 
@@ -70,3 +73,12 @@ $sum = 0;
     </div>
 
 <?php endif; ?>
+
+    var_dump(Yii::$app->session->get('productsarray')): 
+    <?php var_dump(Yii::$app->session->get('productsarray')); ?>
+    
+    var_dump(array_count_values(Yii::$app->session->get('productsarray')))
+    <?php var_dump(array_count_values(Yii::$app->session->get('productsarray'))); ?>
+    
+     var_dump($products): 
+    <?php var_dump($products); ?>

@@ -27,6 +27,7 @@ class CartController extends Controller
         if ($order->load(Yii::$app->request->post()) && $order->validate()) {
             $res = $order->save();
             Cart::DeleteAllProducts();
+            // Cart::LoadOrderDetailsTable($products);
             // SELECT * FROM orders WHERE id=LAST_INSERT_ID();
             // Yii::$app->db->getLastInsertID();
             // посчитать количества повторяющихся товаров array_count_values()
@@ -52,28 +53,6 @@ class CartController extends Controller
     {
         Cart::DeleteProduct((int) $id);
         return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionOrder($total_summ)
-    {
-        /* $order = new Orders();
-          $order_details = new OrderDetails();
-          if ($order->load(Yii::$app->request->post())
-          && $order_details->load(Yii::$app->request->post())
-          && Model::validateMultiple([$order, $order_details])) {
-          $order->save;
-          $order_details->save;
-          return $this->render('order', [
-          'message' => 'Ваш заказ принят',
-          ]);
-          } else {
-          return $this->render('order', [
-          'order' => $order,
-          'order_details' => $order_details,
-          'message' => 'Пожалуйста заполните форму еще раз',
-          'total_summ' => $total_summ,
-          ]);
-          } */
     }
 
     }

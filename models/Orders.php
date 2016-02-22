@@ -39,7 +39,8 @@ class Orders extends \yii\db\ActiveRecord
             [['status', 'total_sum'], 'required'],
             [['total_sum'], 'number'],
             [['time_ordered'], 'safe'],
-            [['user_phone_number'], 'integer'],
+            [['user_phone_number'], 'string',  'length' => [12,15]],
+            ['user_phone_number', 'match', 'pattern' => '[\([0-9]{3}\)\s[0-9]{3}-[0-9]{2}-[0-9]{2}]']
         ];
     }
 
