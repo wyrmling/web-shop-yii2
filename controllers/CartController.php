@@ -4,13 +4,12 @@ namespace app\controllers;
 
 use app\models\Cart;
 use app\models\Orders;
-use app\models\OrderDetails;
 use app\components\Controller;
 use Yii;
 use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -24,14 +23,12 @@ class CartController extends Controller
         $products = ArrayHelper::index($products, 'product_id');
 
         $order = new Orders();
-        if ($order->load(Yii::$app->request->post()) && $order->validate()) {
+        if ($order->load(Yii::$app->request->post())
+                && $order->validate()
+                && Yii::$app->session->get('productsarray')) {
             $res = $order->save();
+            Cart::LoadOrderDetailsTable($products);
             Cart::DeleteAllProducts();
-            // Cart::LoadOrderDetailsTable($products);
-            // SELECT * FROM orders WHERE id=LAST_INSERT_ID();
-            // Yii::$app->db->getLastInsertID();
-            // посчитать количества повторяющихся товаров array_count_values()
-            // заполнить данными таблицу OrderDetails
         } else {
             $res = false;
         }
@@ -55,4 +52,4 @@ class CartController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    }
+}

@@ -15,6 +15,9 @@ use Yii;
  */
 class OrderDetails extends \yii\db\ActiveRecord
 {
+    
+    const DEFAULT_STATUS = 0;
+    
     /**
      * @inheritdoc
      */

@@ -73,12 +73,3 @@ $sum = 0;
     </div>
 
 <?php endif; ?>
-
-    var_dump(Yii::$app->session->get('productsarray')): 
-    <?php var_dump(Yii::$app->session->get('productsarray')); ?>
-    
-    var_dump(array_count_values(Yii::$app->session->get('productsarray')))
-    <?php var_dump(array_count_values(Yii::$app->session->get('productsarray'))); ?>
-    
-     var_dump($products): 
-    <?php var_dump($products); ?>

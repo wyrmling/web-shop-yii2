@@ -40,21 +40,25 @@ class Cart extends Model
     public static function LoadOrderDetailsTable($products_from_cart)
     {
         $order_id = Yii::$app->db->getLastInsertID();
-        $products_counter = array_count_values(Yii::$app->session->get('productsarray'));
-        
-        foreach (Yii::$app->session->get('productsarray') as $key => $value){
-            $order_details = new OrderDetails();
-            $order_details->order_id=$id;
-            $order_details->product_id;
-        }  
-        
-        $order_details->quantity;
-        $order_details->status;
-        $order_details->price;
-        // SELECT * FROM orders WHERE id=LAST_INSERT_ID();
-            // Yii::$app->db->getLastInsertID();
-            // посчитать количества повторяющихся товаров array_count_values()
-            // заполнить данными таблицу OrderDetails
+        $products_counter = Yii::$app->session->get('productsarray');
+        if (isset($products_counter)) {
+            $products_counter = array_count_values($products_counter);
+            foreach ($products_counter as $key => $value) {
+                $order_details = new OrderDetails();
+                $order_details->order_id = $order_id;
+                $order_details->product_id = $key;
+                $order_details->quantity = $value;
+                $order_details->status = \app\models\OrderDetails::DEFAULT_STATUS;
+                if (empty($products_from_cart[$key]['special_price'])) {
+                    $order_details->price = $products_from_cart[$key]['price'] * $value;
+                } else {
+                    $order_details->price = $products_from_cart[$key]['special_price'] * $value;
+                }
+                if ($order_details->validate()) {
+                    $order_details->save();
+                }
+            }
+        }
     }
 
 }

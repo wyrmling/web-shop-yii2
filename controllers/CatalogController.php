@@ -70,7 +70,7 @@ class CatalogController extends Controller
 
         // если отправлен post из фильтра, в запрос добавляется еще одно условие:
         // извлечь товары согласно списку брендов из фильтра
-        if ($post) {
+        if ($post && isset ($brands_from_filter)) {
             $query->andWhere([
                 'products.brand_id' => $brands_from_filter,
             ]);
@@ -94,6 +94,7 @@ class CatalogController extends Controller
                     'pagination' => $pagination,
                     'brands' => $brands,
                     'filtermodel' => $filtermodel,
+            'brands_from_filter' => $brands_from_filter,
                         ]
         );
     }
