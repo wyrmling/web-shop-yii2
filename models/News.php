@@ -62,8 +62,8 @@ class News extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'time_updated',
                 ],
 //                'value' => new \yii\db\Expression('NOW()')
-                'value' => function() {
-                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
+                'value' => function () {
+                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
                 }
             ]
         ];

@@ -109,9 +109,9 @@ class Products extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => 'time_created',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'time_updated',
                 ],
-                'value' => function() {
-            return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
-        }
+                'value' => function () {
+                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+                }
             ]
         ];
     }

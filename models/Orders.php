@@ -67,9 +67,9 @@ class Orders extends \yii\db\ActiveRecord
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'time_ordered',
                 ],
-                'value' => function() {
-            return \Yii::$app->formatter->asDate('now', 'php:Y-m-d h:i:s');
-        }
+                'value' => function () {
+                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+                }
             ]
         ];
     }
