@@ -23,6 +23,10 @@ class CartController extends Controller
         $products = ArrayHelper::index($products, 'product_id');
 
         $order = new Orders();
+        $user=\Yii::$app->user->identity;
+        if(isset($user)){
+            $order->user_id=$user->getId();
+        }
         if ($order->load(Yii::$app->request->post())
                 && $order->validate()
                 && Yii::$app->session->get('productsarray')) {

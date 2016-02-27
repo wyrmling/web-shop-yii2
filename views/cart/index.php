@@ -53,9 +53,9 @@ $sum = 0;
         ?>
 
         <?= $form->field($order, 'user_phone_number')->hint('Чтобы сделать заказ, введите номер телефона, по которому с Вами можно связаться')->label(false)->widget(\yii\widgets\MaskedInput::className(), [
-    'mask' => '(999) 999-99-99',
+    'mask' => '+38 (999) 999-99-99',
 ]) ?>
-        
+
         <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
     <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
 
