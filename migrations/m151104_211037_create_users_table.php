@@ -31,6 +31,11 @@ class m151104_211037_create_users_table extends Migration
             'username' => 'admin',
             'password' => 'admin',
         ]);
+        
+         $this->insert('{{users}}', [
+            'username' => 'shill',
+            'password' => 'shill',
+        ]);
     }
 
 

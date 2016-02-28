@@ -42,7 +42,8 @@ AppAsset::register($this);
         'encodeLabels' => false,
         'items' => [
 //            ['label' => '<span class="glyphicon glyphicon-home"></span> Home', 'url' => [Yii::$app->homeUrl]],
-            ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
+            ['label' => '<i class="fa fa-newspaper-o"></i> Orders', 'url' => ['/admin/orders/index']],
+    ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
             ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles/index']],
             ['label' => 'Categories', 'url' => ['/admin/categories/index']],
             ['label' => 'Attributes', 'url' => ['/admin/attributes/index']],

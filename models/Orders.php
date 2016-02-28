@@ -50,13 +50,19 @@ class Orders extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'order_id' => 'Order ID',
-            'user_id' => 'User ID',
+            'order_id' => 'ID заказа',
+            'user_id' => 'ID  заказчика',
+            'user.username' => 'Заказчик',
             'user_phone_number' => 'Номер телефона',
-            'status' => 'Status',
-            'total_sum' => 'Total Sum',
-            'time_ordered' => 'Time Ordered',
+            'status' => 'Статус заказа',
+            'total_sum' => 'Сумма заказа',
+            'time_ordered' => 'Время заказа',
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
     }
 
     public function behaviors()
@@ -77,8 +83,8 @@ class Orders extends \yii\db\ActiveRecord
     public static function orderStatusList()
     {
         return [
-            self::UNANSWERED => ['Необработанный', 'unanswered'],
-            self::ANSWERED => ['Обработанный', 'answered'],
+            self::UNANSWERED => ['Необработанный', 'hidden'],
+            self::ANSWERED => ['Обработанный', 'visible'],
         ];
     }
 
