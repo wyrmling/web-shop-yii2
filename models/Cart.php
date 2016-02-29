@@ -50,9 +50,9 @@ class Cart extends Model
                 $order_details->quantity = $value;
                 $order_details->status = \app\models\OrderDetails::DEFAULT_STATUS;
                 if (empty($products_from_cart[$key]['special_price'])) {
-                    $order_details->price = $products_from_cart[$key]['price'] * $value;
+                    $order_details->price = $products_from_cart[$key]['price'];
                 } else {
-                    $order_details->price = $products_from_cart[$key]['special_price'] * $value;
+                    $order_details->price = $products_from_cart[$key]['special_price'];
                 }
                 if ($order_details->validate()) {
                     $order_details->save();

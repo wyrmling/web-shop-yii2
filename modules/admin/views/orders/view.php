@@ -8,22 +8,23 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 
 <div><?= 'Заказчик: ' . $order->user_id ?></div>
 <div><?= 'Контактный номер: ' . $order->user_phone_number ?></div>
-<div><?= 'Сумма заказа: ' . $order->total_sum ?></div>
 <div><?= 'Дата заказа: ' . $order->time_ordered ?></div>
 
 <div><b>Детали заказа:</b><div>
 
 <?php foreach ($order_details as $details): ?>
-<div class="product">
+<div class="orderdetails">
 <div><?= 'Товар: ' . $details->product_id ?></div>
 <div><?= 'Количество: ' . $details->quantity ?></div>
-<div><?= 'Цена: ' . $details->price?></div>
+<div><?= 'Цена: ' . $details->price ?></div>
 </div>
 <?php endforeach; ?>
-        
+
 <div class="clear"></div>
 
-        <?php var_dump($order); ?>
+<div><?= 'Сумма заказа: <b>' . $order->total_sum . '</b>'?></div>
+
+        <?php //var_dump($order); ?>
         <br><br>
-        <?php var_dump($order_details); ?>
+        <?php //var_dump($order_details); ?>
 
