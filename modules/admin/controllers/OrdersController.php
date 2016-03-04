@@ -44,21 +44,22 @@ class OrdersController extends \yii\web\Controller
     public function actionMinus($id, $product_id)
     {
         $order = Orders::find()
-                ->where(['order_id' => $id])
-                ->one();
+            ->where(['order_id' => $id])
+            ->one();
 
         $order_details = OrderDetails::find()
-                ->where(['order_id' => $id, 'product_id' => $product_id,])
-                ->one();
+            ->where(['order_id' => $id, 'product_id' => $product_id,])
+            ->one();
 
         if ($order_details->quantity > 1) {
-            Yii::$app->db->createCommand()
+            Yii::$app->db->transaction(function($db) use ($order, $order_details, $id, $product_id) {
+                $db->createCommand()
                     ->update('order_details', ['quantity' => $order_details->quantity - 1], "order_id = $id AND product_id = $product_id")
                     ->execute();
-
-            Yii::$app->db->createCommand()
+                $db->createCommand()
                     ->update('orders', ['total_sum' => $order->total_sum - $order_details->price], "order_id = $id")
                     ->execute();
+            });
         }
 
         return $this->redirect('/admin/orders/edit/' . $id);
