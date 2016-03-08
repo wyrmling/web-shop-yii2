@@ -61,6 +61,10 @@ $this->params['breadcrumbs'][] = 'Редактирование новости ('
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6],'preset' => 'basic']) ?>
     <?= $form->field($model->user, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->user, 'username')->staticInput(); ?>
+    <?= $form->field($model, 'time_created')->staticInput(); ?>
+    <?= $form->field($model, 'created_by')->staticInput(); ?>
+    <?= $form->field($model, 'time_updated')->staticInput(); ?>
+    <?= $form->field($model, 'updated_by')->staticInput(); ?>
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
@@ -71,4 +75,3 @@ $this->params['breadcrumbs'][] = 'Редактирование новости ('
     <?php ActiveForm::end(); ?>
 
 </div>
-

@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = 'Создание новости';
         'model' => $model,
         'form' => $form,
         'attributes' => [
+//            'fld1'=>['label'=>'Name','type'=>Form::INPUT_TEXT, 'value'=>'Kartik'],
             'title' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Заголовок'], 'hint' => 'Обязательно заполните это поле'],
             'description' => ['type' => Form::INPUT_TEXT],
             'content' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => 'dosamigos\ckeditor\CKEditor', 'options' => ['options' => ['rows' => 6],'preset' => 'basic']],
@@ -36,7 +37,7 @@ $this->params['breadcrumbs'][] = 'Создание новости';
     ]);
     ?>
     <div class="form-group">
-        <?= !$model->isNewRecord ? : Html::submitButton('Create', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Create', ['class' => 'btn btn-success']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

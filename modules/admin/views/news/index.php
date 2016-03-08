@@ -4,31 +4,22 @@ use yii\data\ActiveDataProvider;
 use app\models\News;
 use kartik\grid\GridView;
 use yii\bootstrap\Html;
-?>
-
-<?php
 
 $this->registerJs("
 
-    $(document).ready(function(){
-    $('#MyButton').click(function(){
-        debugger;
-        var selIds = $('#w0').yiiGridView('getSelectedRows');
+    function multi_delete() {
+        var selIds = $('#grid').yiiGridView('getSelectedRows');
         $.ajax({
             type: 'POST',
-            url : 'multiple-delete/',
-            data : {ids: selIds},
-            success : function(data) {
+            url: 'multiple-delete/',
+            data: {ids: selIds},
+            success: function(data) {
                 if (JSON.parse(data) === 'ok') {
-                    selIds.forEach(function(item) {
-                        $('tr[data-key=\"' + item + '\"]').remove();
-                    });
+                    $.pjax.reload({container: '#grid-pjax'});
                 }
             }
         });
-
-    });
-    });", \yii\web\View::POS_READY);
+    }", \yii\web\View::POS_END);
 
 ?>
 
@@ -39,17 +30,8 @@ $this->registerJs("
         The action belongs to the controller "<?= get_class($this->context) ?>"
         in the "<?= $this->context->module->id ?>" module.<br>
 
-        <?= Html::a('Создать', '/admin/news/create', ['class'=>'btn btn-primary'])
-
-        ?>
+        <?= Html::a('Создать', '/admin/news/create', ['class'=>'btn btn-primary']) ?>
         <?php
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => News::find(),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
 
         echo GridView::widget([
             'dataProvider' => $dataProvider,
@@ -83,23 +65,22 @@ $this->registerJs("
                         ])
                 ],
 //                '{export}',
-//               '{toggleData}',
+//                '{toggleData}',
             ],
             'panel' => [
                 'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Новости</h3>',
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать новость', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']) . ' ' .
-                            Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id'=>'deleteSel']) . ' ' .
-                            '<input type="button" class="btn btn-info" value="Multiple Delete" id="MyButton" >',
-                'footer' => false
+                    Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']) . ' ' .
+                    '<input type="button" class="btn btn-info" value="Multiple Delete" id="multi_delete" , onclick="multi_delete();">',
             ],
             'columns' => [
                 [
                     'class' => '\kartik\grid\RadioColumn',
                 ],
                 [
-                    'class' => 'yii\grid\CheckboxColumn',
+                    'class' => '\kartik\grid\CheckboxColumn',
                 ],
                 'news_id',
                 'title',
@@ -148,11 +129,12 @@ $this->registerJs("
 //                    }
 //                ],
             ],
-            'resizableColumns'=>false,
-            'containerOptions'=>['id' => 'news-pjax-container', 'style'=>'overflow: auto'], // only set when $responsive = false
-            'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-            'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-            'pjax'=>true, // pjax is set to always true for this demo
+            'options' => ['id' => 'grid'],
+            'resizableColumns' => false,
+            'containerOptions' => ['id' => 'news-pjax-container', 'style' => 'overflow: auto'], // only set when $responsive = false
+            'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+            'filterRowOptions' => ['class' => 'kartik-sheet-style'],
+            'pjax' => true,
             // set your toolbar
             // set export properties
 //            'export'=>[
@@ -160,15 +142,6 @@ $this->registerJs("
 //            ],
         ]);
         ?>
-        <?php //echo Html::a('update', array('site/save', 'id'=>$post->id)); ?>
 
-<?php CKEditorInline::begin(['preset' => 'basic']);?>
-        Этот текст типа можно редактировать
-<?php CKEditorInline::end();?>
-321
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
     </p>
 </div>

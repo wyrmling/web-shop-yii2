@@ -3,17 +3,24 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use app\models\News;
+use yii\data\ActiveDataProvider;
 
 class NewsController extends Controller
 {
+
     public function actionIndex() {
-        return $this->render('index');
+        $dataProvider = new ActiveDataProvider([
+            'query' => News::find(),
+            'pagination' => [
+                'pageSize' => 3,
+            ],
+        ]);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionCreate() {
-//        $news = new News;
         $news = (new News)->loadDefaultValues();
 
         if ($news->load(Yii::$app->request->post()) && $news->validate()) {
@@ -49,10 +56,7 @@ class NewsController extends Controller
     }
 
     public function actionMultipleDelete() {
-//        var_dump(\Yii::$app->request->post());
-//        var_dump(\Yii::$app->request->get());
-//        if (News::deleteAll(['news_id' => Yii::$app->request->post('ids')])) {
-        if (1) {
+        if (News::deleteAll(['news_id' => Yii::$app->request->post('ids')])) {
             echo json_encode('ok');
         } else {
             echo json_encode('nok');

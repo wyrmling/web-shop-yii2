@@ -1,6 +1,5 @@
 <?php
 
-use yii\data\ActiveDataProvider;
 use app\models\Orders;
 use kartik\grid\GridView;
 use yii\bootstrap\Html;
