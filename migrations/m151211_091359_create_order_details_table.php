@@ -20,6 +20,7 @@ class m151211_091359_create_order_details_table extends Migration
             'quantity' => $this->integer()->notNull(),
             'status' => $this->integer()->notNull()->defaultValue(\app\models\OrderDetails::DEFAULT_STATUS),
             'price' => $this->float(12, 2)->notNull(),
+            'PRIMARY KEY(order_id, product_id)'
         ]);
     }
 

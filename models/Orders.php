@@ -16,7 +16,7 @@ use Yii;
  * @property string $time_ordered
  */
 class Orders extends \yii\db\ActiveRecord
-    {
+{
 
     const ANSWERED = 1;
     const UNANSWERED = 0;
@@ -102,4 +102,4 @@ class Orders extends \yii\db\ActiveRecord
         }
     }
 
-    }
+}
