@@ -37,10 +37,11 @@ $config = [
         ],
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
-            'dateFormat' => 'd.M.Y',
-            'datetimeFormat' => 'd.M.Y H:i:s',
-            'timeFormat' => 'H:i:s',
-            'defaultTimeZone' => 'Europe/Kiev'
+            'dateFormat' => 'd.MM.y',
+            'datetimeFormat' => 'd.MM.y HH:mm:ss',
+            'timeFormat' => 'H:m:s',
+            'defaultTimeZone' => 'Europe/Kiev',
+            'locale' => 'ru-RU'
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
