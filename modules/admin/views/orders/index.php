@@ -13,8 +13,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']]
 
 <?php
 
-
-
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'toolbar' => [

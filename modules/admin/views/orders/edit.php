@@ -8,7 +8,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 ?>
 <h2><?= 'Заказ № ' . $order->order_id ?></h2>
 
-<div><?= 'Заказчик: ' . $order->user_id ?></div>
+<?php if (isset($order->user->username)): ?>
+<div><?= 'Заказчик: ' . $order->user->username ?></div>
+<?php endif; ?>
 <div><?= 'Контактный номер: ' . $order->user_phone_number ?></div>
 <div><?= 'Дата заказа: ' . $order->time_ordered ?></div>
 
@@ -16,12 +18,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 
 <?php foreach ($order_details as $details): ?>
     <div class="orderdetails">
-        <div><?= 'Товар: ' . $details->product_id ?></div>
+        <div><?= 'ID товара: ' . $details->product_id ?></div>
+        <div><?= 'Название товара: ' . $details->product->title ?></div>
         <div><?= 'Количество: ' . $details->quantity ?>
             <?= Html::a('[+]', ['orders/plus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-success']) ?>
             <?= Html::a('[-]', ['orders/minus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-warning']) ?>
         </div>
         <div><?= 'Цена: ' . $details->price ?></div>
+        <div><?= Html::a('Удалить', ['orders/deleteproduct', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-danger']) ?></div>
     </div>
 <?php endforeach; ?>
 
