@@ -39,8 +39,8 @@ echo GridView::widget([
         [
             'class' => 'yii\grid\CheckboxColumn',
         ],
-        'order_id',
-        'username',
+        ['attribute' => 'order_id', 'label' => 'ID заказа'],
+        ['attribute' => 'username', 'label' => 'Имя заказчика'],
         [
             'class' => 'kartik\grid\ExpandRowColumn',
             'width' => '50px',
@@ -51,9 +51,9 @@ echo GridView::widget([
             'headerOptions' => ['class' => 'kartik-sheet-style'],
             'expandOneOnly' => true
         ],
-        'user_phone_number',
-        'total_sum',
-        'time_ordered:datetime',
+        ['attribute' => 'user_phone_number', 'label' => 'Номер телефона'],
+        ['attribute' => 'total_sum', 'label' => 'Сумма заказа'],     
+        ['attribute' => 'time_ordered:datetime', 'label' => 'Дата/Время заказа'],   
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view} {edit} {delete}',
@@ -64,6 +64,7 @@ echo GridView::widget([
         [
             'filter' => Orders::getOrderStatuses(),
             'attribute' => 'status',
+            'label' => 'Статус заказа',
             'format' => 'raw',
             'value' => function ($model, $key, $index, $column) {
                 return Html::tag('span', Html::encode(Orders::getOrderStatus($model['status'])), ['class' => 'label status-' . Orders::getOrderStatus($model['status'], true)]);

@@ -35,7 +35,8 @@ class OrdersController extends \yii\web\Controller
 //    'desc' => ['user.username' => SORT_DESC],
 //];
 
-        return $this->render('index', ['query' => $query, 'dataProvider' => $dataProvider]);
+        return $this->render('index', ['query' => $query,
+            'dataProvider' => $dataProvider]);
     }
 
     public function actionDelete($id)

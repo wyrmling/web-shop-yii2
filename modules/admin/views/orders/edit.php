@@ -24,14 +24,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
             <?= Html::a('[+]', ['orders/plus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-success']) ?>
             <?= Html::a('[-]', ['orders/minus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-warning']) ?>
         </div>
-        <div><?= 'Цена: ' . $details->price ?></div>
+        <div><?= 'Цена товара на момент заказа: ' . $details->price ?></div>
+        <?php if (isset($details->product->special_price)): ?>
+        <div><?= 'Цена товара на текущий момент: ' . $details->product->special_price ?></div>
+        <?php else: ?>
+        <div><?= 'Цена товара на текущий момент: ' . $details->product->price ?></div>
+        <?php endif; ?>
         <div><?= Html::a('Удалить', ['orders/deleteproduct', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-danger']) ?></div>
     </div>
 <?php endforeach; ?>
 
 <div class="clear"></div>
 
-<div><?= 'Сумма заказа: <b>' . $order->total_sum . '</b>' ?></div>
+<div><?= 'Сумма заказа (на момент заказа): <b>' . $order->total_sum . '</b>' ?></div>
 
 <?php //var_dump($order); ?>
     <br><br>
