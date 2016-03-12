@@ -6,9 +6,9 @@
         <div><?= 'Количество: ' . $details->quantity ?></div>
         <div><?= 'Цена товара на момент заказа: ' . $details->price ?></div>
         <?php if (isset($details->product->special_price)): ?>
-        <div><?= 'Цена товара на текущий момент: ' . $details->product->special_price ?></div>
+        <div><?= 'Актуальная цена: ' . $details->product->special_price ?></div>
         <?php else: ?>
-        <div><?= 'Цена товара на текущий момент: ' . $details->product->price ?></div>
+        <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
         <?php endif; ?>
     </div>
 <?php endforeach; ?>

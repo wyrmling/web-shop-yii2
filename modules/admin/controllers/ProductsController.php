@@ -11,7 +11,7 @@ use app\models\AttributesList;
 use app\models\AttributesCategories;
 
 class ProductsController extends Controller
-{
+    {
 
     public function actionIndex()
     {
@@ -49,8 +49,7 @@ class ProductsController extends Controller
             $results = $products->save();
             $productParams = ArrayHelper::toArray($products);
 
-            if ((int) $productParams['status'] != (int) $productOldParams['status']
-                    && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+            if ((int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
                 AttributesList::deleteAll(['product_id' => $id]);
                 if ($productParams['status'] == Products::VISIBLE) {
                     Categories::setCategoriesCounters($productOldParams['category_id'], 0, -1);
@@ -61,17 +60,11 @@ class ProductsController extends Controller
                     Categories::setCategoriesCounters($productParams['category_id'], 0, 1);
                 }
             } else {
-                if ($productParams['status'] == Products::VISIBLE
-                        && (int) $productParams['status'] != (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                if ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], 1, -1);
-                } elseif ($productParams['status'] == Products::HIDDEN
-                        && (int) $productParams['status'] != (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::HIDDEN && (int) $productParams['status'] != (int) $productOldParams['status'] && (int) $productParams['category_id'] = (int) $productOldParams['category_id']) {
                     Categories::setCategoriesCounters($productParams['category_id'], -1, 1);
-                } elseif ($productParams['status'] == Products::VISIBLE
-                        && (int) $productParams['status'] = (int) $productOldParams['status']
-                        && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
+                } elseif ($productParams['status'] == Products::VISIBLE && (int) $productParams['status'] = (int) $productOldParams['status'] && (int) $productParams['category_id'] != (int) $productOldParams['category_id']) {
                     AttributesList::deleteAll(['product_id' => $id]);
                     Categories::setCategoriesCounters($productOldParams['category_id'], -1, 0);
                     Categories::setCategoriesCounters($productParams['category_id'], 1, 0);
@@ -96,7 +89,7 @@ class ProductsController extends Controller
         if (Products::deleteAll(['product_id' => $id])) {
 
             AttributesList::deleteAll(['product_id' => $id]);
-            
+
             if ($productParams['status'] == Products::VISIBLE) {
                 Categories::setCategoriesCounters($productParams['category_id'], -1, 0);
             }
@@ -123,7 +116,7 @@ class ProductsController extends Controller
                 ->where(['category_id' => $product->category_id])
                 ->orderBy('product_attributes_categories.order')
                 ->all();
-        if(!$att){
+        if (!$att) {
             return $this->redirect(['attributes/list', 'id' => $product->category_id,]);
         }
 
@@ -131,11 +124,11 @@ class ProductsController extends Controller
             $atributs_list[$i->attribute_id] = (new AttributesList)->loadDefaultValues();
             if ($list_by_product_id) {
                 if ($value = AttributesList::findOne([
-                    'attribute_id' => $i->attribute_id, 
-                    'product_id' => $id
-                    ])
-                ){
-                $atributs_list[$i->attribute_id]->value = $value->value;
+                            'attribute_id' => $i->attribute_id,
+                            'product_id' => $id
+                        ])
+                ) {
+                    $atributs_list[$i->attribute_id]->value = $value->value;
                 }
             }
         }
@@ -161,4 +154,37 @@ class ProductsController extends Controller
         }
     }
 
-}
+    public function actionView($id)
+    {
+        $product = Yii::$app->db->createCommand(
+                        'SELECT * FROM products pr
+                LEFT JOIN product_brands pr_b ON pr.brand_id = pr_b.brand_id
+                WHERE product_id=:product_id AND status=:status')
+                ->bindValue(':product_id', $_GET['id'])
+                ->bindValue(':status', Products::VISIBLE)
+                ->queryOne();
+
+        $fullPach = Categories::findAll(Categories::getFullPath($product['category_id']));
+
+        $attributes = Yii::$app->db->createCommand(
+                        'SELECT pr_a_c.attribute_id,
+                        pr_a.attribute_name,
+                        pr_a.unit,
+                        pr_a_l.value
+                FROM product_attributes_categories pr_a_c
+                LEFT JOIN product_attributes pr_a ON pr_a_c.attribute_id = pr_a.attribute_id
+                LEFT JOIN product_attributes_list pr_a_l ON pr_a_c.attribute_id = pr_a_l.attribute_id
+                WHERE category_id=:category_id AND product_id=:product_id
+                ORDER BY pr_a_c.order')
+                ->bindValue(':product_id', $_GET['id'])
+                ->bindValue(':category_id', $product['category_id'])
+                ->queryAll();
+
+        return $this->render('view', ['id' => $id,
+                    'product' => $product,
+                    'fullPach' => $fullPach,
+                    'attributes' => $attributes,
+        ]);
+    }
+
+    }
