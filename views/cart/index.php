@@ -31,9 +31,9 @@ $sum = 0;
 
     <?php endforeach; ?>
 
-    <br><br>
+<br>
     <div>
-        Общая сумма заказа: <?= $sum ?>
+        Общая сумма заказа: <?= $sum ?> <br><br>
     </div>
 
 <?php endif; ?>
@@ -47,18 +47,22 @@ $sum = 0;
 
 <?php elseif (count(Yii::$app->session->get('productsarray'))): ?>
 
+
+<div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
     <div>
         <?php
         $form = ActiveForm::begin();
         ?>
-
-        <?= $form->field($order, 'user_phone_number')->hint('Чтобы сделать заказ, введите номер телефона, по которому с Вами можно связаться')->label(false)->widget(\yii\widgets\MaskedInput::className(), [
+<?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
+        <?= $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
     'mask' => '+38 (999) 999-99-99',
 ]) ?>
 
-        <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
+    <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
     <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
 
+    <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
+        
         <div class="form-group">
     <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
         </div>

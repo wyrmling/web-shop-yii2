@@ -9,13 +9,17 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 <h2><?= 'Заказ № ' . $order->order_id ?></h2>
 
 <?php if (isset($order->user->username)): ?>
-<div><?= 'Заказчик: ' . $order->user->username ?></div>
+    <div><?= 'Заказчик: ' . $order->user->username ?></div>
+<?php endif; ?>
+<?php if (isset($order->entered_name)): ?>
+    <div><?= 'Имя: ' . $order->entered_name ?></div>
 <?php endif; ?>
 <div><?= 'Контактный номер: ' . $order->user_phone_number ?></div>
 <div><?= 'Дата заказа: ' . $order->time_ordered ?></div>
 
 <div><b>Детали заказа:</b></div>
 <?php $current_price = 0 ?>
+<?php $ordered_price = 0 ?>
 <?php foreach ($order_details as $details): ?>
     <div class="orderdetails">
         <div><?= 'ID товара: ' . $details->product_id ?></div>
@@ -23,19 +27,28 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
         <div><?= 'Количество: ' . $details->quantity ?></div>
         <div><?= 'Цена товара на момент заказа: ' . $details->price ?></div>
         <?php if (isset($details->product->special_price)): ?>
-        <div><?= 'Актуальная цена: ' . $details->product->special_price ?></div>
-        <?php $current_price += $details->product->special_price * $details->quantity?>
+            <div><?= 'Актуальная цена: ' . $details->product->special_price ?></div>
+            <?php $current_price += $details->product->special_price * $details->quantity ?>
         <?php else: ?>
-        <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
-        <?php $current_price += $details->product->price * $details->quantity?>
+            <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
+            <?php $current_price += $details->product->price * $details->quantity ?>
         <?php endif; ?>
+        <?php $ordered_price += $details->price * $details->quantity ?>
     </div>
 <?php endforeach; ?>
 
 <div class="clear"></div>
 
-<div><?= 'Сумма заказа (на момент заказа): <b>' . $order->total_sum . '</b>' ?></div>
+<div><?= 'Сумма заказа (на момент заказа): <b>' . $ordered_price . '</b>' ?></div>
 <div><?= 'Актуальная сумма заказа: <b>' . $current_price . '</b>' ?></div>
+
+<br>
+<div><b>Комментарий заказчика</b></div>
+<div><?= $order->client_comment ?></div>
+<br>
+<div><b>Комментарий менеджера</b></div>
+<div><?= $order->manager_comment ?></div>
+
 <?php //var_dump($order); ?>
 <br><br>
 <?php //var_dump($order_details); ?>

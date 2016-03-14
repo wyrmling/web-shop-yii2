@@ -11,6 +11,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 <?php if (isset($order->user->username)): ?>
 <div><?= 'Заказчик: ' . $order->user->username ?></div>
 <?php endif; ?>
+<?php if (isset($order->entered_name)): ?>
+<div><?= 'Имя: ' . $order->entered_name ?></div>
+<?php endif; ?>
 <div><?= 'Контактный номер: ' . $order->user_phone_number ?></div>
 <div><?= 'Дата заказа: ' . $order->time_ordered ?></div>
 

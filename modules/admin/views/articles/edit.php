@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     <?= $form->field($model, 'comments_status')->checkbox() ?>
     <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
     <?= $form->field($model, 'description')->textInput() ?>
-    <?= $form->field($model, 'content')->textarea() ?>
+    <?= $form->field($model, 'content')->textarea(['rows'=> 3, 'cols'=> 5]) ?>
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'basic']) ?>
     <?php //$form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->createdBy, 'username')->staticInput(); ?>

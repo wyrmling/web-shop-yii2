@@ -15,12 +15,13 @@ class OrdersController extends \yii\web\Controller
         $query = (new \yii\db\Query())
                 ->select('*')
                 ->from('orders')
-                ->leftJoin('users', 'users.user_id = orders.user_id');
+                ->leftJoin('users', 'users.user_id = orders.user_id')
+                ->orderBy(['order_id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 5,
             ],
             'key' => 'order_id',
         ]);

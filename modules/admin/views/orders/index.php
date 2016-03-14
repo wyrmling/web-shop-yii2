@@ -38,7 +38,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']]
                 'class' => 'yii\grid\CheckboxColumn',
             ],
             ['attribute' => 'order_id', 'label' => 'ID заказа'],
-            ['attribute' => 'username', 'label' => 'Имя заказчика'],
+            ['attribute' => 'username', 'label' => 'Пользователь'],
+            ['attribute' => 'entered_name', 'label' => 'Имя'],
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
                 'width' => '50px',
@@ -51,7 +52,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']]
             ],
             ['attribute' => 'user_phone_number', 'label' => 'Номер телефона'],
             ['attribute' => 'total_sum', 'label' => 'Зафиксированная сумма'],
-            ['attribute' => 'time_ordered:datetime', 'label' => 'Дата/Время заказа'],
+            ['attribute' => 'time_ordered', 'label' => 'Дата/Время заказа'],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {edit} {delete}',
@@ -79,5 +80,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']]
 </div>
 
 <div>
- Зафиксированная сумма - изначальная стоимость заказа, сделанного пользователем, которая может быть изменена менеджером с учетом текущих цен
+    <b>Зафиксированная сумма</b> - сумма заказа, которая внесена в базу данных:
+    <br>
+    изначально равна сумме на момент отправки заказа покупателем,
+    <br>
+    может быть заменена менеджером на актуальную сумму кнопкой "обновить сумму заказа"
 </div>

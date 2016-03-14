@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use Yii;
@@ -14,6 +15,8 @@ use Yii;
  * @property integer $status
  * @property double $total_sum
  * @property string $time_ordered
+ * @property string $client_comment
+ * @property string $manager_comment
  */
 class Orders extends \yii\db\ActiveRecord
 {
@@ -39,7 +42,9 @@ class Orders extends \yii\db\ActiveRecord
             [['user_phone_number', 'status', 'total_sum'], 'required'],
             [['total_sum'], 'number'],
             [['time_ordered'], 'safe'],
-            [['user_phone_number'], 'string',  'length' => [17,19]],
+            [['client_comment', 'manager_comment', 'entered_name'], 'string'],
+            [['user_phone_number'], 'string', 'length' => [17, 19]],
+            [['entered_name'], 'string', 'length' => [5, 30]],
             ['user_phone_number', 'match', 'pattern' => '[\+38\s\([0-9]{3}\)\s[0-9]{3}-[0-9]{2}-[0-9]{2}]']
         ];
     }
@@ -53,10 +58,13 @@ class Orders extends \yii\db\ActiveRecord
             'order_id' => 'ID заказа',
             'user_id' => 'ID  заказчика',
             'user.username' => 'Заказчик',
+            'entered_name' => 'Имя',
             'user_phone_number' => 'Номер телефона',
             'status' => 'Статус заказа',
             'total_sum' => 'Сумма заказа',
             'time_ordered' => 'Время заказа',
+            'client_comment' => 'Комментарий к заказу',
+            'manager_comment' => 'Комментарий менеджера',
         ];
     }
 
@@ -74,8 +82,8 @@ class Orders extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => 'time_ordered',
                 ],
                 'value' => function () {
-                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
-                }
+            return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+        }
             ]
         ];
     }
