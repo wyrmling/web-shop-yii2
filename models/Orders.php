@@ -110,4 +110,30 @@ class Orders extends \yii\db\ActiveRecord
         }
     }
 
+    public static function getOrderById($order_id)
+    {
+        return Orders::find()
+                        ->where(['order_id' => $order_id])
+                        ->one();
+    }
+
+    public static function countTotalSumm($order_info, $order_details_info)
+    {
+        $ordered_sum = 0;
+        $current_sum = 0;
+        $fixed_sum = $order_info->total_sum;
+
+        foreach ($order_details_info as $details) {
+            if (isset($details->product->special_price)) {
+                $current_sum += $details->product->special_price * $details->quantity;
+            } else {
+                $current_sum += $details->product->price * $details->quantity;
+            }
+            $ordered_sum += $details->price * $details->quantity;
+        }
+        return ['ordered_sum' => $ordered_sum,
+            'current_sum' => $current_sum,
+            'fixed_sum' => $fixed_sum,];
+    }
+
 }

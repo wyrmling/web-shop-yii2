@@ -41,13 +41,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 
 <div><?= 'Сумма заказа (на момент заказа): <b>' . $ordered_price . '</b>' ?></div>
 <div><?= 'Актуальная сумма заказа: <b>' . $current_price . '</b>' ?></div>
+<div><?= 'Зафиксированная сумма заказа: <b>' . $order->total_sum . '</b>' ?></div>
+
+<?php var_dump($qqq); ?>
 
 <br>
 <div><b>Комментарий заказчика</b></div>
-<div><?= $order->client_comment ?></div>
+<div><?= Html::encode($order->client_comment) ?></div>
 <br>
 <div><b>Комментарий менеджера</b></div>
-<div><?= $order->manager_comment ?></div>
+<div><?= Html::encode($order->manager_comment) ?></div>
 
 <?php //var_dump($order); ?>
 <br><br>

@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 
 <div><b>Детали заказа:</b></div>
 <?php $current_price = 0 ?>
+<?php $ordered_price = 0 ?>
 <?php foreach ($order_details as $details): ?>
     <div class="orderdetails">
         <div><?= 'ID товара: ' . $details->product_id ?></div>
@@ -35,14 +36,27 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
         <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
         <?php $current_price += $details->product->price * $details->quantity?>
         <?php endif; ?>
+        <?php $ordered_price += $details->price * $details->quantity ?>
         <div><?= Html::a('Удалить', ['orders/deleteproduct', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-danger']) ?></div>
     </div>
 <?php endforeach; ?>
 
 <div class="clear"></div>
 
-<div><?= 'Сумма заказа (на момент заказа): <b>' . $order->total_sum . '</b>' ?></div>
+<div><?= 'Общая сумма по ценам на момент заказа: <b>' . $ordered_price . '</b>' ?></div>
 <div><?= 'Актуальная сумма заказа: <b>' . $current_price . '</b>' ?></div>
+<div><?= 'Зафиксированная сумма заказа: <b>' . $order->total_sum . '</b>' ?></div>
+
+<?= Html::a('Зафиксировать сумму', ['orders/fix', 'id' => $order->order_id, 'fixed' => $current_price,], ['class' => 'btn btn-success']) ?>
+
+<?php var_dump($qqq); ?>
+
+<br><br>
+<div><b>Комментарий заказчика</b></div>
+<div><?= Html::encode($order->client_comment) ?></div>
+<br>
+<div><b>Комментарий менеджера</b></div>
+<div><?= Html::encode($order->manager_comment) ?></div>
 
 <?php //var_dump($order); ?>
     <br><br>

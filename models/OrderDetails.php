@@ -56,4 +56,11 @@ class OrderDetails extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Products::className(), ['product_id' => 'product_id']);
     }
+    
+    public static function getOrderDetailsById($order_id, $detail_id)
+    {
+        return OrderDetails::find()
+                        ->where(['order_id' => $order_id, 'product_id' => $detail_id,])
+                        ->one();
+    }
 }
