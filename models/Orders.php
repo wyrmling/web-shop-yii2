@@ -122,18 +122,28 @@ class Orders extends \yii\db\ActiveRecord
         $ordered_sum = 0;
         $current_sum = 0;
         $fixed_sum = $order_info->total_sum;
+        $ordered_string = '';
+        $current_string = '';
 
         foreach ($order_details_info as $details) {
             if (isset($details->product->special_price)) {
                 $current_sum += $details->product->special_price * $details->quantity;
+                $current_string .= ' + ' . $details->product->special_price . ' * ' . $details->quantity;
             } else {
                 $current_sum += $details->product->price * $details->quantity;
+                $current_string .= ' + ' . $details->product->price . ' * ' . $details->quantity;
             }
             $ordered_sum += $details->price * $details->quantity;
+            $ordered_string .= ' + ' . $details->price . ' * ' . $details->quantity;
         }
+        $ordered_string = substr($ordered_string, 3);
+        $current_string = substr($current_string, 3);
         return ['ordered_sum' => $ordered_sum,
             'current_sum' => $current_sum,
-            'fixed_sum' => $fixed_sum,];
+            'fixed_sum' => $fixed_sum,
+            'ordered_string' => $ordered_string,
+            'current_string' => $current_string,
+        ];
     }
 
 }

@@ -45,7 +45,7 @@ class OrdersController extends \yii\web\Controller
         if (Orders::deleteAll(['order_id' => $id])){
             return $this->redirect('/admin/orders');
         }
-            
+
     }
 
     public function actionPlus($id, $product_id)
@@ -109,12 +109,12 @@ class OrdersController extends \yii\web\Controller
                 ->leftJoin('products', 'products.product_id = order_details.product_id')
                 ->all();
 
-        $qqq = Orders::countTotalSumm($order, $order_details);
-        
+        $order_info = Orders::countTotalSumm($order, $order_details);
+
         return $this->render('view', [
                     'order' => $order,
                     'order_details' => $order_details,
-            'qqq' => $qqq,
+                    'order_info' => $order_info,
         ]);
     }
 
@@ -126,12 +126,12 @@ class OrdersController extends \yii\web\Controller
                 ->leftJoin('products', 'products.product_id = order_details.product_id')
                 ->all();
 
-        $qqq = Orders::countTotalSumm($order, $order_details);
-        
+        $order_info = Orders::countTotalSumm($order, $order_details);
+
         return $this->render('edit', [
                     'order' => $order,
                     'order_details' => $order_details,
-            'qqq' => $qqq,
+                    'order_info' => $order_info,
         ]);
     }
 
@@ -145,7 +145,7 @@ class OrdersController extends \yii\web\Controller
 
         return $this->redirect('/admin/orders/edit/' . $id);
     }
-    
+
     public function actionOrderDetail()
     {
         if (isset($_POST['expandRowKey'])) {

@@ -6,6 +6,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Администрирование
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №' . $order->order_id, 'url' => ["orders/view/$order->order_id"]];
 ?>
+
 <h2><?= 'Заказ № ' . $order->order_id ?></h2>
 
 <?php if (isset($order->user->username)): ?>
@@ -18,8 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 <div><?= 'Дата заказа: ' . $order->time_ordered ?></div>
 
 <div><b>Детали заказа:</b></div>
-<?php $current_price = 0 ?>
-<?php $ordered_price = 0 ?>
+
 <?php foreach ($order_details as $details): ?>
     <div class="orderdetails">
         <div><?= 'ID товара: ' . $details->product_id ?></div>
@@ -28,22 +28,17 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
         <div><?= 'Цена товара на момент заказа: ' . $details->price ?></div>
         <?php if (isset($details->product->special_price)): ?>
             <div><?= 'Актуальная цена: ' . $details->product->special_price ?></div>
-            <?php $current_price += $details->product->special_price * $details->quantity ?>
         <?php else: ?>
             <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
-            <?php $current_price += $details->product->price * $details->quantity ?>
         <?php endif; ?>
-        <?php $ordered_price += $details->price * $details->quantity ?>
     </div>
 <?php endforeach; ?>
 
 <div class="clear"></div>
 
-<div><?= 'Сумма заказа (на момент заказа): <b>' . $ordered_price . '</b>' ?></div>
-<div><?= 'Актуальная сумма заказа: <b>' . $current_price . '</b>' ?></div>
-<div><?= 'Зафиксированная сумма заказа: <b>' . $order->total_sum . '</b>' ?></div>
-
-<?php var_dump($qqq); ?>
+<div><?= 'Сумма по ценам на момент заказа: ' . $order_info['ordered_string'] . ' = <b>' . $order_info['ordered_sum'] . '</b>' ?></div>
+<div><?= 'Сумма заказа по актуальным ценам: ' . $order_info['current_string'] . ' = <b>' . $order_info['current_sum'] . '</b>' ?></div>
+<div><?= 'Зафиксированная (занесенная в БД) сумма заказа: <b>' . $order_info['fixed_sum'] . '</b>' ?></div>
 
 <br>
 <div><b>Комментарий заказчика</b></div>
@@ -51,8 +46,3 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 <br>
 <div><b>Комментарий менеджера</b></div>
 <div><?= Html::encode($order->manager_comment) ?></div>
-
-<?php //var_dump($order); ?>
-<br><br>
-<?php //var_dump($order_details); ?>
-
