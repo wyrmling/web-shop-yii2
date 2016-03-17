@@ -3,15 +3,15 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use app\models\Products;
 use app\models\Categories;
-use yii\helpers\ArrayHelper;
 use app\models\AttributesList;
 use app\models\AttributesCategories;
+use yii\helpers\ArrayHelper;
 
 class ProductsController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -40,9 +40,7 @@ class ProductsController extends Controller
 
     public function actionEdit($id)
     {
-        $products = Products::find()
-                ->where(['product_id' => $id])
-                ->one();
+        $products = Products::findOne(['product_id' => $id]);
         $productOldParams = ArrayHelper::toArray($products);
 
         if ($products->load(Yii::$app->request->post()) && $products->validate()) {
@@ -82,9 +80,9 @@ class ProductsController extends Controller
     public function actionDelete($id)
     {
         $productParams = Products::find()
-                ->where(['product_id' => $id])
-                ->asArray()
-                ->one();
+            ->where(['product_id' => $id])
+            ->asArray()
+            ->one();
 
         if (Products::deleteAll(['product_id' => $id])) {
 
@@ -103,38 +101,37 @@ class ProductsController extends Controller
     public function actionList($id)
     {
         $list_by_product_id = AttributesList::find()
-                ->where(['product_id' => $id])
-                ->asArray()
-                ->all();
+            ->where(['product_id' => $id])
+            ->asArray()
+            ->all();
 
-        $product = Products::find()
-                ->where(['product_id' => $id])
-                ->one();
+        $product = Products::findOne(['product_id' => $id]);
 
-        $att = AttributesCategories::find()
-                ->joinWith('attributename')
-                ->where(['category_id' => $product->category_id])
-                ->orderBy('product_attributes_categories.order')
-                ->all();
-        if (!$att) {
-            return $this->redirect(['attributes/list', 'id' => $product->category_id,]);
+        $attr = AttributesCategories::find()
+            ->joinWith('attributename')
+            ->where(['category_id' => $product->category_id])
+            ->orderBy('product_attributes_categories.order')
+            ->all();
+        if (!$attr) {
+            return $this->redirect(['attributes/list', 'id' => $product->category_id]);
         }
 
-        foreach ($att as $i) {
+        foreach ($attr as $i) {
             $atributs_list[$i->attribute_id] = (new AttributesList)->loadDefaultValues();
             if ($list_by_product_id) {
-                if ($value = AttributesList::findOne([
-                            'attribute_id' => $i->attribute_id,
-                            'product_id' => $id
-                        ])
-                ) {
+                $value = AttributesList::findOne([
+                    'attribute_id' => $i->attribute_id,
+                    'product_id' => $id
+                ]);
+                if ($value) {
                     $atributs_list[$i->attribute_id]->value = $value->value;
                 }
             }
         }
 
         if (AttributesList::loadMultiple($atributs_list, Yii::$app->request->post()) &&
-                AttributesList::validateMultiple($atributs_list)) {
+            AttributesList::validateMultiple($atributs_list)
+        ) {
             $counter = 0;
 
             AttributesList::deleteAll(['product_id' => $id]);
@@ -148,8 +145,8 @@ class ProductsController extends Controller
             return $this->redirect(['list', 'id' => $id,]);
         } else {
             return $this->render('list', [
-                        'atributs_list' => $atributs_list,
-                        'product' => $product,
+                'atributs_list' => $atributs_list,
+                'product' => $product,
             ]);
         }
     }
@@ -157,34 +154,35 @@ class ProductsController extends Controller
     public function actionView($id)
     {
         $product = Yii::$app->db->createCommand(
-                        'SELECT * FROM products pr
-                LEFT JOIN product_brands pr_b ON pr.brand_id = pr_b.brand_id
-                WHERE product_id=:product_id AND status=:status')
-                ->bindValue(':product_id', $_GET['id'])
-                ->bindValue(':status', Products::VISIBLE)
-                ->queryOne();
+            'SELECT * FROM products pr
+            LEFT JOIN product_brands pr_b ON pr.brand_id = pr_b.brand_id
+            WHERE product_id=:product_id AND status=:status')
+            ->bindValue(':product_id', $_GET['id'])
+            ->bindValue(':status', Products::VISIBLE)
+            ->queryOne();
 
-        $fullPach = Categories::findAll(Categories::getFullPath($product['category_id']));
+        $fullPath = Categories::findAll(Categories::getFullPath($product['category_id']));
 
         $attributes = Yii::$app->db->createCommand(
-                        'SELECT pr_a_c.attribute_id,
-                        pr_a.attribute_name,
-                        pr_a.unit,
-                        pr_a_l.value
-                FROM product_attributes_categories pr_a_c
-                LEFT JOIN product_attributes pr_a ON pr_a_c.attribute_id = pr_a.attribute_id
-                LEFT JOIN product_attributes_list pr_a_l ON pr_a_c.attribute_id = pr_a_l.attribute_id
-                WHERE category_id=:category_id AND product_id=:product_id
-                ORDER BY pr_a_c.order')
-                ->bindValue(':product_id', $_GET['id'])
-                ->bindValue(':category_id', $product['category_id'])
-                ->queryAll();
+            'SELECT pr_a_c.attribute_id,
+                    pr_a.attribute_name,
+                    pr_a.unit,
+                    pr_a_l.value
+            FROM product_attributes_categories pr_a_c
+            LEFT JOIN product_attributes pr_a ON pr_a_c.attribute_id = pr_a.attribute_id
+            LEFT JOIN product_attributes_list pr_a_l ON pr_a_c.attribute_id = pr_a_l.attribute_id
+            WHERE category_id=:category_id AND product_id=:product_id
+            ORDER BY pr_a_c.order')
+            ->bindValue(':product_id', $_GET['id'])
+            ->bindValue(':category_id', $product['category_id'])
+            ->queryAll();
 
-        return $this->render('view', ['id' => $id,
-                    'product' => $product,
-                    'fullPach' => $fullPach,
-                    'attributes' => $attributes,
+        return $this->render('view', [
+            'id' => $id,
+            'product' => $product,
+            'fullPath' => $fullPath,
+            'attributes' => $attributes,
         ]);
     }
 
-    }
+}

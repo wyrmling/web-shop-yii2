@@ -3,9 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Categories;
-//use yii\web\Controller;
 use app\components\Controller;
+use app\models\Categories;
 
 class CategoriesController extends Controller
 {

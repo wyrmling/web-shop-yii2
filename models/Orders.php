@@ -110,13 +110,6 @@ class Orders extends \yii\db\ActiveRecord
         }
     }
 
-    public static function getOrderById($order_id)
-    {
-        return Orders::find()
-                        ->where(['order_id' => $order_id])
-                        ->one();
-    }
-
     public static function countTotalSumm($order_info, $order_details_info)
     {
         $ordered_sum = 0;
@@ -138,7 +131,8 @@ class Orders extends \yii\db\ActiveRecord
         }
         $ordered_string = substr($ordered_string, 3);
         $current_string = substr($current_string, 3);
-        return ['ordered_sum' => $ordered_sum,
+        return [
+            'ordered_sum' => $ordered_sum,
             'current_sum' => $current_sum,
             'fixed_sum' => $fixed_sum,
             'ordered_string' => $ordered_string,

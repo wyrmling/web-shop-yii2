@@ -3,7 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use app\models\Articles;
 
 class ArticlesController extends Controller
@@ -13,7 +13,6 @@ class ArticlesController extends Controller
     }
 
     public function actionCreate() {
-        //$articles = new Articles;
         $articles = (new Articles)->loadDefaultValues();
 
         if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
@@ -26,17 +25,15 @@ class ArticlesController extends Controller
 
     public function actionEdit($id)
     {
-        if (!empty($id)) {
-            $articles = Articles::find()
-                ->where(['article_id' => $id])
-                ->one();
+        $articles = Articles::find()
+            ->where(['article_id' => $id])
+            ->one();
 
-            if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
-                $results = $articles->save();
-                return $this->render('edit', ['model' => $articles, 'type' => 'create', 'result' => $results]);
-            } else {
-                return $this->render('edit', ['model' => $articles, 'type' => 'edit']);
-            }
+        if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
+            $results = $articles->save();
+            return $this->render('edit', ['model' => $articles, 'type' => 'create', 'result' => $results]);
+        } else {
+            return $this->render('edit', ['model' => $articles, 'type' => 'edit']);
         }
     }
 
@@ -52,4 +49,5 @@ class ArticlesController extends Controller
             echo json_encode('nok');
         }
     }
+
 }

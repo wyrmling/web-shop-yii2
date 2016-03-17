@@ -39,7 +39,7 @@ $config = [
             'class' => 'yii\i18n\Formatter',
             'dateFormat' => 'd.MM.y',
             'datetimeFormat' => 'd.MM.y HH:mm:ss',
-            'timeFormat' => 'H:m:s',
+            'timeFormat' => 'HH:mm:ss',
             'defaultTimeZone' => 'Europe/Kiev',
             'locale' => 'ru-RU'
         ],

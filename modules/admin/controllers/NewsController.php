@@ -14,7 +14,7 @@ class NewsController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => News::find(),
             'pagination' => [
-                'pageSize' => 3,
+                'pageSize' => 10,
             ],
         ]);
         return $this->render('index', ['dataProvider' => $dataProvider]);
@@ -34,19 +34,15 @@ class NewsController extends Controller
 
     public function actionEdit($id)
     {
-        if (!empty($id)) {
-            $news = News::find()
-                ->where(['news_id' => $id])
-                ->one();
+        $news = News::findOne(['news_id' => $id]);
 
 //            if ($news) $user = User::findOne($news->user_id);
 
-            if ($news->load(Yii::$app->request->post()) && $news->validate()) {
-                $results = $news->save();
-                return $this->render('edit', ['model' => $news, 'type' => 'create', 'result' => $results]);
-            } else {
-                return $this->render('edit', ['model' => $news, 'type' => 'edit']);
-            }
+        if ($news->load(Yii::$app->request->post()) && $news->validate()) {
+            $results = $news->save();
+            return $this->render('edit', ['model' => $news, 'type' => 'create', 'result' => $results]);
+        } else {
+            return $this->render('edit', ['model' => $news, 'type' => 'edit']);
         }
     }
 

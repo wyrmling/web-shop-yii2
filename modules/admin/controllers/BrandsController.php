@@ -3,10 +3,10 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use app\models\Brands;
 
-class BrandsController extends \yii\web\Controller
+class BrandsController extends Controller
 {
 
     public function actionIndex()

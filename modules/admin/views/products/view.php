@@ -3,28 +3,27 @@
 use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'url' => ['/catalog']];
-foreach ($fullPach as $pach) {
-    $this->params['breadcrumbs'][] = ['label' => "$pach->name", 'url' => ["/catalog/category/$pach->category_id"]];
+foreach ($fullPath as $path) {
+    $this->params['breadcrumbs'][] = ['label' => $path->name, 'url' => ["/catalog/category/$path->category_id"]];
 }
 ?>
-
 <div> Название товара:
-    <b> <?= Html::encode("{$product['title']}") ?> </b>
+    <b> <?= Html::encode($product['title']) ?> </b>
 </div>
 <div> Бренд:
-    <?= Html::encode("{$product['brand_name']}") ?>
+    <?= Html::encode($product['brand_name']) ?>
 </div>
 <div> SKU:
-    <?= Html::encode("{$product['sku']}") ?>
+    <?= Html::encode($product['sku']) ?>
 </div>
 <div> Артикул:
-    <?= Html::encode("{$product['article']}") ?>
+    <?= Html::encode($product['article']) ?>
 </div>
 <div> Описание:
-    <?= Html::encode("{$product['description']}") ?>
+    <?= Html::encode($product['description']) ?>
 </div>
 <div>
-    <?= Html::encode("цена: {$product['price']} (специальная цена: {$product['special_price']})") ?>
+    цена: <?= Html::encode($product['price']) ?> (специальная цена: <?= Html::encode($product['special_price']) ?>)
 </div>
 <br>
 <div>
@@ -37,17 +36,15 @@ foreach ($fullPach as $pach) {
 </div>
 
 <br><br>
-<?php foreach ($attributes as $attribute): ?>
-<div>
-<?= $attribute['attribute_id'] ?> - <?= $attribute['attribute_name'] ?> -
+<?php
+foreach ($attributes as $attribute) {
+    echo '<div>';
+    echo $attribute['attribute_id'] . ' - ' . $attribute['attribute_name'] . ' - ';
 
-    <?php
-        if ($attribute['value']) {
-            echo $attribute['value'];
-        }
-        ?>
+    if ($attribute['value']) {
+        echo $attribute['value'];
+    }
 
-(<?= $attribute['unit'] ?>)
-
-</div>
-<?php endforeach; ?>
+    echo '(' . $attribute['unit'] . ')';
+    echo '</div>';
+}

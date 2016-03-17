@@ -2,13 +2,11 @@
 
 namespace app\controllers;
 
-//use yii\web\Controller;
-//use yii\data\Pagination;
-use app\models\Articles;
 use app\components\Controller;
+use app\models\Articles;
 
 class ArticlesController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -21,4 +19,4 @@ class ArticlesController extends Controller
         return $this->render('read', ['id' => $id, 'model' => $article]);
     }
 
-    }
+}
