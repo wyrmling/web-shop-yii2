@@ -45,4 +45,11 @@ class ArticlesController extends Controller
             return $this->redirect('/admin/articles');
     }
 
+    public function actionMultipleDelete() {
+        if (Articles::deleteAll(['article_id' => Yii::$app->request->post('ids')])) {
+            echo json_encode('ok');
+        } else {
+            echo json_encode('nok');
+        }
+    }
 }

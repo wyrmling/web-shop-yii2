@@ -10,6 +10,21 @@ use yii\bootstrap\Html;
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 
+$this->registerJs("
+
+    function multi_delete() {
+        var selIds = $('#grid').yiiGridView('getSelectedRows');
+        $.ajax({
+            type: 'POST',
+            url: 'multiple-delete/',
+            data: {ids: selIds},
+            success: function(data) {
+                if (JSON.parse(data) === 'ok') {
+                    $.pjax.reload({container: '#grid-pjax'});
+                }
+            }
+        });
+    }", \yii\web\View::POS_END);
 ?>
 
 <div class="admin-default-index">
@@ -70,8 +85,8 @@ $query->joinWith(['user' => function($query) {
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить статью', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
-                Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']),
-                'footer' => false
+                    '<input type="button" class="btn btn-warning" value="Multiple Delete" id="multi_delete" , onclick="multi_delete();">',
+                //'footer' => false
             ],
             'columns' => [
                 [

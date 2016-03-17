@@ -41,6 +41,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Просмотр заказа №'
 <div><?= 'Зафиксированная (занесенная в БД) сумма заказа: <b>' . $order_info['fixed_sum'] . '</b>' ?></div>
 
 <br>
+<?= Html::a('Редактировать заказ', ['orders/edit', 'id' => $order->order_id,], ['class' => 'btn btn-success']) ?>
+
+<br><br>
 <div><b>Комментарий заказчика</b></div>
 <div><?= Html::encode($order->client_comment) ?></div>
 <br>
