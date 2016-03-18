@@ -3,7 +3,6 @@
 use dosamigos\ckeditor\CKEditorInline;
 use yii\data\ActiveDataProvider;
 use app\models\Articles;
-// use yii\grid\GridView;
 use kartik\grid\GridView;
 use yii\bootstrap\Html;
 
@@ -85,7 +84,7 @@ $query->joinWith(['user' => function($query) {
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить статью', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
-                    '<input type="button" class="btn btn-warning" value="Multiple Delete" id="multi_delete" , onclick="multi_delete();">',
+                    '<input type="button" class="btn btn-warning" value="Удалить выбранные статьи" id="multi_delete" , onclick="multi_delete();">',
                 //'footer' => false
             ],
             'columns' => [
@@ -124,6 +123,7 @@ $query->joinWith(['user' => function($query) {
                             }
                                 ],
                             ],
+                            'options' => ['id' => 'grid'],
                             'resizableColumns' => false,
                             'containerOptions' => ['id' => 'news-pjax-container', 'style' => 'overflow: auto'],
                             'headerRowOptions' => ['class' => 'kartik-sheet-style'],
