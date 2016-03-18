@@ -14,6 +14,7 @@ class m151210_221047_create_product_categories_table extends Migration
         $this->createTable('{{product_categories}}', [
             'product_id' => $this->integer()->notNull(),
             'category_id' => $this->integer()->notNull(),
+            'PRIMARY KEY(product_id, category_id)'
         ]);
     }
 

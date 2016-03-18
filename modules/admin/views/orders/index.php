@@ -68,7 +68,7 @@ $this->registerJs("
                 'expandOneOnly' => true
             ],
             ['attribute' => 'user_phone_number', 'label' => 'Номер телефона'],
-            ['attribute' => 'total_sum', 'label' => 'Зафиксированная сумма'],
+            ['attribute' => 'total_sum', 'label' => 'Зафиксированная<br> сумма', 'encodeLabel' => false],
             ['attribute' => 'time_ordered', 'label' => 'Дата/Время заказа'],
             [
                 'class' => 'yii\grid\ActionColumn',

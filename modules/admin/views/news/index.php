@@ -72,8 +72,7 @@ $this->registerJs("
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать новость', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']) . ' ' .
-                    Html::a('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['delete-all'], ['class' => 'btn btn-warning', 'id' => 'deleteSel']) . ' ' .
-                    '<input type="button" class="btn btn-info" value="Multiple Delete" id="multi_delete" , onclick="multi_delete();">',
+                           Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['class' => 'btn btn-warning', 'id' => 'multi_delete', 'onclick' => 'multi_delete()']),
             ],
             'columns' => [
                 [
