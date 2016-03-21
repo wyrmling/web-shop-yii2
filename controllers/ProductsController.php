@@ -6,6 +6,7 @@ use Yii;
 use app\components\Controller;
 use app\models\Categories;
 use app\models\Products;
+use app\models\Cart;
 
 class ProductsController extends Controller
 {
@@ -46,9 +47,12 @@ class ProductsController extends Controller
     
     public function actionAddproduct()
     {
-        //if (Yii::$app->request->isAjax) {
+        if (Yii::$app->request->isAjax) {
             Cart::addProduct((int) Yii::$app->request->post('id'));
-        //}
+            echo json_encode(count(Yii::$app->session->get('productsarray')));
+        } else {
+            echo json_encode('nok');
+        }
     }
 
 }

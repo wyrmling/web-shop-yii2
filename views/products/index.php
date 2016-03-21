@@ -8,17 +8,24 @@ foreach ($fullPath as $path) {
 }
 
 $this->registerJs("
-
-    function addproduct() {
+    function addproduct(productid) {      
         $.ajax({
             type: 'POST',
-            url: 'addproduct/',
-            data: {id: 1},
+            url: 'products/addproduct/',
+            data: {id: productid},
+             success: function(data) {
+                if (JSON.parse(data) !== 'nok') {
+                    $('#div_1').text(JSON.parse(data));
+                }
             }
         });
     }", \yii\web\View::POS_END);
 ?>
 
+<div id='div_1'>
+    <b> здесь будет количество товара в корзине</b>
+</div>
+<br>
 <div> Название товара:
     <b> <?= Html::encode($product['title']) ?> </b>
 </div>
@@ -43,10 +50,8 @@ $this->registerJs("
 </div>
 <br>
 <div>
-    <input type="button" class="" value="добавить в корзину" id="addproduct" onclick="addproduct()">
+    <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
 </div>
-
-    
 <br>
 <div>
     Атрибуты товара:
