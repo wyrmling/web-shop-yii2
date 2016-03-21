@@ -43,5 +43,12 @@ class ProductsController extends Controller
             ]
         );
     }
+    
+    public function actionAddproduct()
+    {
+        //if (Yii::$app->request->isAjax) {
+            Cart::addProduct((int) Yii::$app->request->post('id'));
+        //}
+    }
 
 }
