@@ -8,21 +8,35 @@ $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'u
 foreach ($fullPath as $path) {
     $this->params['breadcrumbs'][] = ['label' => $path->name, 'url' => ["/catalog/category/$path->category_id"]];
 }
+
+$this->registerJs("
+    function addproduct(productid) {      
+        $.ajax({
+            type: 'POST',
+            url: '/products/addproduct/',
+            data: {id: productid},
+             success: function(data) {
+                if (JSON.parse(data) !== 'nok') {
+                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
+                }
+            }
+        });
+    }", \yii\web\View::POS_END);
 ?>
 Фильтр товаров по брендам:<br>
 <div class="filter">
     <div>
         <?php
         $form = ActiveForm::begin([
-            'id' => 'active-form',
-            'options' => [
-                'class' => 'form-horizontal',
-                'enctype' => 'multipart/form-data',
-                'name' => 'brandsfilter',
-            ],
-            'fieldConfig' => [
-                'template' => "{input}\n{label}\n{hint}\n{error}",
-            ]
+                    'id' => 'active-form',
+                    'options' => [
+                        'class' => 'form-horizontal',
+                        'enctype' => 'multipart/form-data',
+                        'name' => 'brandsfilter',
+                    ],
+                    'fieldConfig' => [
+                        'template' => "{input}\n{label}\n{hint}\n{error}",
+                    ]
         ]);
         ?>
 
@@ -68,7 +82,11 @@ foreach ($fullPath as $path) {
             </div>
             <div>
                 цена: <?= Html::encode($product['price']) ?> (специальная цена: <?= Html::encode($product['special_price']) ?>)
-                <?= Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
+                <?php // Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
+            </div>
+            <br>
+            <div>
+                <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
             </div>
         </div>
     <?php endforeach; ?>

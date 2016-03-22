@@ -15,16 +15,13 @@ $this->registerJs("
             data: {id: productid},
              success: function(data) {
                 if (JSON.parse(data) !== 'nok') {
-                    $('#div_1').text(JSON.parse(data));
+                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
                 }
             }
         });
     }", \yii\web\View::POS_END);
 ?>
 
-<div id='div_1'>
-    <b> здесь будет количество товара в корзине</b>
-</div>
 <br>
 <div> Название товара:
     <b> <?= Html::encode($product['title']) ?> </b>
@@ -46,7 +43,7 @@ $this->registerJs("
 </div>
 <br>
 <div>
-    <?= Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
+    <?php //Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
 </div>
 <br>
 <div>

@@ -58,7 +58,7 @@ AppAsset::register($this);
             ['label' => 'Каталог товаров', 'url' => ['/catalog/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
-            ['label' => "Корзина ($products_in_cart)", 'url' => ['/cart/index']],
+            ['label' => "Корзина ($products_in_cart)", 'url' => ['/cart/index'], 'linkOptions' => ['id' => 'cartcounter']],
             $auth_block
         ],
     ]);
