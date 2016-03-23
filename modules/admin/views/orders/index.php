@@ -33,7 +33,7 @@ $this->registerJs("
         'toolbar' => [
             [
                 'content' =>
-                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['class' => 'btn btn-success']) . ' ' .
+                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['add'], ['class' => 'btn btn-success']) . ' ' .
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], [
                     'data-pjax' => 10,
                     'class' => 'btn btn-default',
@@ -46,7 +46,7 @@ $this->registerJs("
         'panel' => [
             'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Заказы</h3>',
             'type' => 'success',
-            'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить заказ', ['create'], ['class' => 'btn btn-success']),
+            'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить заказ', ['add'], ['class' => 'btn btn-success']),
             'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Сброс выбранного', ['index'], ['class' => 'btn btn-info']) . ' ' .
             '<input type="button" class="btn btn-warning" value="Удалить выбранные заказы" id="multi_delete" , onclick="multi_delete();">',
         ],

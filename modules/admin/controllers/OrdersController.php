@@ -125,6 +125,12 @@ class OrdersController extends Controller
         return $this->redirect('/admin/orders/edit/' . $id);
     }
 
+    public function actionAdd()
+    {
+        $order = (new Orders)->loadDefaultValues();
+        return $this->render('add', ['model' => $order,]);
+    }
+
     public function actionView($id)
     {
         $order = Orders::findOne(['order_id' => $id]);
