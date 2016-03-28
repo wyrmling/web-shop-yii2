@@ -185,4 +185,13 @@ class ProductsController extends Controller
         ]);
     }
 
+    public function actionProductslist()
+    {
+        if (isset($_POST['id'])) {
+            echo json_encode(Yii::$app->request->post('id'));
+        } else {
+            echo json_encode('nok');
+        }
+    }
+    
 }

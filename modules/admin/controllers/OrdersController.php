@@ -7,6 +7,7 @@ use app\components\Controller;
 use yii\data\ActiveDataProvider;
 use app\models\Orders;
 use app\models\OrderDetails;
+use app\models\Categories;
 
 class OrdersController extends Controller
 {
@@ -128,7 +129,12 @@ class OrdersController extends Controller
     public function actionAdd()
     {
         $order = (new Orders)->loadDefaultValues();
-        return $this->render('add', ['model' => $order,]);
+        $tree = Categories::getTree();
+        $quantities = Categories::getCategoriesList();
+        return $this->render('add', ['model' => $order,
+                    'tree' => $tree,
+                    'quantities' => $quantities,
+        ]);
     }
 
     public function actionView($id)
@@ -198,6 +204,17 @@ class OrdersController extends Controller
         } else {
             echo json_encode('nok');
         }
+    }
+
+    public function actionProductspjax($id)
+    {
+        $order = (new Orders)->loadDefaultValues();
+        $tree = Categories::getTree();
+        $quantities = Categories::getCategoriesList();
+        return $this->render('add', ['answer' => $id,
+                    'model' => $order,
+                    'tree' => $tree,
+                    'quantities' => $quantities,]);
     }
 
 }

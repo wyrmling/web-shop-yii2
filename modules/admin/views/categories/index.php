@@ -4,16 +4,17 @@ use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
-
-
 ?>
 <div class="tree">
-    
-    <?php
-    echo Html::a('Добавить категорию', ['/admin/categories/add/', 'id' => 0], ['class' => 'btn-category-add']);
-    
-    echo buildTree(0, $tree, $quantities);
 
+<?php
+echo Html::a('Добавить категорию', ['/admin/categories/add/', 'id' => 0], ['class' => 'btn-category-add']);
+
+echo buildTree(0, $tree, $quantities);
+?>
+</div>
+
+    <?php
     function buildTree($start, $cats, $quant)
     {
         if (isset($cats[$start])) {
@@ -27,12 +28,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['in
                     $stile_class = '<span><i class="icon-leaf"></i>';
                 }
                 $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
-                        
                         . Html::a('переименовать', ['categories/edit', 'id' => $cat_id], ['class' => 'btn-category-edit'])
                         . Html::a('удалить', ['categories/delete', 'id' => $cat_id], ['class' => 'btn-category-delete'])
                         . Html::a('добавить подкатегорию', ['categories/add', 'id' => $cat_id], ['class' => 'btn-category-add'])
                         . Html::a('список атрибутов', ['attributes/list', 'id' => $cat_id], ['class' => 'btn-category-list'])
-                . '</span>';
+                        . '</span>';
                 $tree .= buildTree($cat_id, $cats, $quant);
                 $tree .= '</li>';
             }
@@ -41,4 +41,4 @@ $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['in
         }
     }
     ?>
-</div>
+
