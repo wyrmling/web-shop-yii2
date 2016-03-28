@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Orders;
 use app\models\OrderDetails;
 use app\models\Categories;
+use app\models\Products;
 
 class OrdersController extends Controller
 {
@@ -126,14 +127,25 @@ class OrdersController extends Controller
         return $this->redirect('/admin/orders/edit/' . $id);
     }
 
-    public function actionAdd()
+    public function actionAdd($id = 0)
     {
         $order = (new Orders)->loadDefaultValues();
         $tree = Categories::getTree();
         $quantities = Categories::getCategoriesList();
-        return $this->render('add', ['model' => $order,
+
+        $query = Products::find()->where(['status' => 1, 'category_id' => $id]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 10],
+        ]);
+
+        return $this->render('add', [
+                    'model' => $order,
                     'tree' => $tree,
                     'quantities' => $quantities,
+                    'id' => $id,
+                    'query' => $query,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -204,17 +216,6 @@ class OrdersController extends Controller
         } else {
             echo json_encode('nok');
         }
-    }
-
-    public function actionProductspjax($id)
-    {
-        $order = (new Orders)->loadDefaultValues();
-        $tree = Categories::getTree();
-        $quantities = Categories::getCategoriesList();
-        return $this->render('add', ['answer' => $id,
-                    'model' => $order,
-                    'tree' => $tree,
-                    'quantities' => $quantities,]);
     }
 
 }

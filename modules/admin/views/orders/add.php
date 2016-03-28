@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use yii\widgets\Pjax;
+use yii\grid\GridView;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
@@ -15,7 +16,7 @@ $this->registerJs("
     }", \yii\web\View::POS_END);
 
 $this->registerJs("
-    function productslist2(productid) {      
+    function productslist2(productid) {
         $.ajax({
             type: 'POST',
             url: '/admin/products/productslist/',
@@ -59,21 +60,32 @@ $this->registerJs("
     </div>
     <?php ActiveForm::end(); ?>
 
-        <?php $answer=0; ?>
 </div>
 
-    
-    <?php Pjax::begin(); ?>
+<?php Pjax::begin(); ?>
 <div class="tree">
-    
     <div class = "subblock">
         список товаров
-        $id = <?= $answer ?>
+        $id = <?= $id ?>
+        <br>
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                'product_id',
+                'category_id',
+                'title',
+                'price',
+                'special_price',
+            ],
+        ])
+        ?>
+    <?php var_dump($query); ?>
     </div>
-    <?= buildTree(0, $tree, $quantities); ?>
+<?= buildTree(0, $tree, $quantities); ?>
 </div>
 <?php Pjax::end(); ?>
-    
+
 <?php function buildTree($start, $cats, $quant)
     {
         if (isset($cats[$start])) {
@@ -90,7 +102,7 @@ $this->registerJs("
                         . '</span>'
                         . '<input type="button" value="текст" class = "btn-category-edit" id="addproduct" onclick="productslist(' . $cat_id . ')">'
                         . '<input type="button" value="post" class = "btn-category-edit" id="addproduct" onclick="productslist2(' . $cat_id . ')">'
-                . Html::a('pjax', ['orders/productspjax/', 'id' => $cat_id], ['class' => 'btn-category-edit']);
+                . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['class' => 'btn-category-edit']);
                 $tree .= buildTree($cat_id, $cats, $quant);
                 $tree .= '</li>';
             }
@@ -98,4 +110,4 @@ $this->registerJs("
             return $tree;
         }
     }
-    ?>
+?>
