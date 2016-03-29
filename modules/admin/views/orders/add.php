@@ -64,50 +64,49 @@ $this->registerJs("
 
 <?php Pjax::begin(); ?>
 <div class="tree">
-    <div class = "subblock">
-        список товаров
-        $id = <?= $id ?>
-        <br>
-        <?=
-        GridView::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                'product_id',
-                'category_id',
-                'title',
-                'price',
-                'special_price',
-            ],
-        ])
-        ?>
-    <?php var_dump($query); ?>
-    </div>
-<?= buildTree(0, $tree, $quantities); ?>
+    <?= buildTree(0, $tree, $quantities); ?>
+</div>  
+
+<div class = "subblock">
+    <?=
+    GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            'product_id',
+            'category_id',
+            'title',
+            'price',
+            'special_price',
+        ],
+    ])
+    ?>
 </div>
 <?php Pjax::end(); ?>
 
-<?php function buildTree($start, $cats, $quant)
-    {
-        if (isset($cats[$start])) {
-            $tree = '<ul>';
-            foreach ($cats[$start] as $cat_id => $name) {
-                if ($quant[$cat_id]['parent_category_id'] == 0) {
-                    $stile_class = '<span><i class="icon-folder-open"></i>';
-                } elseif (isset($cats[$cat_id])) {
-                    $stile_class = '<span><i class="icon-minus-sign"></i>';
-                } else {
-                    $stile_class = '<span><i class="icon-leaf"></i>';
-                }
-                $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
-                        . '</span>'
-                        . '<input type="button" value="текст" class = "btn-category-edit" id="addproduct" onclick="productslist(' . $cat_id . ')">'
-                        . '<input type="button" value="post" class = "btn-category-edit" id="addproduct" onclick="productslist2(' . $cat_id . ')">'
-                . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['class' => 'btn-category-edit']);
-                $tree .= buildTree($cat_id, $cats, $quant);
-                $tree .= '</li>';
+<?php
+
+function buildTree($start, $cats, $quant)
+{
+    if (isset($cats[$start])) {
+        $tree = '<ul>';
+        foreach ($cats[$start] as $cat_id => $name) {
+            if ($quant[$cat_id]['parent_category_id'] == 0) {
+                $stile_class = '<span><i class="icon-folder-open"></i>';
+            } elseif (isset($cats[$cat_id])) {
+                $stile_class = '<span><i class="icon-minus-sign"></i>';
+            } else {
+                $stile_class = '<span><i class="icon-leaf"></i>';
             }
-            $tree .= '</ul>';
-            return $tree;
+            $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
+                    . '</span>'
+//                  . '<input type="button" value="текст" class = "btn-category-edit" id="addproduct" onclick="productslist(' . $cat_id . ')">'
+//                  . '<input type="button" value="post" class = "btn-category-edit" id="addproduct" onclick="productslist2(' . $cat_id . ')">'
+                    . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['class' => 'btn-category-edit']);
+            $tree .= buildTree($cat_id, $cats, $quant);
+            $tree .= '</li>';
         }
+        $tree .= '</ul>';
+        return $tree;
     }
+}
 ?>

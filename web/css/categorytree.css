@@ -1,5 +1,4 @@
 .tree {
-    position: relative;
     min-height:20px;
     padding:19px;
     margin-bottom:20px;
@@ -10,7 +9,9 @@
     border-radius:4px;
     -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
     -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    width: 1141px;
+    float: left;
 }
 .tree li {
     list-style-type:none;
@@ -72,30 +73,29 @@
 }
 
 .btn-category-edit {
-     border: 1px solid grey;
-     color: #2c539e;
+    border: 1px solid grey;
+    color: #2c539e;
 }
 
 .btn-category-delete {
-     border: 1px solid grey;
-     color: red;
+    border: 1px solid grey;
+    color: red;
 }
 
 .btn-category-add {
-     border: 1px solid grey;
-     color: green;
+    border: 1px solid grey;
+    color: green;
 }
 
 .btn-category-list {
-     border: 1px solid grey;
-     color: grey;
+    border: 1px solid grey;
+    color: grey;
 }
 
 .subblock {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  bottom: 5px;
-  border:1px solid #94a0b4;
-  width: 50%;
+    width: 630px;
+    float: left;
+    border:1px solid #999;
+    margin-left: 5px;
+    border-radius:4px;
 }

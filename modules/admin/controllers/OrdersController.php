@@ -136,14 +136,14 @@ class OrdersController extends Controller
         $query = Products::find()->where(['status' => 1, 'category_id' => $id]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => 10],
+            'pagination' => ['pageSize' => 3],
         ]);
 
         return $this->render('add', [
                     'model' => $order,
                     'tree' => $tree,
                     'quantities' => $quantities,
-                    'id' => $id,
+                    'category_id' => $id,
                     'query' => $query,
                     'dataProvider' => $dataProvider,
         ]);
