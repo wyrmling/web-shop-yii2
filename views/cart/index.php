@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 $sum = 0;
 
 $this->registerJs("
-    function deleteproduct(productid) {      
+    function deleteproduct(productid) {
         $.ajax({
             type: 'POST',
             url: '/cart/delete/',
@@ -16,7 +16,7 @@ $this->registerJs("
              success: function(data) {
                 if (JSON.parse(data) !== 'nok') {
                     $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $.pjax({container: '#w0', timeout: 0});
+                    $.pjax({container: '#w0'});
                 }
             }
         });
@@ -27,18 +27,18 @@ $this->registerJs("
 
 <?php Pjax::begin(); ?>
 
-<?php if (count(Yii::$app->session->get('productsarray'))): ?> 
+<?php if (count(Yii::$app->session->get('productsarray'))): ?>
 
     <?php foreach (Yii::$app->session->get('productsarray') as $key => $value): ?>
 
         <div class="product">
             <b> <?= Html::encode($products[$value]['title']) ?> </b>
             <?= Html::encode($products[$value]['brand_name']) ?>
-            <div>Цена:  
+            <div>Цена:
                 <?= Html::encode($products[$value]['price']) ?>
                 ( Специальная цена: <?= Html::encode($products[$value]['special_price']) ?> )
             </div>
-            <br>      
+            <br>
             <?php // Html::a('[удалить из корзины]', ['cart/delete', 'id' => $key]) ?>
             <div>
                 <input type="button" value="удалить из корзины" id="addproduct" onclick="deleteproduct(<?= $key ?>)">

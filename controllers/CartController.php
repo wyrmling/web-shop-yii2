@@ -56,7 +56,6 @@ class CartController extends Controller
         if (Yii::$app->request->isAjax) {
             Cart::DeleteProduct((int) Yii::$app->request->post('id'));
             echo json_encode(count(Yii::$app->session->get('productsarray')));
-          //  return $this->redirect(Yii::$app->request->referrer);
         } else {
             echo json_encode('nok');
         }

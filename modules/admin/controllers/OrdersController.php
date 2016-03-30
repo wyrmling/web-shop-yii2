@@ -8,17 +8,17 @@ use yii\data\ActiveDataProvider;
 use app\models\Orders;
 use app\models\OrderDetails;
 use app\models\Categories;
-use app\models\Products;
+
 
 class OrdersController extends Controller
-{
+    {
 
     public function actionIndex()
     {
         $query = (new \yii\db\Query())
-            ->select('*')
-            ->from('orders')
-            ->leftJoin('users', 'users.user_id = orders.user_id');
+                ->select('*')
+                ->from('orders')
+                ->leftJoin('users', 'users.user_id = orders.user_id');
 //            ->orderBy(['order_id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
@@ -42,7 +42,6 @@ class OrdersController extends Controller
                     ],
                 ],
             ],
-
         ]);
 // join with relation `user` that is a relation to the table `users`
 // and set the table alias to be `Заказчик`
@@ -56,8 +55,8 @@ class OrdersController extends Controller
 //];
 
         return $this->render('index', [
-            'query' => $query,
-            'dataProvider' => $dataProvider
+                    'query' => $query,
+                    'dataProvider' => $dataProvider
         ]);
     }
 
@@ -65,11 +64,11 @@ class OrdersController extends Controller
     {
         Yii::$app->db->transaction(function ($db) use ($id) {
             $db->createCommand()
-                ->delete('orders', "order_id = $id")
-                ->execute();
+                    ->delete('orders', "order_id = $id")
+                    ->execute();
             $db->createCommand()
-                ->delete('order_details', "order_id = $id")
-                ->execute();
+                    ->delete('order_details', "order_id = $id")
+                    ->execute();
         });
         return $this->redirect('/admin/orders');
     }
@@ -81,8 +80,8 @@ class OrdersController extends Controller
 
         Yii::$app->db->transaction(function ($db) use ($order, $order_details, $id, $product_id) {
             $db->createCommand()
-                ->update('order_details', ['quantity' => $order_details->quantity + 1], "order_id = $id AND product_id = $product_id")
-                ->execute();
+                    ->update('order_details', ['quantity' => $order_details->quantity + 1], "order_id = $id AND product_id = $product_id")
+                    ->execute();
 //            $db->createCommand()
 //                ->update('orders', ['total_sum' => $order->total_sum + $order_details->price], "order_id = $id")
 //                ->execute();
@@ -99,8 +98,8 @@ class OrdersController extends Controller
         if ($order_details->quantity > 1) {
             Yii::$app->db->transaction(function ($db) use ($order, $order_details, $id, $product_id) {
                 $db->createCommand()
-                    ->update('order_details', ['quantity' => $order_details->quantity - 1], "order_id = $id AND product_id = $product_id")
-                    ->execute();
+                        ->update('order_details', ['quantity' => $order_details->quantity - 1], "order_id = $id AND product_id = $product_id")
+                        ->execute();
 //                $db->createCommand()
 //                    ->update('orders', ['total_sum' => $order->total_sum - $order_details->price], "order_id = $id")
 //                    ->execute();
@@ -120,8 +119,8 @@ class OrdersController extends Controller
 //                ->update('orders', ['total_sum' => $order->total_sum - $order_details->price * $order_details->quantity], "order_id = $id")
 //                ->execute();
             $db->createCommand()
-                ->update('order_details', ['quantity' => 0], "order_id = $id AND product_id = $product_id")
-                ->execute();
+                    ->update('order_details', ['quantity' => 0], "order_id = $id AND product_id = $product_id")
+                    ->execute();
         });
 
         return $this->redirect('/admin/orders/edit/' . $id);
@@ -132,90 +131,80 @@ class OrdersController extends Controller
         $order = (new Orders)->loadDefaultValues();
         $tree = Categories::getTree();
         $quantities = Categories::getCategoriesList();
+                return $this->render('add', [
+                            'model' => $order,
+                            'tree' => $tree,
+                            'quantities' => $quantities,
+                            'category_id' => $id,
+                ]);
+            }
 
-        $query = Products::find()->where(['status' => 1, 'category_id' => $id]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => ['pageSize' => 3],
-        ]);
+            public function actionView($id)
+            {
+                $order = Orders::findOne(['order_id' => $id]);
+                $order_details = OrderDetails::find()
+                        ->where(['order_id' => $id])
+                        ->leftJoin('products', 'products.product_id = order_details.product_id')
+                        ->all();
 
-        return $this->render('add', [
-                    'model' => $order,
-                    'tree' => $tree,
-                    'quantities' => $quantities,
-                    'category_id' => $id,
-                    'query' => $query,
-                    'dataProvider' => $dataProvider,
-        ]);
-    }
+                $order_info = Orders::countTotalSumm($order, $order_details);
 
-    public function actionView($id)
-    {
-        $order = Orders::findOne(['order_id' => $id]);
-        $order_details = OrderDetails::find()
-            ->where(['order_id' => $id])
-            ->leftJoin('products', 'products.product_id = order_details.product_id')
-            ->all();
+                return $this->render('view', [
+                            'order' => $order,
+                            'order_details' => $order_details,
+                            'order_info' => $order_info,
+                ]);
+            }
 
-        $order_info = Orders::countTotalSumm($order, $order_details);
+            public function actionEdit($id)
+            {
+                $order = Orders::findOne(['order_id' => $id]);
+                $order_details = OrderDetails::find()
+                        ->where(['order_id' => $id])
+                        ->leftJoin('products', 'products.product_id = order_details.product_id')
+                        ->all();
 
-        return $this->render('view', [
-            'order' => $order,
-            'order_details' => $order_details,
-            'order_info' => $order_info,
-        ]);
-    }
+                $order_info = Orders::countTotalSumm($order, $order_details);
 
-    public function actionEdit($id)
-    {
-        $order = Orders::findOne(['order_id' => $id]);
-        $order_details = OrderDetails::find()
-            ->where(['order_id' => $id])
-            ->leftJoin('products', 'products.product_id = order_details.product_id')
-            ->all();
+                return $this->render('edit', [
+                            'order' => $order,
+                            'order_details' => $order_details,
+                            'order_info' => $order_info,
+                ]);
+            }
 
-        $order_info = Orders::countTotalSumm($order, $order_details);
+            public function actionFix($id, $fixed)
+            {
+                Yii::$app->db->transaction(function ($db) use ($id, $fixed) {
+                    $db->createCommand()
+                            ->update('orders', ['total_sum' => $fixed], "order_id = $id")
+                            ->execute();
+                });
 
-        return $this->render('edit', [
-            'order' => $order,
-            'order_details' => $order_details,
-            'order_info' => $order_info,
-        ]);
-    }
+                return $this->redirect('/admin/orders/edit/' . $id);
+            }
 
-    public function actionFix($id, $fixed)
-    {
-        Yii::$app->db->transaction(function ($db) use ($id, $fixed) {
-            $db->createCommand()
-                ->update('orders', ['total_sum' => $fixed], "order_id = $id")
-                ->execute();
-        });
+            public function actionOrderDetail()
+            {
+                if (isset($_POST['expandRowKey'])) {
+                    $model = \app\models\OrderDetails::find()
+                            ->where(['order_id' => $_POST['expandRowKey']])
+                            ->leftJoin('products', 'products.product_id = order_details.product_id')
+                            ->all();
+                    return Yii::$app->controller->renderPartial('_expand_view', ['model' => $model, 'id' => $_POST['expandRowKey']]);
+                } else {
+                    return '<div class="alert alert-danger">No data found</div>';
+                }
+            }
 
-        return $this->redirect('/admin/orders/edit/' . $id);
-    }
+            public function actionMultipleDelete()
+            {
+                if (Orders::deleteAll(['order_id' => Yii::$app->request->post('ids')]) && OrderDetails::deleteAll(['order_id' => Yii::$app->request->post('ids')])
+                ) {
+                    echo json_encode('ok');
+                } else {
+                    echo json_encode('nok');
+                }
+            }
 
-    public function actionOrderDetail()
-    {
-        if (isset($_POST['expandRowKey'])) {
-            $model = \app\models\OrderDetails::find()
-                ->where(['order_id' => $_POST['expandRowKey']])
-                ->leftJoin('products', 'products.product_id = order_details.product_id')
-                ->all();
-            return Yii::$app->controller->renderPartial('_expand_view', ['model' => $model, 'id' => $_POST['expandRowKey']]);
-        } else {
-            return '<div class="alert alert-danger">No data found</div>';
-        }
-    }
-
-    public function actionMultipleDelete()
-    {
-        if (Orders::deleteAll(['order_id' => Yii::$app->request->post('ids')])
-            && OrderDetails::deleteAll(['order_id' => Yii::$app->request->post('ids')])
-        ) {
-            echo json_encode('ok');
-        } else {
-            echo json_encode('nok');
-        }
-    }
-
-}
+            }
