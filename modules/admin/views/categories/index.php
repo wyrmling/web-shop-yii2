@@ -8,7 +8,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['in
 <div class="tree">
 
 <?php
-echo Html::a('Добавить категорию', ['/admin/categories/add/', 'id' => 0], ['class' => 'btn-category-add']);
+echo Html::a('+', ['/admin/categories/add/', 'id' => 0], ['title' => 'добавить категорию', 'class' => 'btn-category-add']);
 
 echo buildTree(0, $tree, $quantities);
 ?>
@@ -28,10 +28,10 @@ echo buildTree(0, $tree, $quantities);
                     $stile_class = '<span><i class="icon-leaf"></i>';
                 }
                 $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
-                        . Html::a('переименовать', ['categories/edit', 'id' => $cat_id], ['class' => 'btn-category-edit'])
-                        . Html::a('удалить', ['categories/delete', 'id' => $cat_id], ['class' => 'btn-category-delete'])
-                        . Html::a('добавить подкатегорию', ['categories/add', 'id' => $cat_id], ['class' => 'btn-category-add'])
-                        . Html::a('список атрибутов', ['attributes/list', 'id' => $cat_id], ['class' => 'btn-category-list'])
+                        . Html::a('R', ['categories/edit', 'id' => $cat_id], ['title' => 'переименовать категорию', 'class' => 'btn-category-edit'])
+                        . Html::a('-', ['categories/delete', 'id' => $cat_id], ['title' => 'удалить категорию', 'class' => 'btn-category-delete'])
+                        . Html::a('+', ['categories/add', 'id' => $cat_id], ['title' => 'добавить категорию', 'class' => 'btn-category-add'])
+                        . Html::a('L', ['attributes/list', 'id' => $cat_id], ['title' => 'список атрибутов категории', 'class' => 'btn-category-list'])
                         . '</span>';
                 $tree .= buildTree($cat_id, $cats, $quant);
                 $tree .= '</li>';

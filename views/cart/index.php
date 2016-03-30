@@ -3,22 +3,46 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Orders;
+use yii\widgets\Pjax;
 
 $sum = 0;
+
+$this->registerJs("
+    function deleteproduct(productid) {      
+        $.ajax({
+            type: 'POST',
+            url: '/cart/delete/',
+            data: {id: productid},
+             success: function(data) {
+                if (JSON.parse(data) !== 'nok') {
+                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
+                    $.pjax({container: '#w0', timeout: 0});
+                }
+            }
+        });
+    }", \yii\web\View::POS_END);
 ?>
 
 <h2>Корзина</h2>
 
-<?php if (count(Yii::$app->session->get('productsarray'))): ?>
+<?php Pjax::begin(); ?>
+
+<?php if (count(Yii::$app->session->get('productsarray'))): ?> 
 
     <?php foreach (Yii::$app->session->get('productsarray') as $key => $value): ?>
 
-        <div>
+        <div class="product">
             <b> <?= Html::encode($products[$value]['title']) ?> </b>
             <?= Html::encode($products[$value]['brand_name']) ?>
-            <?= Html::encode($products[$value]['price']) ?>
-            ( <?= Html::encode($products[$value]['special_price']) ?> )
-        <?= Html::a('[удалить из корзины]', ['/cart/delete', 'id' => $key]) ?>
+            <div>Цена:  
+                <?= Html::encode($products[$value]['price']) ?>
+                ( Специальная цена: <?= Html::encode($products[$value]['special_price']) ?> )
+            </div>
+            <br>      
+            <?php // Html::a('[удалить из корзины]', ['cart/delete', 'id' => $key]) ?>
+            <div>
+                <input type="button" value="удалить из корзины" id="addproduct" onclick="deleteproduct(<?= $key ?>)">
+            </div>
         </div>
 
         <?php
@@ -31,7 +55,8 @@ $sum = 0;
 
     <?php endforeach; ?>
 
-<br>
+    <div class="clear"></div>
+    <br>
     <div>
         Общая сумма заказа: <?= $sum ?> <br><br>
     </div>
@@ -48,32 +73,36 @@ $sum = 0;
 <?php elseif (count(Yii::$app->session->get('productsarray'))): ?>
 
 
-<div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
+    <div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
     <div>
         <?php
         $form = ActiveForm::begin();
         ?>
-<?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
-        <?= $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
-    'mask' => '+38 (999) 999-99-99',
-]) ?>
+        <?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
+        <?=
+        $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
+            'mask' => '+38 (999) 999-99-99',
+        ])
+        ?>
 
-    <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
-    <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
+        <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
+        <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
 
-    <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
-        
+        <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
+
         <div class="form-group">
-    <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
         </div>
 
-    <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
     </div>
 
-    <?php else: ?>
+<?php else: ?>
 
     <div>
         Нет выбранных товаров
     </div>
 
 <?php endif; ?>
+
+<?php Pjax::end(); ?>

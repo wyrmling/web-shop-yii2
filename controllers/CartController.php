@@ -51,10 +51,15 @@ class CartController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        Cart::DeleteProduct((int) $id);
-        return $this->redirect(Yii::$app->request->referrer);
+        if (Yii::$app->request->isAjax) {
+            Cart::DeleteProduct((int) Yii::$app->request->post('id'));
+            echo json_encode(count(Yii::$app->session->get('productsarray')));
+          //  return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            echo json_encode('nok');
+        }
     }
 
 }

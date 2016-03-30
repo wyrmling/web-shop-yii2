@@ -12,21 +12,7 @@ $this->params['breadcrumbs'][] = 'Добавление заказа';
 
 $this->registerJs("
     function productslist(productid) {
-                    $('.subblock').text(productid);
-    }", \yii\web\View::POS_END);
-
-$this->registerJs("
-    function productslist2(productid) {
-        $.ajax({
-            type: 'POST',
-            url: '/admin/products/productslist/',
-            data: {id: productid},
-             success: function(data) {
-                if (JSON.parse(data) !== 'nok') {
-                    $('.subblock').text(productid);
-                }
-            }
-        });
+    
     }", \yii\web\View::POS_END);
 ?>
 
@@ -99,9 +85,8 @@ function buildTree($start, $cats, $quant)
             }
             $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
                     . '</span>'
-//                  . '<input type="button" value="текст" class = "btn-category-edit" id="addproduct" onclick="productslist(' . $cat_id . ')">'
-//                  . '<input type="button" value="post" class = "btn-category-edit" id="addproduct" onclick="productslist2(' . $cat_id . ')">'
-                    . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['class' => 'btn-category-edit']);
+                    . '<input type="button" value="товары" class = "btn-category-edit" id="addproduct" onclick="productslist(' . $cat_id . ')">'
+                    . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['title' => 'список товаров', 'class' => 'btn-category-edit']);
             $tree .= buildTree($cat_id, $cats, $quant);
             $tree .= '</li>';
         }
