@@ -27,7 +27,25 @@ $this->params['breadcrumbs'][] = 'Users';
                 'user_id',
                 'username',
                 'password',
-            ]
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'header' => 'Действия',
+                    'headerOptions' => ['width' => '80'],
+                    'template' => '{view} {update} {delete} {link}',
+                    'buttons' => [
+                        'update' => function ($url) {
+                            return Html::a('<span class="glyphicon glyphicon-screenshot"></span>', $url);
+                        },
+                        'link' => function ($url) {
+                            return Html::a('Действие', $url);
+                        },
+                    ],
+                ],
+                [
+                    'attribute'=>'is_active',
+                    'filter'=>array('y'=>'Активно','n'=>'Не активно'),
+                ],
+            ],
         ]);
 
         foreach ($users as $k => $user) {

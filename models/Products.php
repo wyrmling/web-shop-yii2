@@ -2,9 +2,8 @@
 
 namespace app\models;
 
-//use Yii;
+use Yii;
 use yii\db\ActiveRecord;
-use app\models\Users;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -25,23 +24,17 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_by
  * @property string $time_updated
  */
-class Products extends \yii\db\ActiveRecord
+class Products extends ActiveRecord
 {
 
     const VISIBLE = 1;
     const HIDDEN = 0;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'products';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -50,14 +43,11 @@ class Products extends \yii\db\ActiveRecord
             [['price', 'special_price'], 'number'],
             [['time_created', 'time_updated'], 'safe'],
             [['sku', 'article', 'title', 'description'], 'string', 'max' => 255],
-            ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
-            ['updated_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
+            ['created_by', 'default', 'value' => Yii::$app->user->identity->getId()],
+            ['updated_by', 'default', 'value' => Yii::$app->user->identity->getId()],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -74,9 +64,9 @@ class Products extends \yii\db\ActiveRecord
             'price' => 'Цена',
             'special_price' => 'Спец.цена',
             'createdBy.username' => 'Добавил',
-            'time_created' => '(дата.время)',
+            'time_created' => 'Создано',
             'updatedBy.username' => 'Редактировал',
-            'time_updated' => '(дата.время)',
+            'time_updated' => 'Изменено',
         ];
     }
 
@@ -110,7 +100,7 @@ class Products extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'time_updated',
                 ],
                 'value' => function () {
-                    return \Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+                    return Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
                 }
             ]
         ];

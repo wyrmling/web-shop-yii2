@@ -21,12 +21,14 @@ $this->params['breadcrumbs'][] = 'Создание статьи';
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'title' => ['type' => Form::INPUT_TEXT,
+            'title' => [
+                'type' => Form::INPUT_TEXT,
                 'options' => ['placeholder' => 'Обязательно заполните это поле'],
-            //'hint' => 'Обязательно заполните это поле'
+//                'hint' => 'Обязательно заполните это поле'
             ],
             'description' => ['type' => Form::INPUT_TEXT],
-            'content' => ['type' => Form::INPUT_WIDGET,
+            'content' => [
+                'type' => Form::INPUT_WIDGET,
                 'widgetClass' => 'dosamigos\ckeditor\CKEditor',
                 'options' => ['options' => ['rows' => 6], 'preset' => 'basic']
             ],

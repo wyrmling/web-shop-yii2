@@ -15,10 +15,10 @@ echo "Товар: ($product->product_id) \" $product->title \" ";
 
 <?php
 $form = ActiveForm::begin([
-            'id' => 'login-form-horizontal',
-            'type' => ActiveForm::TYPE_HORIZONTAL,
-            'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
-        ]);
+    'id' => 'login-form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+]);
 ?>
 
 <?php foreach ($atributs_list as $i => $item): ?>
@@ -40,5 +40,3 @@ $form = ActiveForm::begin([
 </div>
 
 <?php ActiveForm::end(); ?>
-
-</div>

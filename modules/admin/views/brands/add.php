@@ -18,10 +18,11 @@ $this->params['breadcrumbs'][] = 'Добавление бренда';
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'brand_name' => ['type' => Form::INPUT_TEXT,
-            'options' => ['placeholder' => 'Обязательно заполните это поле'],
-            //'hint' => 'Обязательно заполните это поле'
-             ],
+            'brand_name' => [
+                'type' => Form::INPUT_TEXT,
+                'options' => ['placeholder' => 'Обязательно заполните это поле'],
+                //'hint' => 'Обязательно заполните это поле'
+            ],
         ],
     ]);
     ?>

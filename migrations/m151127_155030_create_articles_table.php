@@ -20,7 +20,6 @@ class m151127_155030_create_articles_table extends Migration
     {
         $this->createTable('{{articles}}', [
             'article_id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
             'description' => $this->string()->notNull(),
             'content' => $this->text()->notNull(),

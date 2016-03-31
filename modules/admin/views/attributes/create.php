@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = 'Создание атрибута';
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'attribute_name' => ['type' => Form::INPUT_TEXT,
+            'attribute_name' => [
+                'type' => Form::INPUT_TEXT,
                 'options' => ['placeholder' => 'Обязательно заполните это поле'],
             ],
             'unit' => ['type' => Form::INPUT_TEXT],
@@ -31,4 +32,3 @@ $this->params['breadcrumbs'][] = 'Создание атрибута';
     <?php ActiveForm::end(); ?>
 
 </div>
-

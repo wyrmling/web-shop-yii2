@@ -25,7 +25,11 @@ $model['parent_category_id'] = $parent_category_id;
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Введите название категории (подкатегории)'], 'hint' => 'Обязательно заполните это поле'],
+            'name' => [
+                'type' => Form::INPUT_TEXT,
+                'options' => ['placeholder' => 'Введите название категории (подкатегории)'],
+                'hint' => 'Обязательно заполните это поле'
+            ],
             'parent_category_id' => ['type' => Form::INPUT_HIDDEN],
         ],
     ]);

@@ -50,22 +50,15 @@ class Articles extends ActiveRecord
         return [
             'article_id' => 'ID',
             'title' => 'Заголовок',
-            'user_id' => 'ID автора',
             'description' => 'Описание',
-            'user.username' => 'Имя автора',
             'content' => 'Текст cтатьи',
-            'createdBy.username' => 'Автор',
+            'createdBy.username' => 'Создал',
             'time_created' => 'Cоздана',
             'updatedBy.username' => 'Редактировал',
             'time_updated' => '(дата.время)',
             'article_status' => 'Статья',
             'comments_status' => 'Комментарии',
         ];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
     }
 
     public function getCreatedBy()

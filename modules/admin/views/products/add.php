@@ -21,9 +21,10 @@ $this->params['breadcrumbs'][] = 'Добавление товара';
         'model' => $model,
         'form' => $form,
         'attributes' => [
-            'title' => ['type' => Form::INPUT_TEXT,
+            'title' => [
+                'type' => Form::INPUT_TEXT,
                 'options' => ['placeholder' => 'Обязательно заполните это поле'],
-                //'hint' => 'Обязательно заполните это поле'
+//                'hint' => 'Обязательно заполните это поле'
             ],
             'sku' => ['type' => Form::INPUT_TEXT],
             'article' => ['type' => Form::INPUT_TEXT],

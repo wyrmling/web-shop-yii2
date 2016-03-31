@@ -10,7 +10,7 @@ foreach ($fullPath as $path) {
 }
 
 $this->registerJs("
-    function addproduct(productid) {      
+    function addproduct(productid) {
         $.ajax({
             type: 'POST',
             url: '/products/addproduct/',
@@ -28,15 +28,15 @@ $this->registerJs("
     <div>
         <?php
         $form = ActiveForm::begin([
-                    'id' => 'active-form',
-                    'options' => [
-                        'class' => 'form-horizontal',
-                        'enctype' => 'multipart/form-data',
-                        'name' => 'brandsfilter',
-                    ],
-                    'fieldConfig' => [
-                        'template' => "{input}\n{label}\n{hint}\n{error}",
-                    ]
+            'id' => 'active-form',
+            'options' => [
+                'class' => 'form-horizontal',
+                'enctype' => 'multipart/form-data',
+                'name' => 'brandsfilter',
+            ],
+            'fieldConfig' => [
+                'template' => "{input}\n{label}\n{hint}\n{error}",
+            ]
         ]);
         ?>
 
@@ -56,8 +56,8 @@ $this->registerJs("
 </div>
 
 <div class="content">
-    <div> подкатегории категории " <?= $path->name ?> ": </div>
-    <div>
+    <div class="categories" style="overflow: hidden">
+        <div>подкатегории категории "<?= $path->name ?>": </div>
         <?php foreach ($subcategories as $category): ?>
             <div class="category">
                 подкатегория <?= $category['category_id'] ?> - <?= Html::a($category['name'], ['/catalog/category/', 'id' => $category['category_id']]) ?>
@@ -65,32 +65,28 @@ $this->registerJs("
             </div>
         <?php endforeach; ?>
     </div>
+    <div class="products">
+        <div>товары категории "<?= $path->name ?>":</div>
 
-    <div class="clear"></div>
-    <div><br>товары категории " <?= $path->name ?> ": </div>
-
-    <?php foreach ($products as $product): ?>
-        <div class="product">
-            <div> Название товара:
-                <b> <?= Html::a($product['title'], ['/products/', 'id' => $product['product_id']]) ?> </b>
+        <?php foreach ($products as $product): ?>
+            <div class="product">
+                <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
+                <div>Название товара:
+                    <b> <?= Html::a($product['title'], ['/products/', 'id' => $product['product_id']]) ?> </b>
+                </div>
+                <div>Бренд:
+                    <?= Html::encode($product['brand_name']) ?>
+                </div>
+                <div>Описание:
+                    <?= Html::encode($product['description']) ?>
+                </div>
+                <div>
+                    цена: <?= Html::encode($product['price']) ?> (специальная цена: <?= Html::encode($product['special_price']) ?>)
+                    <input type="button" value="Купить" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
+                </div>
             </div>
-            <div> Бренд:
-                <?= Html::encode($product['brand_name']) ?>
-            </div>
-            <div> Описание:
-                <?= Html::encode($product['description']) ?>
-            </div>
-            <div>
-                цена: <?= Html::encode($product['price']) ?> (специальная цена: <?= Html::encode($product['special_price']) ?>)
-                <?php // Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
-            </div>
-            <br>
-            <div>
-                <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
-            </div>
-        </div>
-    <?php endforeach; ?>
-
+        <?php endforeach; ?>
+    </div>
     <div class="clear"></div>
 
     <?= LinkPager::widget(['pagination' => $pagination]) ?>

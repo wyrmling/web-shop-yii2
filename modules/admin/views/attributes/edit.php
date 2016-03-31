@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = 'Редактирование атрибута 
     }
 
     $form = ActiveForm::begin([
-                'id' => 'login-form-horizontal',
-                'type' => ActiveForm::TYPE_HORIZONTAL,
-                'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+        'id' => 'login-form-horizontal',
+        'type' => ActiveForm::TYPE_HORIZONTAL,
+        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
     ]);
     ?>
 

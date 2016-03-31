@@ -20,9 +20,17 @@ $this->params['breadcrumbs'][] = 'Создание новости';
         'form' => $form,
         'attributes' => [
 //            'fld1'=>['label'=>'Name','type'=>Form::INPUT_TEXT, 'value'=>'Kartik'],
-            'title' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Заголовок'], 'hint' => 'Обязательно заполните это поле'],
+            'title' => [
+                'type' => Form::INPUT_TEXT,
+                'options' => ['placeholder' => 'Заголовок'],
+                'hint' => 'Обязательно заполните это поле'
+            ],
             'description' => ['type' => Form::INPUT_TEXT],
-            'content' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => 'dosamigos\ckeditor\CKEditor', 'options' => ['options' => ['rows' => 6],'preset' => 'basic']],
+            'content' => [
+                'type' => Form::INPUT_WIDGET,
+                'widgetClass' => 'dosamigos\ckeditor\CKEditor',
+                'options' => ['options' => ['rows' => 6],'preset' => 'basic']
+            ],
 //            'user_id' => [
 //                'type'=> Form::INPUT_STATIC,
 //                'staticValue' => (!empty($model->user)) ? $model->user->username : Yii::$app->user->identity->username,

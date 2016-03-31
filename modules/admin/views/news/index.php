@@ -6,7 +6,6 @@ use kartik\grid\GridView;
 use yii\bootstrap\Html;
 
 $this->registerJs("
-
     function multi_delete() {
         var selIds = $('#grid').yiiGridView('getSelectedRows');
         $.ajax({
@@ -20,7 +19,6 @@ $this->registerJs("
             }
         });
     }", \yii\web\View::POS_END);
-
 ?>
 
 <div class="admin-default-index">
@@ -57,7 +55,7 @@ $this->registerJs("
                             'title' => 'Add Book',
                             'class' => 'btn btn-success',
                             'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
-                        ]) . ' '.
+                        ]) . ' ' .
                         Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], [
                             'data-pjax' => 10,
                             'class' => 'btn btn-default',
@@ -72,7 +70,7 @@ $this->registerJs("
                 'type' => 'success',
                 'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> Создать новость', ['create'], ['class' => 'btn btn-success']),
                 'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']) . ' ' .
-                           Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['class' => 'btn btn-warning', 'id' => 'multi_delete', 'onclick' => 'multi_delete()']),
+                    Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить выбранные', ['class' => 'btn btn-warning', 'id' => 'multi_delete', 'onclick' => 'multi_delete()']),
             ],
             'columns' => [
                 [

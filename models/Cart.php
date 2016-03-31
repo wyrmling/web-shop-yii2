@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 
 /*
  * This is the model class for user cart
