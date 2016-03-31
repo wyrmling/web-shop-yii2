@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
@@ -20,13 +21,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 
 <div><b>Детали заказа:</b></div>
 
+<?php Pjax::begin(['enablePushState' => false]); ?>
 <?php foreach ($order_details as $details): ?>
     <div class="orderdetails">
         <div><?= 'ID товара: ' . $details->product_id ?></div>
         <div><?= 'Название товара: ' . Html::a($details->product->title, ['products/view', 'id' => $details->product_id], ['target' => '_blank']) ?></div>
         <div><?= 'Количество: ' . $details->quantity ?>
-            <?= Html::a('[+]', ['orders/plus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('[-]', ['orders/minus', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-warning']) ?>
+            <?= Html::a('[+]', ['orders/plus/', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('[-]', ['orders/minus/', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-warning']) ?>
         </div>
         <div><?= 'Цена товара на момент заказа: ' . $details->price ?></div>
         <?php if (isset($details->product->special_price)): ?>
@@ -34,7 +36,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
         <?php else: ?>
             <div><?= 'Актуальная цена: ' . $details->product->price ?></div>
         <?php endif; ?>
-        <div><?= Html::a('Удалить', ['orders/deleteproduct', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-danger']) ?></div>
+        <div><?= Html::a('Удалить', ['orders/deleteproduct/', 'id' => $order->order_id, 'product_id' => $details->product_id,], ['class' => 'btn btn-danger']) ?></div>
     </div>
 <?php endforeach; ?>
 
@@ -43,6 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Редактирование за�
 <div><?= 'Сумма по ценам на момент заказа: ' . $order_info['ordered_string'] . ' = <b>' . $order_info['ordered_sum'] . '</b>' ?></div>
 <div><?= 'Сумма заказа по актуальным ценам: ' . $order_info['current_string'] . ' = <b>' . $order_info['current_sum'] . '</b>' ?></div>
 <div><?= 'Зафиксированная (занесенная в БД) сумма заказа: <b>' . $order_info['fixed_sum'] . '</b>' ?></div>
+<?php Pjax::end(); ?>
 
 <br>
 <?= Html::a('Зафиксировать сумму', ['orders/fix', 'id' => $order->order_id, 'fixed' => $order_info['current_sum'],], ['class' => 'btn btn-success']) ?>

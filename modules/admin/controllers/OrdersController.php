@@ -11,7 +11,7 @@ use app\models\Categories;
 
 
 class OrdersController extends Controller
-    {
+{
 
     public function actionIndex()
     {
@@ -87,7 +87,19 @@ class OrdersController extends Controller
 //                ->execute();
         });
 
-        return $this->redirect('/admin/orders/edit/' . $id);
+        $order = Orders::findOne(['order_id' => $id]);
+        $order_details = OrderDetails::find()
+                ->where(['order_id' => $id])
+                ->leftJoin('products', 'products.product_id = order_details.product_id')
+                ->all();
+
+        $order_info = Orders::countTotalSumm($order, $order_details);
+
+        return $this->render('edit', [
+                    'order' => $order,
+                    'order_details' => $order_details,
+                    'order_info' => $order_info,
+        ]);
     }
 
     public function actionMinus($id, $product_id)
@@ -131,80 +143,80 @@ class OrdersController extends Controller
         $order = (new Orders)->loadDefaultValues();
         $tree = Categories::getTree();
         $quantities = Categories::getCategoriesList();
-                return $this->render('add', [
-                            'model' => $order,
-                            'tree' => $tree,
-                            'quantities' => $quantities,
-                            'category_id' => $id,
-                ]);
-            }
+        return $this->render('add', [
+                    'model' => $order,
+                    'tree' => $tree,
+                    'quantities' => $quantities,
+                    'category_id' => $id,
+        ]);
+    }
 
-            public function actionView($id)
-            {
-                $order = Orders::findOne(['order_id' => $id]);
-                $order_details = OrderDetails::find()
-                        ->where(['order_id' => $id])
-                        ->leftJoin('products', 'products.product_id = order_details.product_id')
-                        ->all();
+    public function actionView($id)
+    {
+        $order = Orders::findOne(['order_id' => $id]);
+        $order_details = OrderDetails::find()
+                ->where(['order_id' => $id])
+                ->leftJoin('products', 'products.product_id = order_details.product_id')
+                ->all();
 
-                $order_info = Orders::countTotalSumm($order, $order_details);
+        $order_info = Orders::countTotalSumm($order, $order_details);
 
-                return $this->render('view', [
-                            'order' => $order,
-                            'order_details' => $order_details,
-                            'order_info' => $order_info,
-                ]);
-            }
+        return $this->render('view', [
+                    'order' => $order,
+                    'order_details' => $order_details,
+                    'order_info' => $order_info,
+        ]);
+    }
 
-            public function actionEdit($id)
-            {
-                $order = Orders::findOne(['order_id' => $id]);
-                $order_details = OrderDetails::find()
-                        ->where(['order_id' => $id])
-                        ->leftJoin('products', 'products.product_id = order_details.product_id')
-                        ->all();
+    public function actionEdit($id)
+    {
+        $order = Orders::findOne(['order_id' => $id]);
+        $order_details = OrderDetails::find()
+                ->where(['order_id' => $id])
+                ->leftJoin('products', 'products.product_id = order_details.product_id')
+                ->all();
 
-                $order_info = Orders::countTotalSumm($order, $order_details);
+        $order_info = Orders::countTotalSumm($order, $order_details);
 
-                return $this->render('edit', [
-                            'order' => $order,
-                            'order_details' => $order_details,
-                            'order_info' => $order_info,
-                ]);
-            }
+        return $this->render('edit', [
+                    'order' => $order,
+                    'order_details' => $order_details,
+                    'order_info' => $order_info,
+        ]);
+    }
 
-            public function actionFix($id, $fixed)
-            {
-                Yii::$app->db->transaction(function ($db) use ($id, $fixed) {
-                    $db->createCommand()
-                            ->update('orders', ['total_sum' => $fixed], "order_id = $id")
-                            ->execute();
-                });
+    public function actionFix($id, $fixed)
+    {
+        Yii::$app->db->transaction(function ($db) use ($id, $fixed) {
+            $db->createCommand()
+                    ->update('orders', ['total_sum' => $fixed], "order_id = $id")
+                    ->execute();
+        });
 
-                return $this->redirect('/admin/orders/edit/' . $id);
-            }
+        return $this->redirect('/admin/orders/edit/' . $id);
+    }
 
-            public function actionOrderDetail()
-            {
-                if (isset($_POST['expandRowKey'])) {
-                    $model = \app\models\OrderDetails::find()
-                            ->where(['order_id' => $_POST['expandRowKey']])
-                            ->leftJoin('products', 'products.product_id = order_details.product_id')
-                            ->all();
-                    return Yii::$app->controller->renderPartial('_expand_view', ['model' => $model, 'id' => $_POST['expandRowKey']]);
-                } else {
-                    return '<div class="alert alert-danger">No data found</div>';
-                }
-            }
+    public function actionOrderDetail()
+    {
+        if (isset($_POST['expandRowKey'])) {
+            $model = \app\models\OrderDetails::find()
+                    ->where(['order_id' => $_POST['expandRowKey']])
+                    ->leftJoin('products', 'products.product_id = order_details.product_id')
+                    ->all();
+            return Yii::$app->controller->renderPartial('_expand_view', ['model' => $model, 'id' => $_POST['expandRowKey']]);
+        } else {
+            return '<div class="alert alert-danger">No data found</div>';
+        }
+    }
 
-            public function actionMultipleDelete()
-            {
-                if (Orders::deleteAll(['order_id' => Yii::$app->request->post('ids')]) && OrderDetails::deleteAll(['order_id' => Yii::$app->request->post('ids')])
-                ) {
-                    echo json_encode('ok');
-                } else {
-                    echo json_encode('nok');
-                }
-            }
+    public function actionMultipleDelete()
+    {
+        if (Orders::deleteAll(['order_id' => Yii::$app->request->post('ids')]) && OrderDetails::deleteAll(['order_id' => Yii::$app->request->post('ids')])
+        ) {
+            echo json_encode('ok');
+        } else {
+            echo json_encode('nok');
+        }
+    }
 
-            }
+}
