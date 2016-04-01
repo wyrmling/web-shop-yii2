@@ -1,18 +1,26 @@
 <?php
-
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
-use yii\widgets\Pjax;
 use yii\grid\GridView;
-use app\models\Products;
-use yii\data\ActiveDataProvider;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Добавление заказа';
+
+$this->registerJs("
+    function displaylist(categoryid) {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/orders/displaylist/',
+            data: {id: categoryid},
+            success: function(data) {
+                  alert('Добрый день');
+            }
+        });
+    }", \yii\web\View::POS_END);
 ?>
 
 <div class="admin-edit">
@@ -49,28 +57,13 @@ $this->params['breadcrumbs'][] = 'Добавление заказа';
 
 </div>
 
-<?php Pjax::begin(); ?>
 <div class="tree">
     <?= buildTree(0, $tree, $quantities); ?>
 </div>
 
 <div class="subblock">
-    <?php
-    $query = Products::find()
-        ->joinWith(['brand'])
-        ->where(['status' => 1]);
-    if ($category_id != 0) {
-        $query->andWhere(['category_id' => $category_id]);
-    }
-    $dataProvider = new ActiveDataProvider([
-        'query' => $query,
-        'pagination' => ['pageSize' => 3],
-    ]);
-    $dataProvider->sort->attributes['brand.brand_name'] = [
-        'asc' => ['brand.brand_name' => SORT_ASC],
-        'desc' => ['brand.brand_name' => SORT_DESC],
-    ];
-    echo GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'product_id',
@@ -83,7 +76,6 @@ $this->params['breadcrumbs'][] = 'Добавление заказа';
     ])
     ?>
 </div>
-<?php Pjax::end(); ?>
 
 <?php
 
@@ -101,7 +93,8 @@ function buildTree($start, $cats, $quant)
             }
             $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
                     . '</span>'
-                    . Html::a('pjax', ['orders/add/', 'id' => $cat_id], ['title' => 'список товаров', 'class' => 'btn-category-edit']);
+                    . Html::a('ссылка', ['orders/displaylist/', 'id' => $cat_id], ['title' => 'список товаров', 'class' => 'btn-category-edit'])
+                    . '<input type="button" value="L" id="displaylist" onclick="displaylist(' . $cat_id . ')">';
             $tree .= buildTree($cat_id, $cats, $quant);
             $tree .= '</li>';
         }

@@ -143,12 +143,49 @@ class OrdersController extends Controller
         $order = (new Orders)->loadDefaultValues();
         $tree = Categories::getTree();
         $quantities = Categories::getCategoriesList();
-        return $this->render('add', [
-            'model' => $order,
-            'tree' => $tree,
-            'quantities' => $quantities,
-            'category_id' => $id,
+        $query = Products::find()
+                ->joinWith(['brand'])
+                ->where(['status' => 1]);
+        if ($id != 0) {
+            $query->andWhere(['category_id' => $id]);
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 3],
         ]);
+        $dataProvider->sort->attributes['brand.brand_name'] = [
+            'asc' => ['brand.brand_name' => SORT_ASC],
+            'desc' => ['brand.brand_name' => SORT_DESC],
+        ];
+        return $this->render('add', [
+                    'model' => $order,
+                    'tree' => $tree,
+                    'quantities' => $quantities,
+                    'category_id' => $id,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDisplaylist($id)
+    {
+            $query = Products::find()
+                    ->joinWith(['brand'])
+                    ->where(['status' => 1]);
+            if ($id != 0) {
+                $query->andWhere(['category_id' => $id]);
+            }
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => ['pageSize' => 3],
+            ]);
+            $dataProvider->sort->attributes['brand.brand_name'] = [
+                'asc' => ['brand.brand_name' => SORT_ASC],
+                'desc' => ['brand.brand_name' => SORT_DESC],
+            ];
+            return $this->renderPartial('_displaylist', [
+                        'category_id' => $id,
+                        'dataProvider' => $dataProvider,
+            ]);
     }
 
     public function actionView($id)
