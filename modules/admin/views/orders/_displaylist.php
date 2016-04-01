@@ -1,11 +1,8 @@
 <?php
 
 use yii\grid\GridView;
-?>
 
-<div class="subblock">
-    <?=
-    GridView::widget([
+echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'product_id',
@@ -15,6 +12,4 @@ use yii\grid\GridView;
             'price',
             'special_price',
         ],
-    ])
-    ?>
-</div>
+    ]);

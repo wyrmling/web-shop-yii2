@@ -166,13 +166,13 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function actionDisplaylist($id)
+    public function actionDisplaylist()
     {
             $query = Products::find()
                     ->joinWith(['brand'])
                     ->where(['status' => 1]);
-            if ($id != 0) {
-                $query->andWhere(['category_id' => $id]);
+            if (Yii::$app->request->post('id') != 0) {
+                $query->andWhere(['category_id' => Yii::$app->request->post('id')]);
             }
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
@@ -183,7 +183,6 @@ class OrdersController extends Controller
                 'desc' => ['brand.brand_name' => SORT_DESC],
             ];
             return $this->renderPartial('_displaylist', [
-                        'category_id' => $id,
                         'dataProvider' => $dataProvider,
             ]);
     }

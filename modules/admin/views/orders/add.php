@@ -14,10 +14,10 @@ $this->registerJs("
     function displaylist(categoryid) {
         $.ajax({
             type: 'POST',
-            url: '/admin/orders/displaylist/',
+            url: '/admin/orders/displaylist',
             data: {id: categoryid},
             success: function(data) {
-                  alert('Добрый день');
+                  $('.subblock').html(data);
             }
         });
     }", \yii\web\View::POS_END);
