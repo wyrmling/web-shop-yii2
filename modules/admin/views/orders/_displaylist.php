@@ -15,4 +15,4 @@ echo GridView::widget([
         'special_price',
     ],
 ]);
-Pjax::begin();
+Pjax::end();

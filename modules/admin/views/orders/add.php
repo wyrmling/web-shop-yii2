@@ -61,7 +61,7 @@ $this->registerJs("
 <div class="tree">
     <?= buildTree(0, $tree, $quantities); ?>
 </div>
-<div>
+
 <div class="subblock">
     <?php Pjax::begin(['options' => ['id' => 'pj1']]); ?>
     <?=
@@ -79,7 +79,7 @@ $this->registerJs("
     ?>
     <?php Pjax::end(); ?>
 </div>
-</div>
+
 <?php
 
 function buildTree($start, $cats, $quant)
