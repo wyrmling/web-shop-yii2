@@ -168,6 +168,7 @@ class OrdersController extends Controller
 
     public function actionDisplaylist()
     {
+        if (Yii::$app->request->isAjax) {
             $query = Products::find()
                     ->joinWith(['brand'])
                     ->where(['status' => 1]);
@@ -185,6 +186,7 @@ class OrdersController extends Controller
             return $this->renderPartial('_displaylist', [
                         'dataProvider' => $dataProvider,
             ]);
+        }
     }
 
     public function actionView($id)

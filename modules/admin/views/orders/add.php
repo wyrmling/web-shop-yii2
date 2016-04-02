@@ -93,7 +93,7 @@ function buildTree($start, $cats, $quant)
             }
             $tree .= '<li>' . $stile_class . $cat_id . ' - ' . $name . ' (' . $quant[$cat_id]['quantity_visible'] . ') ' . ' (' . $quant[$cat_id]['quantity_invisible'] . ') '
                     . '</span>'
-                    . Html::a('ссылка', ['orders/displaylist/', 'id' => $cat_id], ['title' => 'список товаров', 'class' => 'btn-category-edit'])
+                    . Html::a('ссылка', ['orders/add/', 'id' => $cat_id], ['title' => 'список товаров', 'class' => 'btn-category-edit'])
                     . '<input type="button" value="L" id="displaylist" onclick="displaylist(' . $cat_id . ')">';
             $tree .= buildTree($cat_id, $cats, $quant);
             $tree .= '</li>';

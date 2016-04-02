@@ -8,7 +8,7 @@ foreach ($fullPath as $path) {
 }
 
 $this->registerJs("
-    function addproduct(productid) {      
+    function addproduct(productid) {
         $.ajax({
             type: 'POST',
             url: 'products/addproduct/',
@@ -23,6 +23,7 @@ $this->registerJs("
 ?>
 
 <br>
+<img src="http://dummyimage.com/450x300/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
 <div> Название товара:
     <b> <?= Html::encode($product['title']) ?> </b>
 </div>

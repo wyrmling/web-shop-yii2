@@ -28,15 +28,15 @@ $this->registerJs("
     <div>
         <?php
         $form = ActiveForm::begin([
-            'id' => 'active-form',
-            'options' => [
-                'class' => 'form-horizontal',
-                'enctype' => 'multipart/form-data',
-                'name' => 'brandsfilter',
-            ],
-            'fieldConfig' => [
-                'template' => "{input}\n{label}\n{hint}\n{error}",
-            ]
+                    'id' => 'active-form',
+                    'options' => [
+                        'class' => 'form-horizontal',
+                        'enctype' => 'multipart/form-data',
+                        'name' => 'brandsfilter',
+                    ],
+                    'fieldConfig' => [
+                        'template' => "{input}\n{label}\n{hint}\n{error}",
+                    ]
         ]);
         ?>
 
@@ -60,6 +60,9 @@ $this->registerJs("
         <div>подкатегории категории "<?= $path->name ?>": </div>
         <?php foreach ($subcategories as $category): ?>
             <div class="category">
+                <div align="center">
+                    <img src="http://dummyimage.com/70x70/fafafa/3ea1ec" alt="..." class="img-thumbnail">
+                </div>
                 подкатегория <?= $category['category_id'] ?> - <?= Html::a($category['name'], ['/catalog/category/', 'id' => $category['category_id']]) ?>
                 <br> количество товаров ( <?= $category['quantity_visible'] ?> ) ( <?= $category['quantity_invisible'] ?> )
             </div>

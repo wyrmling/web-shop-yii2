@@ -32,6 +32,7 @@ $this->registerJs("
     <?php foreach (Yii::$app->session->get('productsarray') as $key => $value): ?>
 
         <div class="product">
+            <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
             <b> <?= Html::encode($products[$value]['title']) ?> </b>
             <?= Html::encode($products[$value]['brand_name']) ?>
             <div>Цена:
