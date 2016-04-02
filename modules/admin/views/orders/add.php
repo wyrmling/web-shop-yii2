@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
@@ -17,7 +18,7 @@ $this->registerJs("
             url: '/admin/orders/displaylist',
             data: {id: categoryid},
             success: function(data) {
-                  $('.subblock').html(data);
+                $('.subblock').html(data);
             }
         });
     }", \yii\web\View::POS_END);
@@ -60,8 +61,9 @@ $this->registerJs("
 <div class="tree">
     <?= buildTree(0, $tree, $quantities); ?>
 </div>
-
+<div>
 <div class="subblock">
+    <?php Pjax::begin(['options' => ['id' => 'pj1']]); ?>
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
@@ -75,8 +77,9 @@ $this->registerJs("
         ],
     ])
     ?>
+    <?php Pjax::end(); ?>
 </div>
-
+</div>
 <?php
 
 function buildTree($start, $cats, $quant)
