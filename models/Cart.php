@@ -29,6 +29,16 @@ class Cart extends Model
         unset($_SESSION['productsarray'][$product_id]);
     }
 
+    public static function DeleteSelectedProduct($product_id)
+    {
+        $selected_products_in_cart = Yii::$app->session->get('productsarray');
+        foreach ($selected_products_in_cart as $key => $value) {
+            if ($value == $product_id){
+                unset($_SESSION['productsarray'][$key]);
+            }
+        }
+    }
+
     public static function DeleteAllProducts()
     {
         if (!Yii::$app->session->isActive) {

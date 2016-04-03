@@ -47,9 +47,13 @@ $this->registerJs("
     <?php //Html::a('[добавить в корзину]', ['/cart/add', 'id' => $product['product_id']]) ?>
 </div>
 <br>
-<div>
-    <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
-</div>
+
+<?php if (!(Yii::$app->request->referrer == 'http://' . $_SERVER['HTTP_HOST'] . '/cart/index')): ?>
+    <div>
+        <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
+    </div>
+<?php endif; ?>
+
 <br>
 <div>
     Атрибуты товара:
@@ -57,16 +61,15 @@ $this->registerJs("
 
 <br><br>
 <?php foreach ($attributes as $attribute): ?>
-<div>
-<?= $attribute['attribute_id'] ?> - <?= $attribute['attribute_name'] ?> -
+    <div>
+        <?= $attribute['attribute_id'] ?> - <?= $attribute['attribute_name'] ?> -
 
-<?php
-    if ($attribute['value']) {
-        echo $attribute['value'];
-    }
-?>
+        <?php
+        if ($attribute['value']) {
+            echo $attribute['value'];
+        }
+        ?>
 
-(<?= $attribute['unit'] ?>)
-
-</div>
+        (<?= $attribute['unit'] ?>)
+    </div>
 <?php endforeach; ?>

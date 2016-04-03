@@ -75,7 +75,7 @@ $this->registerJs("
             <div class="product">
                 <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
                 <div>Название товара:
-                    <b> <?= Html::a($product['title'], ['/products/', 'id' => $product['product_id']]) ?> </b>
+                    <b> <?= Html::a($product['title'], ['/products/', 'id' => $product['product_id']], ['target' => '_blank', ]) ?> </b>
                 </div>
                 <div>Бренд:
                     <?= Html::encode($product['brand_name']) ?>

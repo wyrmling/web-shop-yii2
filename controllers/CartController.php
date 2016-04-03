@@ -54,7 +54,7 @@ class CartController extends Controller
     public function actionDelete()
     {
         if (Yii::$app->request->isAjax) {
-            Cart::DeleteProduct((int) Yii::$app->request->post('id'));
+            Cart::DeleteSelectedProduct((int) Yii::$app->request->post('id'));
             echo json_encode(count(Yii::$app->session->get('productsarray')));
         } else {
             echo json_encode('nok');

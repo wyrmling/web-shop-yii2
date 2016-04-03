@@ -25,19 +25,29 @@ $this->registerJs("
 
 <h2>Корзина</h2>
 
+<?php //var_dump (Yii::$app->session->get('productsarray')); ?>
+<br>
+<?php //var_dump (array_count_values(Yii::$app->session->get('productsarray'))); ?>
+<br>
+
 <?php Pjax::begin(); ?>
 
 <?php if (count(Yii::$app->session->get('productsarray'))): ?>
 
-    <?php foreach (Yii::$app->session->get('productsarray') as $key => $value): ?>
+    <?php foreach (array_count_values(Yii::$app->session->get('productsarray')) as $key => $value): ?>
 
         <div class="product">
             <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
-            <b> <?= Html::encode($products[$value]['title']) ?> </b>
-            <?= Html::encode($products[$value]['brand_name']) ?>
+            <b><?= Html::a(Html::encode($products[$key]['title']), ['products/', 'id' => Html::encode($products[$key]['product_id'])], ['target' => '_blank', 'data-pjax'=>0]) ?></b>
+            <div>Бренд:
+                <?= Html::encode($products[$key]['brand_name']) ?>
+            </div>
             <div>Цена:
-                <?= Html::encode($products[$value]['price']) ?>
-                ( Специальная цена: <?= Html::encode($products[$value]['special_price']) ?> )
+                <?= Html::encode($products[$key]['price']) ?>
+                ( Специальная цена: <?= Html::encode($products[$key]['special_price']) ?> )
+            </div>
+            <div>Количество:
+                <?= Html::encode($value) ?>
             </div>
             <br>
             <?php // Html::a('[удалить из корзины]', ['cart/delete', 'id' => $key]) ?>
@@ -47,10 +57,10 @@ $this->registerJs("
         </div>
 
         <?php
-        if (isset($products[$value]['special_price'])) {
-            $sum += $products[$value]['special_price'];
+        if (isset($products[$key]['special_price'])) {
+            $sum += $products[$key]['special_price'] * $value;
         } else {
-            $sum += $products[$value]['price'];
+            $sum += $products[$key]['price'] * $value;
         }
         ?>
 
