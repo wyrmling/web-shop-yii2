@@ -8,15 +8,30 @@ use yii\widgets\Pjax;
 $sum = 0;
 
 $this->registerJs("
-    function deleteproduct(productid) {
+    function upquantity(productid, quantity) {
         $.ajax({
             type: 'POST',
-            url: '/cart/delete/',
+            url: '/cart/upquantity/',
             data: {id: productid},
              success: function(data) {
                 if (JSON.parse(data) !== 'nok') {
                     $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
                     $.pjax({container: '#w0'});
+                }
+            }
+        });
+    }", \yii\web\View::POS_END);
+
+$this->registerJs("
+    function deleteproduct(productid) {
+        $.ajax({
+            type: 'POST',
+            url: '/cart/delete/',
+            data: {id: productid},
+             success: function(data, productid) {
+                if (JSON.parse(data) !== 'nok') {
+                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
+                    $('.product','#productid').remove();
                 }
             }
         });
@@ -30,13 +45,13 @@ $this->registerJs("
 <?php //var_dump (array_count_values(Yii::$app->session->get('productsarray'))); ?>
 <br>
 
-<?php Pjax::begin(); ?>
+<?php //Pjax::begin(); ?>
 
 <?php if (count(Yii::$app->session->get('productsarray'))): ?>
 
     <?php foreach (array_count_values(Yii::$app->session->get('productsarray')) as $key => $value): ?>
 
-        <div class="product">
+        <div class="product" id="<?= Html::encode($products[$key]['product_id']) ?>">
             <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
             <b><?= Html::a(Html::encode($products[$key]['title']), ['products/', 'id' => Html::encode($products[$key]['product_id'])], ['target' => '_blank', 'data-pjax'=>0]) ?></b>
             <div>Бренд:
@@ -50,9 +65,10 @@ $this->registerJs("
                 <?= Html::encode($value) ?>
             </div>
             <br>
-            <?php // Html::a('[удалить из корзины]', ['cart/delete', 'id' => $key]) ?>
-            <div>
-                <input type="button" value="удалить из корзины" id="addproduct" onclick="deleteproduct(<?= $key ?>)">
+            <div class="productbuttons">
+                <input type="button" value="+" id="upquantity" onclick="upquantity(<?= Html::encode($products[$key]['product_id']) ?>, <?= Html::encode($value) ?>)">
+                <input type="button" value="-" id="downquantity" onclick="downquantity(<?= Html::encode($products[$key]['product_id']) ?>, <?= Html::encode($value) ?>)">
+                <input type="button" value="удалить из корзины" id="deleteproduct" onclick="deleteproduct(<?= $key ?>)">
             </div>
         </div>
 
@@ -116,4 +132,4 @@ $this->registerJs("
 
 <?php endif; ?>
 
-<?php Pjax::end(); ?>
+<?php //Pjax::end(); ?>
