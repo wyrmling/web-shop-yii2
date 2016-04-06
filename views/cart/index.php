@@ -28,10 +28,13 @@ $this->registerJs("
             type: 'POST',
             url: '/cart/delete/',
             data: {id: productid},
-             success: function(data, productid) {
+             success: function(data) {
                 if (JSON.parse(data) !== 'nok') {
                     $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $('.product','#productid').remove();
+                    $('#product_'+productid+'.product').remove();
+                    if (JSON.parse(data) == '0') {
+                    location.reload();
+                    }
                 }
             }
         });
@@ -51,7 +54,7 @@ $this->registerJs("
 
     <?php foreach (array_count_values(Yii::$app->session->get('productsarray')) as $key => $value): ?>
 
-        <div class="product" id="<?= Html::encode($products[$key]['product_id']) ?>">
+        <div class="product" id="product_<?= Html::encode($products[$key]['product_id']) ?>">
             <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
             <b><?= Html::a(Html::encode($products[$key]['title']), ['products/', 'id' => Html::encode($products[$key]['product_id'])], ['target' => '_blank', 'data-pjax'=>0]) ?></b>
             <div>Бренд:
