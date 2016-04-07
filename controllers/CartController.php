@@ -45,14 +45,22 @@ class CartController extends Controller
 
     public function actionUpquantity()
     {
-
-        return $this->render('index');
+        if (Yii::$app->request->isAjax) {
+            Cart::addProduct((int) Yii::$app->request->post('id'));
+            echo json_encode(count(Yii::$app->session->get('productsarray')));
+        } else {
+            echo json_encode('nok');
+        }
     }
 
     public function actionDownquantity()
     {
-
-        return $this->render('index');
+        if (Yii::$app->request->isAjax) {
+            Cart::DeleteProduct((int) Yii::$app->request->post('id'));
+            echo json_encode(count(Yii::$app->session->get('productsarray')));
+        } else {
+            echo json_encode('nok');
+        }
     }
 
     public function actionAdd($id)

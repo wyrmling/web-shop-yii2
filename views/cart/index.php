@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Orders;
-use yii\widgets\Pjax;
 
 $sum = 0;
 
 $this->registerJs("
-    function upquantity(productid, quantity) {
+    function upquantity(productid) {
+        var newvalue = Number($('#product_'+productid+'.quantity').html().substring(12)) + 1;        
         $.ajax({
             type: 'POST',
             url: '/cart/upquantity/',
@@ -16,7 +16,29 @@ $this->registerJs("
              success: function(data) {
                 if (JSON.parse(data) !== 'nok') {
                     $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $.pjax({container: '#w0'});
+                    $('#product_'+productid+'.quantity').text('Количество: '+newvalue);
+                }
+            }
+        });
+    }", \yii\web\View::POS_END);
+
+$this->registerJs("
+    function downquantity(productid) {
+        var newvalue = Number($('#product_'+productid+'.quantity').html().substring(12)) - 1;        
+        $.ajax({
+            type: 'POST',
+            url: '/cart/downquantity/',
+            data: {id: productid},
+             success: function(data) {
+                if (JSON.parse(data) !== 'nok') {
+                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
+                    $('#product_'+productid+'.quantity').text('Количество: '+newvalue);
+                    if (newvalue == '0') {
+                    $('#product_'+productid+'.product').remove();
+                    }
+                    if (JSON.parse(data) == '0') {
+                    location.reload();
+                    }
                 }
             }
         });
@@ -43,20 +65,13 @@ $this->registerJs("
 
 <h2>Корзина</h2>
 
-<?php //var_dump (Yii::$app->session->get('productsarray')); ?>
-<br>
-<?php //var_dump (array_count_values(Yii::$app->session->get('productsarray'))); ?>
-<br>
-
-<?php //Pjax::begin(); ?>
-
 <?php if (count(Yii::$app->session->get('productsarray'))): ?>
 
     <?php foreach (array_count_values(Yii::$app->session->get('productsarray')) as $key => $value): ?>
 
         <div class="product" id="product_<?= Html::encode($products[$key]['product_id']) ?>">
             <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
-            <b><?= Html::a(Html::encode($products[$key]['title']), ['products/', 'id' => Html::encode($products[$key]['product_id'])], ['target' => '_blank', 'data-pjax'=>0]) ?></b>
+            <b><?= Html::a(Html::encode($products[$key]['title']), ['products/', 'id' => Html::encode($products[$key]['product_id'])], ['target' => '_blank', 'data-pjax' => 0]) ?></b>
             <div>Бренд:
                 <?= Html::encode($products[$key]['brand_name']) ?>
             </div>
@@ -64,13 +79,13 @@ $this->registerJs("
                 <?= Html::encode($products[$key]['price']) ?>
                 ( Специальная цена: <?= Html::encode($products[$key]['special_price']) ?> )
             </div>
-            <div>Количество:
+            <div class="quantity" id="product_<?= Html::encode($products[$key]['product_id']) ?>">Количество:
                 <?= Html::encode($value) ?>
             </div>
             <br>
             <div class="productbuttons">
-                <input type="button" value="+" id="upquantity" onclick="upquantity(<?= Html::encode($products[$key]['product_id']) ?>, <?= Html::encode($value) ?>)">
-                <input type="button" value="-" id="downquantity" onclick="downquantity(<?= Html::encode($products[$key]['product_id']) ?>, <?= Html::encode($value) ?>)">
+                <input type="button" value="+" id="upquantity" onclick="upquantity(<?= Html::encode($products[$key]['product_id']) ?>)">
+                <input type="button" value="-" id="downquantity" onclick="downquantity(<?= Html::encode($products[$key]['product_id']) ?>)">
                 <input type="button" value="удалить из корзины" id="deleteproduct" onclick="deleteproduct(<?= $key ?>)">
             </div>
         </div>
@@ -134,5 +149,3 @@ $this->registerJs("
     </div>
 
 <?php endif; ?>
-
-<?php //Pjax::end(); ?>
