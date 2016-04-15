@@ -29,12 +29,11 @@ class m151104_211037_create_users_table extends Migration
 
         $this->insert('{{users}}', [
             'username' => 'admin',
-            'password' => 'admin',
+            'password' => password_hash('admin', PASSWORD_DEFAULT),
         ]);
-        
-         $this->insert('{{users}}', [
-            'username' => 'shill',
-            'password' => 'shill',
+        $this->insert('{{users}}', [
+            'username' => 'user',
+            'password' => password_hash('user', PASSWORD_DEFAULT),
         ]);
     }
 

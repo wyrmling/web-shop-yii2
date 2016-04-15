@@ -55,7 +55,7 @@ class Users extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return password_verify($password, $this->password);
     }
 
     /**
