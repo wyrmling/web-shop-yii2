@@ -45,22 +45,26 @@ class CartController extends Controller
 
     public function actionUpquantity()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             Cart::addProduct((int) Yii::$app->request->post('id'));
-            echo json_encode(count(Yii::$app->session->get('productsarray')));
+            $items = [count(Yii::$app->session->get('productsarray'))];
         } else {
-            echo json_encode('nok');
+            $items = ['nok'];
         }
+        return $items;
     }
 
     public function actionDownquantity()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             Cart::DeleteProduct((int) Yii::$app->request->post('id'));
-            echo json_encode(count(Yii::$app->session->get('productsarray')));
+            $items = [count(Yii::$app->session->get('productsarray'))];
         } else {
-            echo json_encode('nok');
+            $items = ['nok'];
         }
+        return $items;
     }
 
     public function actionAdd($id)
@@ -71,12 +75,16 @@ class CartController extends Controller
 
     public function actionDelete()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             Cart::DeleteSelectedProduct((int) Yii::$app->request->post('id'));
-            echo json_encode(count(Yii::$app->session->get('productsarray')));
+            $items = [count(Yii::$app->session->get('productsarray'))];
         } else {
-            echo json_encode('nok');
+            $items = ['nok'];
         }
+        return $items;
     }
+    
+    
 
 }
