@@ -4,63 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Orders;
 
-$sum = 0;
-
-$this->registerJs("
-    function upquantity(productid) {
-        var newvalue = Number($('#product_'+productid+'.quantity').html().substring(12)) + 1;        
-        $.ajax({
-            type: 'POST',
-            url: '/cart/upquantity/',
-            data: {id: productid},
-             success: function(data) {
-                if (JSON.parse(data) !== 'nok') {
-                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $('#product_'+productid+'.quantity').text('Количество: '+newvalue);
-                }
-            }
-        });
-    }", \yii\web\View::POS_END);
-
-$this->registerJs("
-    function downquantity(productid) {
-        var newvalue = Number($('#product_'+productid+'.quantity').html().substring(12)) - 1;        
-        $.ajax({
-            type: 'POST',
-            url: '/cart/downquantity/',
-            data: {id: productid},
-             success: function(data) {
-                if (JSON.parse(data) !== 'nok') {
-                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $('#product_'+productid+'.quantity').text('Количество: '+newvalue);
-                    if (newvalue == '0') {
-                    $('#product_'+productid+'.product').remove();
-                    }
-                    if (JSON.parse(data) == '0') {
-                    location.reload();
-                    }
-                }
-            }
-        });
-    }", \yii\web\View::POS_END);
-
-$this->registerJs("
-    function deleteproduct(productid) {
-        $.ajax({
-            type: 'POST',
-            url: '/cart/delete/',
-            data: {id: productid},
-             success: function(data) {
-                if (JSON.parse(data) !== 'nok') {
-                    $('#cartcounter').text('Корзина ('+JSON.parse(data)+')');
-                    $('#product_'+productid+'.product').remove();
-                    if (JSON.parse(data) == '0') {
-                    location.reload();
-                    }
-                }
-            }
-        });
-    }", \yii\web\View::POS_END);
+$this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
 ?>
 
 <h2>Корзина</h2>
@@ -90,21 +34,14 @@ $this->registerJs("
             </div>
         </div>
 
-        <?php
-        if (isset($products[$key]['special_price'])) {
-            $sum += $products[$key]['special_price'] * $value;
-        } else {
-            $sum += $products[$key]['price'] * $value;
-        }
-        ?>
-
     <?php endforeach; ?>
 
     <div class="clear"></div>
     <br>
-    <div>
-        Общая сумма заказа: <?= $sum ?> <br><br>
+    <div class ="totalsum">
+        Общая сумма заказа: <?= $total_sum ?>
     </div>
+    <br><br>
 
 <?php endif; ?>
 
@@ -131,7 +68,7 @@ $this->registerJs("
         ?>
 
         <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
-        <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $sum])->label(false) ?>
+        <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $total_sum])->label(false) ?>
 
         <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
 

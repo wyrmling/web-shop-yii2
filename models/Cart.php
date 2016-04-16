@@ -13,6 +13,19 @@ use yii\base\Model;
 class Cart extends Model
 {
 
+    public static function countTotalSum($product)
+    {
+        $sum = 0;
+        foreach (Yii::$app->session->get('productsarray') as $key => $value) {
+            if (isset($product[$value]['special_price'])) {
+                $sum += $product[$value]['special_price'];
+            } else {
+                $sum += $product[$value]['price'];
+            }
+        }
+        return $sum;
+    }
+
     public static function addProduct($product_id)
     {
         $session = Yii::$app->session;

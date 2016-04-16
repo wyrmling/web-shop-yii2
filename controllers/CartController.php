@@ -14,13 +14,14 @@ class CartController extends Controller
     public function actionIndex()
     {
         $products = (new \yii\db\Query())
-                ->select(['product_id', 'title', 'brand_name', 'price', 'special_price'])
-                ->from('products')
-                ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
-                ->where(['product_id' => Yii::$app->session->get('productsarray')])
-                ->orderBy('title')
-                ->all();
+            ->select(['product_id', 'title', 'brand_name', 'price', 'special_price'])
+            ->from('products')
+            ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
+            ->where(['product_id' => Yii::$app->session->get('productsarray')])
+            ->orderBy('title')
+            ->all();
         $products = ArrayHelper::index($products, 'product_id');
+        $total_sum = Cart::countTotalSum($products);
 
         $order = new Orders();
         $user = Yii::$app->user->identity;
@@ -40,15 +41,28 @@ class CartController extends Controller
                     'products' => $products,
                     'order' => $order,
                     'res' => $res,
+                    'total_sum' => $total_sum,
         ]);
     }
 
     public function actionUpquantity()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
+        if ((int) Yii::$app->request->post('id') > 0) {
             Cart::addProduct((int) Yii::$app->request->post('id'));
-            $items = [count(Yii::$app->session->get('productsarray'))];
+
+            $products = (new \yii\db\Query())
+                ->select(['product_id', 'price', 'special_price'])
+                ->from('products')
+                ->where(['product_id' => Yii::$app->session->get('productsarray')])
+                ->orderBy('title')
+                ->all();
+            $products = ArrayHelper::index($products, 'product_id');
+            $total_sum = Cart::countTotalSum($products);
+
+            $product_quantity = array_count_values(Yii::$app->session->get('productsarray'));
+
+            $items = [$product_quantity[(int) Yii::$app->request->post('id')], count(Yii::$app->session->get('productsarray')), $total_sum];
         } else {
             $items = ['nok'];
         }
@@ -58,7 +72,7 @@ class CartController extends Controller
     public function actionDownquantity()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
+        if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteProduct((int) Yii::$app->request->post('id'));
             $items = [count(Yii::$app->session->get('productsarray'))];
         } else {
@@ -67,16 +81,10 @@ class CartController extends Controller
         return $items;
     }
 
-    public function actionAdd($id)
-    {
-        Cart::addProduct((int) $id);
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
     public function actionDelete()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
+        if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteSelectedProduct((int) Yii::$app->request->post('id'));
             $items = [count(Yii::$app->session->get('productsarray'))];
         } else {
@@ -84,7 +92,5 @@ class CartController extends Controller
         }
         return $items;
     }
-    
-    
 
 }
