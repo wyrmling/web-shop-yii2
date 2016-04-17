@@ -40,19 +40,21 @@ AppAsset::register($this);
     echo Nav::widget([
 //        'options' => ['class' => 'navbar-nav navbar-right'],
         'options' => ['class' => 'nav navbar-nav'],
+        'route' => Yii::$app->controller->module->id . '/' . Yii::$app->controller->id,
         'encodeLabels' => false,
+        'activateParents' => true,
         'items' => [
 //            ['label' => '<span class="glyphicon glyphicon-home"></span> Home', 'url' => [Yii::$app->homeUrl]],
-            ['label' => '<i class="fa fa-shopping-cart"></i> Orders', 'url' => ['/admin/orders/index']],
-            ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news/index']],
-            ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles/index']],
-            ['label' => 'Categories', 'url' => ['/admin/categories/index']],
-            ['label' => 'Attributes', 'url' => ['/admin/attributes/index']],
-            ['label' => 'Brands', 'url' => ['/admin/brands/index']],
-            ['label' => 'Products', 'url' => ['/admin/products/index']],
+            ['label' => '<i class="fa fa-shopping-cart"></i> Orders', 'url' => ['/admin/orders']],
+            ['label' => '<i class="fa fa-newspaper-o"></i> News', 'url' => ['/admin/news']],
+            ['label' => '<i class="fa fa-leanpub"></i> Articles', 'url' => ['/admin/articles']],
+            ['label' => 'Categories', 'url' => ['/admin/categories']],
+            ['label' => 'Attributes', 'url' => ['/admin/attributes']],
+            ['label' => 'Brands', 'url' => ['/admin/brands']],
+            ['label' => 'Products', 'url' => ['/admin/products']],
             ['label' => '<i class="fa fa-cogs"></i> Tools', 'items' => [
-                ['label' => '<i class="fa fa-user"></i> Users', 'url' => ['/admin/users/index']],
-                ['label' => '<i class="fa fa-database"></i> DB', 'url' => ['/admin/base/index']],
+                ['label' => '<i class="fa fa-user"></i> Users', 'url' => ['/admin/users']],
+                ['label' => '<i class="fa fa-database"></i> DB', 'url' => ['/admin/base']],
             ]]
 //            Yii::$app->user->isGuest ?
 //                ['label' => 'Login', 'url' => ['/site/login']] :
