@@ -54,18 +54,27 @@ $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
 
 <?php elseif (count(Yii::$app->session->get('productsarray'))): ?>
 
+    <?php
+    $form = ActiveForm::begin();
+    ?>
 
-    <div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
-    <div>
-        <?php
-        $form = ActiveForm::begin();
-        ?>
-        <?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
-        <?=
-        $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
-            'mask' => '+38 (999) 999-99-99',
-        ])
-        ?>
+    <?php if (null != \Yii::$app->user->identity): ?>
+
+        <?php // \Yii::$app->user->identity->getId() ?>
+
+    <?php else: ?>
+
+        <div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
+        <div>
+
+            <?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
+            <?=
+            $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
+                'mask' => '+38 (999) 999-99-99',
+            ])
+            ?>
+
+        <?php endif; ?>
 
         <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
         <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $total_sum])->label(false) ?>
@@ -86,3 +95,9 @@ $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
     </div>
 
 <?php endif; ?>
+
+
+<?php
+// без 'user_phone_number' заказ авторизованного пользьзователя не проходит
+// добавить в таблицу users колонку с телефоном
+// передавать телефон через форму

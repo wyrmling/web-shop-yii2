@@ -21,7 +21,11 @@ class CartController extends Controller
             ->orderBy('title')
             ->all();
         $products = ArrayHelper::index($products, 'product_id');
+        if ($products){
         $total_sum = Cart::countTotalSum($products);
+        } else {
+            $total_sum = 0;
+        }
 
         $order = new Orders();
         $user = Yii::$app->user->identity;
@@ -74,7 +78,24 @@ class CartController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteProduct((int) Yii::$app->request->post('id'));
-            $items = [count(Yii::$app->session->get('productsarray'))];
+
+            $products = (new \yii\db\Query())
+                ->select(['product_id', 'price', 'special_price'])
+                ->from('products')
+                ->where(['product_id' => Yii::$app->session->get('productsarray')])
+                ->orderBy('title')
+                ->all();
+            $products = ArrayHelper::index($products, 'product_id');
+            $total_sum = Cart::countTotalSum($products);
+
+            $product_quantity = array_count_values(Yii::$app->session->get('productsarray'));
+
+            if (isset($product_quantity[(int) Yii::$app->request->post('id')])) {
+                $product_counter = $product_quantity[(int) Yii::$app->request->post('id')];
+            } else {
+                $product_counter = 0;
+            }
+            $items = [$product_counter, count(Yii::$app->session->get('productsarray')), $total_sum];
         } else {
             $items = ['nok'];
         }
@@ -86,7 +107,17 @@ class CartController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteSelectedProduct((int) Yii::$app->request->post('id'));
-            $items = [count(Yii::$app->session->get('productsarray'))];
+            
+            $products = (new \yii\db\Query())
+                ->select(['product_id', 'price', 'special_price'])
+                ->from('products')
+                ->where(['product_id' => Yii::$app->session->get('productsarray')])
+                ->orderBy('title')
+                ->all();
+            $products = ArrayHelper::index($products, 'product_id');
+            $total_sum = Cart::countTotalSum($products);
+            
+            $items = [count(Yii::$app->session->get('productsarray')), $total_sum];
         } else {
             $items = ['nok'];
         }
