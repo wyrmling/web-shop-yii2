@@ -24,19 +24,30 @@ class m151104_211037_create_users_table extends Migration
             'auth_key' => $this->string(),
             'access_token' => $this->string(),
             'created_date' => $this->timestamp(),
+            'first_name' => $this->string()->notNull(),
+            'last_name' => $this->string()->notNull(),
+            'phone_number' => $this->string()->notNull(),
+            'email' => $this->string()->notNull(),
         ]);
 //        , $tableOptions
 
         $this->insert('{{users}}', [
             'username' => 'admin',
             'password' => password_hash('admin', PASSWORD_DEFAULT),
+            'first_name' => 'Админ',
+            'last_name' => 'Админов',
+            'phone_number' => '+38 (111) 111-11-11',
+            'email' => 'admin@admin.com',
         ]);
         $this->insert('{{users}}', [
             'username' => 'user',
             'password' => password_hash('user', PASSWORD_DEFAULT),
+            'first_name' => 'Юзер',
+            'last_name' => 'Юзеровский',
+            'phone_number' => '+38 (222) 222-22-22',
+            'email' => 'user@user.ru',
         ]);
     }
-
 
     public function down()
     {

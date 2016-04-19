@@ -13,6 +13,14 @@ class CartController extends Controller
 
     public function actionIndex()
     {
+        if (null != \Yii::$app->user->identity){
+            $client_info = (new \yii\db\Query())
+            ->select(['phone_number',])
+            ->from('users')
+            ->where(['user_id' => \Yii::$app->user->identity->getId()])
+            ->one();
+        }
+        
         $products = (new \yii\db\Query())
             ->select(['product_id', 'title', 'brand_name', 'price', 'special_price'])
             ->from('products')
@@ -46,6 +54,7 @@ class CartController extends Controller
                     'order' => $order,
                     'res' => $res,
                     'total_sum' => $total_sum,
+                    'client_info' => $client_info,
         ]);
     }
 

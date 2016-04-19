@@ -60,8 +60,9 @@ $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
 
     <?php if (null != \Yii::$app->user->identity): ?>
 
-        <?php // \Yii::$app->user->identity->getId() ?>
-
+    <?= $form->field($order, 'user_id')->hiddenInput(['value' => \Yii::$app->user->identity->getId()])->label(false) ?>   
+    <?= $form->field($order, 'user_phone_number')->hiddenInput(['value' => $client_info['phone_number']])->label(false) ?>
+    
     <?php else: ?>
 
         <div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
