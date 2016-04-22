@@ -65,6 +65,25 @@ class Users extends ActiveRecord implements IdentityInterface
     {
         return $this->user_id;
     }
+    
+    /**
+     * Checks whether the user is authorized,
+     * checks that a positive it ID
+     * and returns ID
+     * or false
+     * 
+     * @return boolean
+     */
+    public static function getUserIdIfAuthorized()
+    {
+        if (\Yii::$app->user &&
+                \Yii::$app->user->identity &&
+                \Yii::$app->user->identity->getId() > 0) {
+            return \Yii::$app->user->id;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Finds an identity by the given token.

@@ -3,8 +3,12 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Orders;
+use app\models\Users;
 
 $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
+
+var_dump(Yii::$app->user);
+
 ?>
 
 <h2>Корзина</h2>
@@ -58,21 +62,23 @@ $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
     $form = ActiveForm::begin();
     ?>
 
-    <?php if (null != \Yii::$app->user->identity): ?>
+        <?php if (\Yii::$app->user->id): ?>
 
-    <?= $form->field($order, 'user_id')->hiddenInput(['value' => \Yii::$app->user->identity->getId()])->label(false) ?>   
-    <?= $form->field($order, 'user_phone_number')->hiddenInput(['value' => $client_info['phone_number']])->label(false) ?>
-    
-    <?php else: ?>
-
-        <div>Чтобы сделать заказ, введите имя и номер телефона, по которому с Вами можно связаться</div><br>
-        <div>
-
-            <?= $form->field($order, 'entered_name')->textInput(['maxlength' => 30])->hint('')->label() ?>
             <?=
-            $form->field($order, 'user_phone_number')->hint('')->label()->widget(\yii\widgets\MaskedInput::className(), [
-                'mask' => '+38 (999) 999-99-99',
-            ])
+            $this->render('_authorized_user_form', [
+                'form' => $form,
+                'order' => $order,
+                'client_info' => $client_info,
+            ]);
+            ?>
+
+        <?php else: ?>
+
+            <?=
+            $this->render('_not_authorized_user_form', [
+                'form' => $form,
+                'order' => $order,
+            ]);
             ?>
 
         <?php endif; ?>

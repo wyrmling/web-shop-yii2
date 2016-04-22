@@ -6,6 +6,7 @@ use Yii;
 use app\components\Controller;
 use app\models\Cart;
 use app\models\Orders;
+use app\models\Users;
 use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
@@ -13,12 +14,14 @@ class CartController extends Controller
 
     public function actionIndex()
     {
-        if (null != \Yii::$app->user->identity){
+        if (Users::getUserIdIfAuthorized()){
             $client_info = (new \yii\db\Query())
-            ->select(['phone_number',])
+            ->select(['phone_number', 'first_name', 'last_name'])
             ->from('users')
             ->where(['user_id' => \Yii::$app->user->identity->getId()])
             ->one();
+        } else {
+            $client_info = null;
         }
         
         $products = (new \yii\db\Query())
