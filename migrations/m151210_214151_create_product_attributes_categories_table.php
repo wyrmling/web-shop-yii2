@@ -21,27 +21,6 @@ class m151210_214151_create_product_attributes_categories_table extends Migratio
         $this->addPrimaryKey('at_cat_key', '{{product_attributes_categories}}', [
             'attribute_id', 'category_id',
         ]);
-
-        $this->insert('{{product_attributes_categories}}', [
-            'attribute_id' => 1,
-            'category_id' => 14,
-            'order' => 3,
-        ]);
-        $this->insert('{{product_attributes_categories}}', [
-            'attribute_id' => 2,
-            'category_id' => 14,
-            'order' => 2,
-        ]);
-        $this->insert('{{product_attributes_categories}}', [
-            'attribute_id' => 3,
-            'category_id' => 14,
-            'order' => 1,
-        ]);
-        $this->insert('{{product_attributes_categories}}', [
-            'attribute_id' => 4,
-            'category_id' => 8,
-            'order' => 1,
-        ]);
     }
 
     public function down()

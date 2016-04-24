@@ -28,16 +28,6 @@ class m151211_090747_create_orders_table extends Migration
             'client_comment' => $this->text(),
             'manager_comment' => $this->text(),
         ]);
-        
-        $this->insert('{{orders}}', [
-            'order_id' => 1,
-            'entered_name' => 'Никонор Евлампиевич',
-            'user_phone_number' => '+38 (111) 111-11-11',
-            'status' => 0,
-            'total_sum' => 275,
-            'client_comment' => 'Хочу скидку 100%',
-            'manager_comment' => 'Да, конечно',
-        ]);
     }
 
     public function down()
