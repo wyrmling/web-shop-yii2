@@ -37,10 +37,11 @@ class Articles extends ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
+            [['title'], 'required', 'message' => 'Пожалуйста, введите название статьи'],
             [['title', 'description', 'content'], 'string'],
+            [['title', 'description', 'content'], 'trim'],
             [['article_status', 'comments_status'], 'boolean'],
-            ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
+//          ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
             ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
         ];
     }

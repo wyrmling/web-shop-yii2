@@ -16,7 +16,7 @@ class CatalogController extends Controller
     public function actionIndex()
     {
         $categories = Yii::$app->db->createCommand(
-            'SELECT * FROM product_categories_list
+            'SELECT * FROM {{product_categories_list}}
              WHERE parent_category_id = :parent_category_id
              ORDER BY name')
             ->bindValue(':parent_category_id', 0)
@@ -30,7 +30,7 @@ class CatalogController extends Controller
             return $this->redirect(['/catalog/index']);
         }
         $subcategories = Yii::$app->db->createCommand(
-            'SELECT * FROM product_categories_list
+            'SELECT * FROM {{product_categories_list}}
              WHERE parent_category_id = :parent_category_id
              ORDER BY name')
             ->bindValue(':parent_category_id', $_GET['id'])
@@ -39,8 +39,8 @@ class CatalogController extends Controller
         $fullPath = Categories::findAll(Categories::getFullPath($id));
 
         $filterquery = Yii::$app->db->createCommand(
-            'SELECT * FROM products pr
-             LEFT JOIN product_brands pr_b ON pr_b.brand_id = pr.brand_id
+            'SELECT * FROM {{products}} pr
+             LEFT JOIN {{product_brands}} pr_b ON pr_b.brand_id = pr.brand_id
              WHERE pr.category_id = :category_id AND pr.status = :status
              ORDER BY pr.title')
             ->bindValue(':category_id', $_GET['id'])

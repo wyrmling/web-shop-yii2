@@ -28,9 +28,10 @@ class Brands extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['brand_name'], 'required'],
+            [['brand_name'], 'required', 'message' => 'Пожалуйста, введите имя бренда'],
             [['discount'], 'integer'],
-            [['brand_name', 'logo_url'], 'string', 'max' => 255]
+            [['brand_name', 'logo_url'], 'string', 'max' => 255],
+            [['brand_name', 'logo_url'], 'trim'] 
         ];
     }
 

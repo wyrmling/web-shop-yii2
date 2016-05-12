@@ -7,7 +7,7 @@ use app\models\Users;
 
 $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
 
-var_dump(Yii::$app->user);
+//var_dump(Yii::$app->user);
 
 ?>
 

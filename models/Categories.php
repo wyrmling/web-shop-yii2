@@ -32,9 +32,10 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_category_id', 'name'], 'required'],
+            [['parent_category_id', 'name'], 'required', 'message' => 'Пожалуйста, введите название категории'],
             [['parent_category_id', 'discount', 'quantity_visible', 'quantity_invisible'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+            [['name'], 'trim']
         ];
     }
 

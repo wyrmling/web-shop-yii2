@@ -30,7 +30,8 @@ class AttributesList extends ActiveRecord
         return [
             [['attribute_id', 'product_id'], 'required'],
             [['attribute_id', 'product_id'], 'integer'],
-            [['value'], 'string', 'max' => 255]
+            [['value'], 'string', 'max' => 255],
+            [['value'], 'trim']
         ];
     }
 

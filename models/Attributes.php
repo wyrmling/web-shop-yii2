@@ -28,8 +28,9 @@ class Attributes extends ActiveRecord
     public function rules()
     {
         return [
-            [['attribute_name'], 'required'],
-            [['attribute_name', 'unit'], 'string', 'max' => 255]
+            [['attribute_name'], 'required', 'message' => 'Пожалуйста, введите имя атрибута'],
+            [['attribute_name', 'unit'], 'string', 'max' => 255],
+            [['attribute_name', 'unit'], 'trim']
         ];
     }
 
