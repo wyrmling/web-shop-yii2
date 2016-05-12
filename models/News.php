@@ -3,8 +3,8 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-use app\models\Users;
 use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 
 class News extends ActiveRecord
 {
@@ -12,16 +12,19 @@ class News extends ActiveRecord
     const HIDDEN = 0;
     const VISIBLE = 1;
 
+    const SCENARIO_FILTER = 'filter';
+
     public static function tableName() {
         return 'news';
     }
 
     public function rules() {
         return [
-            [['title'], 'required'],
+            [['title'], 'required', 'except' => self::SCENARIO_FILTER],
+            ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId(), 'except' => self::SCENARIO_FILTER],
             [['title', 'description', 'content'], 'string'],
             ['news_status', 'boolean'],
-            ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId()],
+            [['time_created', 'time_updated'], 'date'],
 //            ['news_status', 'default', 'value' => self::VISIBLE, 'isEmpty' => true, 'when' => function($model) {return $model->isNewRecord;}],
                 // email has to be a valid email address
 //            ['email', 'email'],
@@ -41,6 +44,33 @@ class News extends ActiveRecord
             'time_updated' => 'Время обновления',
             'news_status' => 'Статус новости',
         ];
+    }
+
+    public function search($params)
+    {
+        $query = News::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        // load the search form data and validate
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+
+        // adjust the query by adding the filters
+//        $query->andFilterWhere(['id' => $this->id]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'user_id', $this->user_id]);
+
+        $query->andFilterCompare('value', '<=100');
+//        $query->andFilterWhere(['like', 'creation_date', $this->creation_date]);
+
+        return $dataProvider;
     }
 
     public function getUser() {

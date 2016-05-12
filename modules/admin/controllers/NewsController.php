@@ -5,19 +5,16 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\components\Controller;
 use app\models\News;
-use yii\data\ActiveDataProvider;
 
 class NewsController extends Controller
 {
 
     public function actionIndex() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => News::find(),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+        $news = new News(['scenario' => News::SCENARIO_FILTER]);
+        return $this->render('index', [
+            'dataProvider' => $news->search(Yii::$app->request->get()),
+            'filterModel' => $news,
         ]);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionCreate() {
