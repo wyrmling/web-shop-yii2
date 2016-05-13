@@ -32,7 +32,7 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_category_id', 'name'], 'required', 'message' => 'Пожалуйста, введите название категории'],
+            [['parent_category_id', 'name'], 'required',],
             [['parent_category_id', 'discount', 'quantity_visible', 'quantity_invisible'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'trim']
@@ -81,10 +81,10 @@ class Categories extends \yii\db\ActiveRecord
 
     public static function getCategoriesList()
     {
-        $categories = Categories::find()
-                ->asArray()
-                ->all();
-        return ArrayHelper::index($categories, 'category_id', 'parent_category_id', 'quantity_visible', 'quantity_invisible');
+        return Categories::find()
+            ->indexBy('category_id')
+            ->asArray()
+            ->all();
     }
 
     public static function getDeleteList($start = 0)
@@ -107,12 +107,12 @@ class Categories extends \yii\db\ActiveRecord
     public static function setCategoriesCounters($categoryId, $counterVisible, $counterInvisible)
     {
         return self::updateAllCounters(
-                        [
-                    'quantity_visible' => $counterVisible,
-                    'quantity_invisible' => $counterInvisible,
-                        ], [
-                    'category_id' => self::getFullPath($categoryId)
-                        ]
+            [
+              'quantity_visible' => $counterVisible,
+              'quantity_invisible' => $counterInvisible,
+            ], [
+              'category_id' => self::getFullPath($categoryId)
+            ]
         );
     }
 
