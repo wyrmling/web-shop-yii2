@@ -5,6 +5,7 @@ namespace app\models;
 use yii\db\ActiveRecord;
 use app\models\Users;
 use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "articles".
@@ -28,6 +29,8 @@ class Articles extends ActiveRecord
     const HIDDEN = 0;
     const YES = 1;
     const NO = 0;
+    
+    const SCENARIO_FILTER = 'filter';
 
     public static function tableName()
     {
@@ -37,7 +40,7 @@ class Articles extends ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required', 'message' => 'Пожалуйста, введите название статьи'],
+            [['title'], 'required', 'message' => 'Пожалуйста, введите название статьи', 'except' => self::SCENARIO_FILTER],
             [['title', 'description', 'content'], 'string'],
             [['title', 'description', 'content'], 'trim'],
             [['article_status', 'comments_status'], 'boolean'],
@@ -72,6 +75,27 @@ class Articles extends ActiveRecord
         return $this->hasOne(Users::className(), ['user_id' => 'updated_by']);
     }
 
+    public function search($params)
+    {
+        $query = Articles::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterCompare('value', '<=100');
+        return $dataProvider;
+    }
+
+    public function getUser() {
+        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
+    }
+    
     public function behaviors()
     {
         return [

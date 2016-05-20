@@ -9,7 +9,11 @@ use app\models\Articles;
 class ArticlesController extends Controller
 {
     public function actionIndex() {
-        return $this->render('index');
+        $articles = new Articles(['scenario' => Articles::SCENARIO_FILTER]);
+        return $this->render('index', [
+            'dataProvider' => $articles->search(Yii::$app->request->get()),
+            'filterModel' => $articles,
+        ]);
     }
 
     public function actionCreate() {
