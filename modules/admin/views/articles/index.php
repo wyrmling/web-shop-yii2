@@ -77,7 +77,7 @@ $this->registerJs("
 //        'time_created:datetime',
 //        'updatedBy.username',
 //            'time_updated:datetime',
-            'time_updated',
+//            'time_updated',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {edit} {delete}',
@@ -86,7 +86,7 @@ $this->registerJs("
                     }],
             ],
             [
-                'filter' => Articles::getArticleStatuses(),
+                'filter' => Articles::articleFilterList(),
                 'attribute' => 'article_status',
                 'format' => 'raw',
                 'value' => function ($model, $key, $index, $column) {
@@ -94,7 +94,7 @@ $this->registerJs("
                 }
               ],
               [
-                  'filter' => Articles::getArticleStatuses(),
+                  'filter' => Articles::commentsFilterList(),
                   'attribute' => 'comments_status',
                   'format' => 'raw',
                   'value' => function ($model, $key, $index, $column) {
