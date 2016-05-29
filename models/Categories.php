@@ -11,24 +11,18 @@ use yii\helpers\ArrayHelper;
  * @property integer $category_id
  * @property integer $parent_category_id
  * @property string $name
- * @property intreger $discount
- * @property intreger $quantity_visible
- * @property intreger $quantity_invisible
+ * @property integer $discount
+ * @property integer $quantity_visible
+ * @property integer $quantity_invisible
  */
 class Categories extends \yii\db\ActiveRecord
 {
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'product_categories_list';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -39,9 +33,6 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -56,9 +47,9 @@ class Categories extends \yii\db\ActiveRecord
     public static function getTree()
     {
         $categories = Categories::find()
-                ->asArray()
-                ->orderBy('name')
-                ->all();
+            ->asArray()
+            ->orderBy('name')
+            ->all();
         return ArrayHelper::map($categories, 'category_id', 'name', 'parent_category_id');
     }
 
@@ -108,10 +99,11 @@ class Categories extends \yii\db\ActiveRecord
     {
         return self::updateAllCounters(
             [
-              'quantity_visible' => $counterVisible,
-              'quantity_invisible' => $counterInvisible,
-            ], [
-              'category_id' => self::getFullPath($categoryId)
+                'quantity_visible' => $counterVisible,
+                'quantity_invisible' => $counterInvisible,
+            ],
+            [
+                'category_id' => self::getFullPath($categoryId)
             ]
         );
     }
