@@ -17,6 +17,15 @@ class m160424_193437_filling_the_tables_with_test_data extends Migration
     // Детали заказа" (order_details)
     public function up()
     {
+        $this->truncateTable('{{products}}');
+        $this->truncateTable('{{product_brands}}');
+        $this->truncateTable('{{product_attributes}}');
+        $this->truncateTable('{{product_attributes_list}}');
+        $this->truncateTable('{{product_attributes_categories}}');
+        $this->truncateTable('{{product_categories_list}}');
+        $this->truncateTable('{{orders}}');
+        $this->truncateTable('{{order_details}}');
+
         $this->insert('{{products}}', [
             'product_id' => 1,
             'brand_id' => 7,
@@ -144,7 +153,7 @@ class m160424_193437_filling_the_tables_with_test_data extends Migration
             'attribute_name' => 'материал корпуса',
             'unit' => '--',
         ]);
-$this->insert('{{product_attributes_list}}', [
+        $this->insert('{{product_attributes_list}}', [
             'attribute_id' => 1,
             'product_id' => 1,
             'value' => '0,2',

@@ -6,32 +6,31 @@ use Yii;
 use app\components\Controller;
 use app\models\Files;
 use yii\web\UploadedFile;
-use app\models\UploadFiles;
 
 class ImagesController extends Controller
 {
 
     public function actionIndex()
     {
-        $model_1 = new UploadFiles(['scenario' => UploadFiles::SCENARIO_UPLOAD_IMAGES]);
-
-        $model_2 = new Files;
+        $files = new Files(['scenario' => Files::SCENARIO_IMAGE]);
 
         if (Yii::$app->request->isPost) {
-            $model_1->downloadFile = UploadedFile::getInstance($model_1, 'downloadFile');
-            if ($model_1->upload()) {
+            if ($files->load(Yii::$app->request->post()) && $files->validate()) {
+                $files->save();
+            }
+            $files->file = UploadedFile::getInstance($files, 'downloadFile');
+            if ($files->upload()) {
 
-                if ($model_2->load(Yii::$app->request->post()) && $model_2->validate()) {
-                    $model_2->save();
-                }
+//                if ($files->load(Yii::$app->request->post()) && $files->validate()) {
+//                    $files->save();
+//                }
                 // file is uploaded successfully
                 return;
             }
         }
 
         return $this->render('index', [
-                'model_1' => $model_1,
-                'model_2' => $model_2,
+            'model' => $files,
         ]);
     }
 

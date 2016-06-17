@@ -14,11 +14,11 @@ class m160605_192718_create_files_table extends Migration
         // ID самого объекта - integer notNull
         // Название файла - varchar 255
         $this->createTable('{{files}}', [
-            'image_id' => $this->primaryKey(),
+            'file_id' => $this->primaryKey(),
             'object_type_id' => $this->integer()->notNull(),
             'object_id' => $this->integer()->notNull(),
-            'image_title' => $this->string(),
-            'mime' => $this->string(),
+            'name' => $this->string(),
+            'mime_type' => $this->string(),
         ]);
     }
 
