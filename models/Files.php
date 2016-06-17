@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "files".
@@ -25,10 +26,10 @@ class Files extends ActiveRecord
     const OBJECT_TYPE_FOR_BRANDS = 7;
 
     // Scenarios download files of different types
-    const SCENARIO_IMAGE = 'image123';
+    const SCENARIO_IMAGE = 'image';
 
     /**
-     * @var yii\web\UploadedFile
+     * @var UploadedFile
      */
     public $file;
 
@@ -68,17 +69,12 @@ class Files extends ActiveRecord
         ];
     }
 
-    /** 1. saving file (random name)
-     *     DB
-     *  2. DB
-     *     saving file (with DB keys)
-     */
     public function upload()
     {
-//        var_dump($this->downloadFile);
+        $this->file = UploadedFile::getInstance($this, 'downloadFile');
+
         if ($this->validate()) {
-            $path = Yii::getAlias('@app') . '/uploads/' . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id ;
-//            $structure = dirname(__DIR__) . '/uploads/487/asd/7/';
+            $path = Yii::getAlias('@app') . '/uploads/' . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id;
             if (!is_dir($path)) {
                 mkdir($path, 0777, true);
             }

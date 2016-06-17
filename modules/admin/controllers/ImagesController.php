@@ -5,11 +5,15 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\components\Controller;
 use app\models\Files;
-use yii\web\UploadedFile;
 
 class ImagesController extends Controller
 {
 
+    /** 1. saving file (random name)
+     *     DB
+     *  2. DB
+     *     saving file (with DB keys)
+     */
     public function actionIndex()
     {
         $files = new Files(['scenario' => Files::SCENARIO_IMAGE]);
@@ -17,15 +21,15 @@ class ImagesController extends Controller
         if (Yii::$app->request->isPost) {
             if ($files->load(Yii::$app->request->post()) && $files->validate()) {
                 $files->save();
-            }
-            $files->file = UploadedFile::getInstance($files, 'downloadFile');
-            if ($files->upload()) {
 
-//                if ($files->load(Yii::$app->request->post()) && $files->validate()) {
-//                    $files->save();
-//                }
-                // file is uploaded successfully
-                return;
+                if ($files->upload()) {
+
+    //                if ($files->load(Yii::$app->request->post()) && $files->validate()) {
+    //                    $files->save();
+    //                }
+                    // file is uploaded successfully
+                    return;
+                }
             }
         }
 
