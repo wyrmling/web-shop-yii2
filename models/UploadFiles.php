@@ -17,7 +17,7 @@ class UploadFiles extends Model
     const OBJECT_TYPE_FOR_COMMERCIAL = 6;
     const OBJECT_TYPE_FOR_BRANDS = 7;
     // Scenarios download files of different types
-    const SCENARIO_DOWNLOAD_IMAGES = 'download_images';
+    const SCENARIO_UPLOAD_IMAGES = 'upload_images';
 
     // an instance of an object 'UploadedFile' from the downloaded file
     public $downloadFile;
@@ -25,7 +25,7 @@ class UploadFiles extends Model
     public function rules()
     {
         return [
-            [['downloadFile'], 'image', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_DOWNLOAD_IMAGES,
+            [['downloadFile'], 'image', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_UPLOAD_IMAGES,
                 'minWidth' => 100, 'maxWidth' => 2000,
                 'minHeight' => 100, 'maxHeight' => 2000,
             ],

@@ -4,7 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\components\Controller;
-use app\models\Images;
+use app\models\Files;
 use yii\web\UploadedFile;
 use app\models\UploadFiles;
 
@@ -13,9 +13,9 @@ class ImagesController extends Controller
 
     public function actionIndex()
     {
-        $model_1 = new UploadFiles(['scenario' => UploadFiles::SCENARIO_DOWNLOAD_IMAGES]);
+        $model_1 = new UploadFiles(['scenario' => UploadFiles::SCENARIO_UPLOAD_IMAGES]);
 
-        $model_2 = new Images;
+        $model_2 = new Files;
 
         if (Yii::$app->request->isPost) {
             $model_1->downloadFile = UploadedFile::getInstance($model_1, 'downloadFile');
