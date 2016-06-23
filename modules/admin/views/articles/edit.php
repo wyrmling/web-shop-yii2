@@ -1,17 +1,20 @@
 <?php
 
-use dosamigos\ckeditor\CKEditorInline;
+//use dosamigos\ckeditor\CKEditorInline;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap\Alert;
-use kartik\checkbox\CheckboxX;
-use kartik\switchinput\SwitchInput;
+//use kartik\checkbox\CheckboxX;
+//use kartik\switchinput\SwitchInput;
+use app\models\Files;
 
 $this->params['breadcrumbs'][] = ['label' => 'Администрирование', 'url' => ['/admin']];
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование статьи (' . $model->article_id . ')';
+
+var_dump ($_POST);
 ?>
 
 <div class="admin-edit">
@@ -27,9 +30,9 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     }
 
     $form = ActiveForm::begin([
-        'id' => 'login-form-horizontal',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+            'id' => 'login-form-horizontal',
+            'type' => ActiveForm::TYPE_HORIZONTAL,
+            'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
     ]);
     ?>
 
@@ -44,10 +47,15 @@ $this->params['breadcrumbs'][] = 'Редактирование статьи (' .
     <?= $form->field($model, 'comments_status')->checkbox() ?>
     <?= $form->field($model, 'title')->textInput()->hint('Обязательно заполните это поле') ?>
     <?= $form->field($model, 'description')->textInput() ?>
-    <?= $form->field($model, 'content')->textarea(['rows'=> 3, 'cols'=> 5]) ?>
+    <?= $form->field($model, 'content')->textarea(['rows' => 3, 'cols' => 5]) ?>
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'preset' => 'basic']) ?>
     <?php //$form->field($model->createdBy, 'username')->textInput(['readonly' => 'true']) ?>
     <?= $form->field($model->createdBy, 'username')->staticInput(); ?>
+
+    <?= $form->field($upload_files, 'downloadFile')->fileInput() ?>
+    <?= $form->field($upload_files, 'object_type_id')->hiddenInput(['value' => Files::OBJECT_TYPE_FOR_ARTICLES])->label(false); ?>
+    <?= $form->field($upload_files, 'object_id')->hiddenInput(['value' => $model->article_id])->label(false); ?>
+    <?= $form->field($upload_files, 'name')->hiddenInput(['value' => 'картинка к статье №' . $model->article_id])->label(false); ?>
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">

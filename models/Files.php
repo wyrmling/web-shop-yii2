@@ -73,7 +73,7 @@ class Files extends ActiveRecord
     {
         $this->file = UploadedFile::getInstance($this, 'downloadFile');
 
-        if ($this->validate()) {
+        if ($this->validate() && $this->file) {
             $path = Yii::getAlias('@app') . '/uploads/' . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id;
             if (!is_dir($path)) {
                 mkdir($path, 0777, true);
