@@ -37,18 +37,23 @@ class ArticlesController extends Controller
 
         $upload_files = new Files(['scenario' => Files::SCENARIO_IMAGE]);
 
-        if (Yii::$app->request->isPost && UploadedFile::getInstance($upload_files, 'downloadFile')) {
-            if ($upload_files->load(Yii::$app->request->post()) && $upload_files->validate()) {
-                $upload_files->save();
-                $upload_files->upload();
+        if (Yii::$app->request->isPost) {
+            $upload_files->object_type_id = Files::OBJECT_TYPE_FOR_ARTICLES;
+            $upload_files->object_id = $id;
+            $upload_files->name = 'картинка к статье №' . $id;
+
+            $upload_files->file = UploadedFile::getInstance($upload_files, 'downloadFile');
+
+            if ($upload_files->file && $upload_files->upload()) {
+
             }
         }
 
         if ($articles->load(Yii::$app->request->post()) && $articles->validate()) {
             $results = $articles->save();
-            return $this->render('edit', ['model' => $articles, 'upload_files' => $upload_files, 'type' => 'create', 'result' => $results]);
+            return $this->render('edit', ['model' => $articles, 'upload_files' => $upload_files, 'result' => $results]);
         } else {
-            return $this->render('edit', ['model' => $articles, 'upload_files' => $upload_files, 'type' => 'edit']);
+            return $this->render('edit', ['model' => $articles, 'upload_files' => $upload_files]);
         }
     }
 

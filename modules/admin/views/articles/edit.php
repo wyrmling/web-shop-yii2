@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Администрирование
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование статьи (' . $model->article_id . ')';
 
-var_dump ($_POST);
+var_dump($_FILES);
 ?>
 
 <div class="admin-edit">
@@ -53,9 +53,6 @@ var_dump ($_POST);
     <?= $form->field($model->createdBy, 'username')->staticInput(); ?>
 
     <?= $form->field($upload_files, 'downloadFile')->fileInput() ?>
-    <?= $form->field($upload_files, 'object_type_id')->hiddenInput(['value' => Files::OBJECT_TYPE_FOR_ARTICLES])->label(false); ?>
-    <?= $form->field($upload_files, 'object_id')->hiddenInput(['value' => $model->article_id])->label(false); ?>
-    <?= $form->field($upload_files, 'name')->hiddenInput(['value' => 'картинка к статье №' . $model->article_id])->label(false); ?>
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">

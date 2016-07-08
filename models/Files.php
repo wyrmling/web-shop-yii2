@@ -71,14 +71,15 @@ class Files extends ActiveRecord
 
     public function upload()
     {
-        $this->file = UploadedFile::getInstance($this, 'downloadFile');
-
-        if ($this->validate() && $this->file) {
-            $path = Yii::getAlias('@app') . '/uploads/' . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id;
-            if (!is_dir($path)) {
-                mkdir($path, 0777, true);
+        if ($this->validate()) {
+            if ($this->save()) {
+                $path = Yii::getAlias('@app/uploads/') . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id;
+                if (!is_dir($path)) {
+                    // TODO: replace with helper func
+                    mkdir($path, 0777, true);
+                }
+                $this->file->saveAs($path . '/' . $this->file_id . '.' . $this->file->extension);
             }
-            $this->file->saveAs($path . '/'. $this->file_id . '.' . $this->file->extension);
             return true;
         } else {
             return false;
