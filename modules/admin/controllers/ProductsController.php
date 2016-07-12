@@ -9,13 +9,28 @@ use app\models\Categories;
 use app\models\AttributesList;
 use app\models\AttributesCategories;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 
 class ProductsController extends Controller
 {
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Products::find()
+            ->with(['brand', 'category']);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 10],
+        ]);
+        $dataProvider->sort->attributes['brand.brand_name'] = [
+            'asc' => ['product_brands.brand_name' => SORT_ASC],
+            'desc' => ['product_brands.brand_name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['category.name'] = [
+            'asc' => ['product_categories_list.name' => SORT_ASC],
+            'desc' => ['product_categories_list.name' => SORT_DESC],
+        ];
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionAdd()
