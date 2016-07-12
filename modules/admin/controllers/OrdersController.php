@@ -15,11 +15,7 @@ class OrdersController extends Controller
 
     public function actionIndex()
     {
-        $query = (new \yii\db\Query())
-            ->select('*')
-            ->from('orders')
-            ->leftJoin('users', 'users.user_id = orders.user_id');
-//            ->orderBy(['order_id' => SORT_DESC]);
+        $query = Orders::find()->with('user');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -27,32 +23,12 @@ class OrdersController extends Controller
                 'pageSize' => 5,
             ],
             'key' => 'order_id',
-//            'sort' => [
-//                'defaultOrder' => [
-//                    'order_id' => SORT_ASC,
-//                ],
-//                'attributes' => [
-//                    'order_id' => [
-//                        'asc' => [
-//                            'order_id' => SORT_ASC,
-//                        ],
-//                        'desc' => [
-//                            'order_id' => SORT_DESC,
-//                        ],
-//                    ],
-//                ],
-//            ],
         ]);
-// join with relation `user` that is a relation to the table `users`
-// and set the table alias to be `Заказчик`
-//$query->joinWith(['user' => function ($query) {
-//    $query->from(['user' => 'users']);
-//}]);
-//// enable sorting for the related column
-//$dataProvider->sort->attributes['user.username'] = [
-//    'asc' => ['user.username' => SORT_ASC],
-//    'desc' => ['user.username' => SORT_DESC],
-//];
+
+//        $dataProvider->sort->attributes['user.username'] = [
+//            'asc' => ['user.username' => SORT_ASC],
+//            'desc' => ['user.username' => SORT_DESC],
+//        ];
 
         return $this->render('index', [
             'query' => $query,
@@ -144,8 +120,8 @@ class OrdersController extends Controller
         $tree = Categories::getTree();
         $quantities = Categories::getCategoriesList();
         $query = Products::find()
-                ->joinWith(['brand'])
-                ->where(['status' => 1]);
+            ->joinWith(['brand'])
+            ->where(['status' => 1]);
         if ($id != 0) {
             $query->andWhere(['category_id' => $id]);
         }
@@ -158,11 +134,11 @@ class OrdersController extends Controller
             'desc' => ['brand.brand_name' => SORT_DESC],
         ];
         return $this->render('add', [
-                    'model' => $order,
-                    'tree' => $tree,
-                    'quantities' => $quantities,
-                    'category_id' => $id,
-                    'dataProvider' => $dataProvider,
+            'model' => $order,
+            'tree' => $tree,
+            'quantities' => $quantities,
+            'category_id' => $id,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -170,8 +146,8 @@ class OrdersController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             $query = Products::find()
-                    ->joinWith(['brand'])
-                    ->where(['status' => 1]);
+                ->joinWith(['brand'])
+                ->where(['status' => 1]);
             if (Yii::$app->request->post('id') != 0) {
                 $query->andWhere(['category_id' => Yii::$app->request->post('id')]);
             }
@@ -184,7 +160,7 @@ class OrdersController extends Controller
                 'desc' => ['brand.brand_name' => SORT_DESC],
             ];
             return $this->renderPartial('_displaylist', [
-                        'dataProvider' => $dataProvider,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }

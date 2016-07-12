@@ -64,8 +64,8 @@ $this->registerJs("
 
 <div class="subblock">
     <?php Pjax::begin(['options' => ['id' => 'pj1']]); ?>
-    <?=
-    GridView::widget([
+    <?php
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'product_id',

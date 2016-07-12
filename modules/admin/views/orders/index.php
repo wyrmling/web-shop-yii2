@@ -48,22 +48,22 @@ echo GridView::widget([
         [
             'class' => 'yii\grid\CheckboxColumn',
         ],
-        ['attribute' => 'order_id', 'label' => 'ID заказа'],
-        ['attribute' => 'username', 'label' => 'Пользователь'],
-        ['attribute' => 'entered_name', 'label' => 'Имя'],
+        'order_id',
+        'user.username',
+        'entered_name',
         [
             'class' => 'kartik\grid\ExpandRowColumn',
             'width' => '50px',
             'value' => function ($model, $key, $index, $column) {
                 return GridView::ROW_COLLAPSED;
             },
-            'detailUrl' => 'order-detail',
+            'detailUrl' => 'orders/order-detail',
             'headerOptions' => ['class' => 'kartik-sheet-style'],
             'expandOneOnly' => true
         ],
-        ['attribute' => 'user_phone_number', 'label' => 'Номер телефона'],
+        'user_phone_number',
         ['attribute' => 'total_sum', 'label' => 'Зафиксированная<br>сумма', 'encodeLabel' => false],
-        ['attribute' => 'time_ordered', 'label' => 'Время заказа'],
+        'time_ordered',
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view} {edit} {delete}',
