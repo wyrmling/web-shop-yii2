@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Администрирование
 $this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Редактирование статьи (' . $model->article_id . ')';
 
-var_dump($_FILES);
+//var_dump($_FILES);
 ?>
 
 <div class="admin-edit">

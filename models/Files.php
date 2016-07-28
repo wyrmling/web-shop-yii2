@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
  */
 class Files extends ActiveRecord
 {
+
     const OBJECT_TYPE_FOR_PRODUCTS = 1;
     const OBJECT_TYPE_FOR_ARTICLES = 2;
     const OBJECT_TYPE_FOR_NEWS = 3;
@@ -24,7 +25,6 @@ class Files extends ActiveRecord
     const OBJECT_TYPE_FOR_USERS = 5;
     const OBJECT_TYPE_FOR_COMMERCIAL = 6;
     const OBJECT_TYPE_FOR_BRANDS = 7;
-
     // Scenarios download files of different types
     const SCENARIO_IMAGE = 'image';
 
@@ -32,7 +32,6 @@ class Files extends ActiveRecord
      * @var UploadedFile
      */
     public $file;
-
     public $downloadFile;
 
     public static function tableName()
@@ -69,11 +68,12 @@ class Files extends ActiveRecord
         ];
     }
 
+    
     public function upload()
     {
         if ($this->validate()) {
             if ($this->save()) {
-                $path = Yii::getAlias('@app/uploads/') . $this->object_type_id . DIRECTORY_SEPARATOR . $this->object_id;
+                $path = Yii::getAlias('@app/uploads/') . $this->object_type_id . DIRECTORY_SEPARATOR . $this->pathById($this->object_id);
                 if (!is_dir($path)) {
                     // TODO: replace with helper func
                     mkdir($path, 0777, true);
@@ -84,6 +84,17 @@ class Files extends ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function pathById($id)
+    {
+        $number = $id;
+        $path = '';
+        while ($number > 0) {
+            $path = $path . $number % 10 .'/';
+            $number = intval($number / 10);
+        }
+        return $path;
     }
 
 }
