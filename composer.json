@@ -20,6 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "2amigos/yii2-ckeditor-widget": "~1.0",
         "paulzi/yii2-adjacency-list" : "^2.0",
+        "paulzi/yii2-sortable" : "*",
+        "thiagotalma/yii2-jstree": "*",
 
         "kartik-v/yii2-krajee-base": "@dev",
         "kartik-v/yii2-builder": "@dev",
