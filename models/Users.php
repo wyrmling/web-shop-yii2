@@ -65,14 +65,15 @@ class Users extends ActiveRecord implements IdentityInterface
     {
         return $this->user_id;
     }
-    
+
     /**
      * Checks whether the user is authorized,
      * checks that a positive it ID
      * and returns ID
      * or false
-     * 
+     *
      * @return boolean
+     * @deprecated Use Yii::$app->user->id instead
      */
     public static function getUserIdIfAuthorized()
     {
@@ -97,19 +98,17 @@ class Users extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * Cookie auth key
+     * @return mixed
      */
     public function getAuthKey()
     {
-//        return $this->auth_key;
+        return $this->auth_key;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validateAuthKey($authKey)
     {
-//        return $this->auth_key === $authKey;
+        return $this->auth_key === $authKey;
     }
 
 }

@@ -21,7 +21,7 @@ class News extends ActiveRecord
     public function rules() {
         return [
             [['title'], 'required', 'except' => self::SCENARIO_FILTER],
-            ['user_id', 'default', 'value' => \Yii::$app->user->identity->getId(), 'except' => self::SCENARIO_FILTER],
+            ['user_id', 'default', 'value' => \Yii::$app->user->id, 'except' => self::SCENARIO_FILTER],
             [['title', 'description', 'content'], 'string'],
             ['news_status', 'boolean'],
             [['time_created', 'time_updated'], 'date'],

@@ -44,8 +44,8 @@ class Products extends ActiveRecord
             [['time_created', 'time_updated'], 'safe'],
             [['sku', 'article', 'title', 'description'], 'string', 'max' => 255],
             [['sku', 'article', 'title', 'description'], 'trim'],
-            ['created_by', 'default', 'value' => Yii::$app->user->identity->getId()],
-            ['updated_by', 'default', 'value' => Yii::$app->user->identity->getId()],
+            ['created_by', 'default', 'value' => Yii::$app->user->id],
+            ['updated_by', 'default', 'value' => Yii::$app->user->id],
         ];
     }
 

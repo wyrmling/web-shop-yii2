@@ -43,7 +43,7 @@ class Articles extends ActiveRecord
             [['title', 'description', 'content'], 'string'],
             [['title', 'description', 'content'], 'trim'],
             [['article_status', 'comments_status'], 'boolean'],
-            ['created_by', 'default', 'value' => \Yii::$app->user->identity->getId()],
+            ['created_by', 'default', 'value' => \Yii::$app->user->id],
             [['time_created', 'time_updated'], 'date', 'on' => self::SCENARIO_FILTER,],
 //          ['created_by', 'integer'],
             ['article_id', 'integer'],

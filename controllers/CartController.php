@@ -6,7 +6,6 @@ use Yii;
 use app\components\Controller;
 use app\models\Cart;
 use app\models\Orders;
-use app\models\Users;
 use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
@@ -14,17 +13,17 @@ class CartController extends Controller
 
     public function actionIndex()
     {
-        if (Users::getUserIdIfAuthorized()){
-            $client_info = (new \yii\db\Query())
-            ->select(['phone_number', 'first_name', 'last_name'])
-            ->from('users')
-            ->where(['user_id' => \Yii::$app->user->identity->getId()])
-            ->one();
+        if (Yii::$app->user->id) {
+            $client_info = (new \yii\db\Query)
+                ->select(['phone_number', 'first_name', 'last_name'])
+                ->from('users')
+                ->where(['user_id' => Yii::$app->user->id])
+                ->one();
         } else {
             $client_info = null;
         }
-        
-        $products = (new \yii\db\Query())
+
+        $products = (new \yii\db\Query)
             ->select(['product_id', 'title', 'brand_name', 'price', 'special_price'])
             ->from('products')
             ->leftJoin('product_brands', 'product_brands.brand_id = products.brand_id')
@@ -32,19 +31,18 @@ class CartController extends Controller
             ->orderBy('title')
             ->all();
         $products = ArrayHelper::index($products, 'product_id');
-        if ($products){
-        $total_sum = Cart::countTotalSum($products);
+        if ($products) {
+            $total_sum = Cart::countTotalSum($products);
         } else {
             $total_sum = 0;
         }
 
-        $order = new Orders();
-        $user = Yii::$app->user->identity;
-        if (isset($user)) {
-            $order->user_id = $user->getId();
+        $order = new Orders;
+        if (Yii::$app->user->id) {
+            $order->user_id = Yii::$app->user->id;
         }
-        if ($order->load(Yii::$app->request->post()) && $order->validate() && Yii::$app->session->get('productsarray')
-        ) {
+        if ($order->load(Yii::$app->request->post()) && $order->validate() && Yii::$app->session->get('productsarray'))
+        {
             $res = $order->save();
             Cart::LoadOrderDetailsTable($products);
             Cart::DeleteAllProducts();
@@ -53,21 +51,21 @@ class CartController extends Controller
         }
 
         return $this->render('index', [
-                    'products' => $products,
-                    'order' => $order,
-                    'res' => $res,
-                    'total_sum' => $total_sum,
-                    'client_info' => $client_info,
+            'products' => $products,
+            'order' => $order,
+            'res' => $res,
+            'total_sum' => $total_sum,
+            'client_info' => $client_info,
         ]);
     }
 
     public function actionUpquantity()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ((int) Yii::$app->request->post('id') > 0) {
             Cart::addProduct((int) Yii::$app->request->post('id'));
 
-            $products = (new \yii\db\Query())
+            $products = (new \yii\db\Query)
                 ->select(['product_id', 'price', 'special_price'])
                 ->from('products')
                 ->where(['product_id' => Yii::$app->session->get('productsarray')])
@@ -91,7 +89,7 @@ class CartController extends Controller
         if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteProduct((int) Yii::$app->request->post('id'));
 
-            $products = (new \yii\db\Query())
+            $products = (new \yii\db\Query)
                 ->select(['product_id', 'price', 'special_price'])
                 ->from('products')
                 ->where(['product_id' => Yii::$app->session->get('productsarray')])
@@ -116,11 +114,11 @@ class CartController extends Controller
 
     public function actionDelete()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ((int) Yii::$app->request->post('id') > 0) {
             Cart::DeleteSelectedProduct((int) Yii::$app->request->post('id'));
-            
-            $products = (new \yii\db\Query())
+
+            $products = (new \yii\db\Query)
                 ->select(['product_id', 'price', 'special_price'])
                 ->from('products')
                 ->where(['product_id' => Yii::$app->session->get('productsarray')])
@@ -128,7 +126,7 @@ class CartController extends Controller
                 ->all();
             $products = ArrayHelper::index($products, 'product_id');
             $total_sum = Cart::countTotalSum($products);
-            
+
             $items = [count(Yii::$app->session->get('productsarray')), $total_sum];
         } else {
             $items = ['nok'];
