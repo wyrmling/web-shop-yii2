@@ -6,12 +6,17 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\bootstrap\Modal;
+//use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\VueJsAsset;
+use app\assets\VueResourceAsset;
 
 AppAsset::register($this);
+VueJsAsset::register($this);
+VueResourceAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
