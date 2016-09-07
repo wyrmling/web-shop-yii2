@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'url' => ['/catalog']];
 foreach ($fullPath as $path) {
@@ -51,6 +52,17 @@ $this->registerJs("
 <?php if (!(Yii::$app->request->referrer == 'http://' . $_SERVER['HTTP_HOST'] . '/cart/index')): ?>
     <div>
         <input type="button" value="добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
+        <?php
+        Modal::begin([
+            'header' => '<h3>Связаться с менеджером</h3>',
+            'toggleButton' => [
+                'label' => 'Купить сейчас',
+            ],
+        ]);
+        echo $this->context->renderPartial('/site/_contact');
+        echo \Yii::$app->view->renderFile('@app/views/site/_contact.php');
+        Modal::end();
+        ?>
     </div>
 <?php endif; ?>
 

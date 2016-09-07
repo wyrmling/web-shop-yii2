@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Modal;
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог товаров', 'url' => ['/catalog']];
 foreach ($fullPath as $path) {
@@ -28,15 +29,15 @@ $this->registerJs("
     <div>
         <?php
         $form = ActiveForm::begin([
-                    'id' => 'active-form',
-                    'options' => [
-                        'class' => 'form-horizontal',
-                        'enctype' => 'multipart/form-data',
-                        'name' => 'brandsfilter',
-                    ],
-                    'fieldConfig' => [
-                        'template' => "{input}\n{label}\n{hint}\n{error}",
-                    ]
+              'id' => 'active-form',
+              'options' => [
+                  'class' => 'form-horizontal',
+                  'enctype' => 'multipart/form-data',
+                  'name' => 'brandsfilter',
+              ],
+              'fieldConfig' => [
+                  'template' => "{input}\n{label}\n{hint}\n{error}",
+              ]
         ]);
         ?>
 
@@ -75,7 +76,7 @@ $this->registerJs("
             <div class="product">
                 <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
                 <div>Название товара:
-                    <b> <?= Html::a($product['title'], ['/products/', 'id' => $product['product_id']], ['target' => '_blank', ]) ?> </b>
+                    <b> <?= Html::a($product['title'], ['/products', 'id' => $product['product_id']], ['target' => '_blank',]) ?> </b>
                 </div>
                 <div>Бренд:
                     <?= Html::encode($product['brand_name']) ?>
@@ -85,7 +86,23 @@ $this->registerJs("
                 </div>
                 <div>
                     цена: <?= Html::encode($product['price']) ?> (специальная цена: <?= Html::encode($product['special_price']) ?>)
-                    <input type="button" value="Купить" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
+                </div>
+                <div>
+                    <input type="button" value="Добавить в корзину" id="addproduct" onclick="addproduct(<?= $product['product_id'] ?>)">
+                    <?php
+                    Modal::begin([
+                        'header' => '<h3>Связаться с менеджером</h3>',
+                        'toggleButton' => [
+                            'label' => 'Купить сейчас',
+                        //'href' => Url::toRoute('/site/index'),
+                        //'href' => Url::toRoute(['/products/index', 'id' => $product['product_id']]),
+                        ],
+                      //'view' => ['index', 'id' => $product['product_id']]
+                    ]);
+                    echo $this->context->renderPartial('/site/_contact');
+                    echo \Yii::$app->view->renderFile('@app/views/site/_contact.php');
+                    Modal::end();
+                    ?>
                 </div>
             </div>
         <?php endforeach; ?>
