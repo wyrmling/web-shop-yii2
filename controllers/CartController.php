@@ -10,7 +10,15 @@ use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
 {
-
+    public function actions()
+    {
+        return [
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         if (Yii::$app->user->id) {

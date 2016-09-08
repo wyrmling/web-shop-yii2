@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Orders;
-use app\models\Users;
+//use app\models\Users;
+use yii\captcha\Captcha;
 
 $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
 
 //var_dump(Yii::$app->user);
-
 ?>
 
 <h2>Корзина</h2>
@@ -62,37 +62,43 @@ $this->registerJsFile('/js/cart.js', ['position' => \yii\web\View::POS_END]);
     $form = ActiveForm::begin();
     ?>
 
-        <?php if (\Yii::$app->user->id): ?>
+    <?php if (\Yii::$app->user->id): ?>
 
-            <?=
-            $this->render('_authorized_user_form', [
-                'form' => $form,
-                'order' => $order,
-                'client_info' => $client_info,
-            ]);
-            ?>
+        <?=
+        $this->render('_authorized_user_form', [
+            'form' => $form,
+            'order' => $order,
+            'client_info' => $client_info,
+        ]);
+        ?>
 
-        <?php else: ?>
+    <?php else: ?>
 
-            <?=
-            $this->render('_not_authorized_user_form', [
-                'form' => $form,
-                'order' => $order,
-            ]);
-            ?>
+        <?=
+        $this->render('_not_authorized_user_form', [
+            'form' => $form,
+            'order' => $order,
+        ]);
+        ?>
 
-        <?php endif; ?>
+    <?php endif; ?>
 
-        <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
-        <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $total_sum])->label(false) ?>
+    <?= $form->field($order, 'status')->hiddenInput(['value' => Orders::UNANSWERED])->label(false) ?>
+    <?= $form->field($order, 'total_sum')->hiddenInput(['value' => $total_sum])->label(false) ?>
 
-        <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
+    <?= $form->field($order, 'client_comment')->textarea(['maxlength' => 255]) ?>
+    
+    <?=
+    $form->field($order, 'verifyCode')->widget(Captcha::className(), [
+        'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+    ])
+    ?>
 
-        <div class="form-group">
-            <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Отправить заказ', ['class' => 'btn btn-primary']) ?>
+    </div>
+    
+    <?php ActiveForm::end(); ?>
     </div>
 
 <?php else: ?>

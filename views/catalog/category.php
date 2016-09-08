@@ -62,7 +62,13 @@ $this->registerJs("
         <?php foreach ($subcategories as $category): ?>
             <div class="category">
                 <div align="center">
-                    <img src="http://dummyimage.com/70x70/fafafa/3ea1ec" alt="..." class="img-thumbnail">
+                    <?=
+                    Html::a(
+                      Html::img('http://dummyimage.com/70x70/fafafa/3ea1ec',
+                        ['alt' => '...', 'class' => 'img-thumbnail', 'id' => $category['category_id']]
+                      ), ['/catalog/category/', 'id' => $category['category_id']]
+                    )
+                    ?>
                 </div>
                 подкатегория <?= $category['category_id'] ?> - <?= Html::a($category['name'], ['/catalog/category/', 'id' => $category['category_id']]) ?>
                 <br> количество товаров ( <?= $category['quantity_visible'] ?> ) ( <?= $category['quantity_invisible'] ?> )
@@ -74,7 +80,7 @@ $this->registerJs("
 
         <?php foreach ($products as $product): ?>
             <div class="product">
-                <img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">
+                <?= Html::a('<img src="http://dummyimage.com/150x100/fafafa/3ea1ec" alt="..." class="img-thumbnail" style="float: left">', ['/products', 'id' => $product['product_id']], ['target' => '_blank',]) ?>
                 <div>Название товара:
                     <b> <?= Html::a($product['title'], ['/products', 'id' => $product['product_id']], ['target' => '_blank',]) ?> </b>
                 </div>

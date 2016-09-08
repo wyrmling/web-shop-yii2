@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
-use Yii;
+//use Yii;
 
 /**
  * This is the model class for table "orders".
@@ -20,6 +20,8 @@ use Yii;
  */
 class Orders extends \yii\db\ActiveRecord
 {
+    
+    public $verifyCode;
 
     const ANSWERED = 1;
     const UNANSWERED = 0;
@@ -46,7 +48,8 @@ class Orders extends \yii\db\ActiveRecord
             [['client_comment', 'manager_comment', 'entered_name'], 'trim'],
             [['user_phone_number'], 'string', 'length' => [17, 19]],
             [['entered_name'], 'string', 'length' => [4, 30]],
-            ['user_phone_number', 'match', 'pattern' => '[\+38\s\([0-9]{3}\)\s[0-9]{3}-[0-9]{2}-[0-9]{2}]']
+            ['user_phone_number', 'match', 'pattern' => '[\+38\s\([0-9]{3}\)\s[0-9]{3}-[0-9]{2}-[0-9]{2}]'],
+            [['verifyCode'], 'captcha'],
         ];
     }
 
@@ -66,6 +69,7 @@ class Orders extends \yii\db\ActiveRecord
             'time_ordered' => 'Время заказа',
             'client_comment' => 'Комментарий к заказу',
             'manager_comment' => 'Комментарий менеджера',
+            'verifyCode' => 'Проверочный код',
         ];
     }
 
