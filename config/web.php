@@ -6,6 +6,10 @@ $config = [
     'id' => 'web_shop',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
     'components' => [
         'urlManager' => [
             'enablePrettyUrl' => true,
